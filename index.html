@@ -1,0 +1,1557 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>小美玉市タイピング探検</title>
+<meta name="description" content="小美玉市のことばを打って遊ぶ無料タイピングゲーム。町域・茨城空港・牧場・花火など190枚のふるさとカードを、ガチャで集めよう。パソコン・Chromebook向け、登録不要。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://heino-naka.github.io/omitama-typing/">
+<meta property="og:image" content="https://heino-naka.github.io/omitama-typing/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:title" content="空とミルクの市 小美玉市タイピング探検">
+<meta property="og:description" content="小美玉市のことばを打って、ふるさとカードを集めよう。小美玉市のこどもたちのための無料タイピングゲームです。">
+<meta property="og:site_name" content="小美玉市タイピング探検">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:image" content="https://heino-naka.github.io/omitama-typing/ogp.png">
+<link rel="canonical" href="https://heino-naka.github.io/omitama-typing/">
+<meta name="theme-color" content="#5fb3ea">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%235fb3ea'/%3E%3Cpath d='M30 34h40l6 14v34q0 8-8 8H32q-8 0-8-8V48z' fill='%23fff' stroke='%233a2e4f' stroke-width='4'/%3E%3Cpath d='M34 34q0-10 16-10t16 10z' fill='%23d6dbe6' stroke='%233a2e4f' stroke-width='4'/%3E%3C/svg%3E">
+<style>
+:root{
+  --ink:#2b2140; --ink2:#5a4d6e; --sun:#ff8a3d; --sun2:#ffb36b; --lake:#2f6f8f; --lake2:#1f4f68;
+  --paper:#fff8ee; --paper2:#f3e7d6; --gold:#f2b134; --ok:#2e9e6a; --ng:#e0485a; --sky1:#2b2140; --sky2:#7a4a7e;
+  --r1:#5b9bd5; --r2:#9b6fd0; --r3:#f2b134;
+  --font:"BIZ UDPGothic","Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic UI","Meiryo","Noto Sans CJK JP","Noto Sans JP",sans-serif;
+  --mono:"Consolas","Menlo","Courier New",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
+body{font-family:var(--font);font-size:clamp(15px,.9vw + 6px,19px);color:var(--ink);overflow-x:hidden;-webkit-tap-highlight-color:transparent;min-height:100vh;
+  background:linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 38%,#e9845a 58%,var(--lake) 58.2%,var(--lake2) 100%);background-attachment:fixed}
+.sun{position:fixed;left:50%;top:44vh;width:30vmin;height:30vmin;margin-left:-15vmin;border-radius:50%;
+  background:radial-gradient(circle,#ffd08a 0%,var(--sun) 60%,rgba(255,138,61,0) 72%);z-index:0;pointer-events:none}
+.ripple{position:fixed;left:0;right:0;top:58vh;height:42vh;z-index:0;pointer-events:none;
+  background:repeating-linear-gradient(180deg,rgba(255,179,107,.0) 0 14px,rgba(255,179,107,.18) 14px 16px);
+  -webkit-mask:linear-gradient(90deg,transparent 30%,#000 45%,#000 55%,transparent 70%);mask:linear-gradient(90deg,transparent 30%,#000 45%,#000 55%,transparent 70%)}
+main{position:relative;z-index:1;width:100%;max-width:1180px;margin:0 auto;padding:clamp(10px,2.2vh,26px) clamp(14px,3vw,40px) clamp(14px,3vh,30px);
+  min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+.screen{display:none;width:100%}
+.screen.on{display:block;animation:fadein .25s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.panel{background:var(--paper);border-radius:22px;padding:clamp(14px,2.2vw,28px);box-shadow:0 8px 0 rgba(0,0,0,.18),0 18px 40px rgba(0,0,0,.25)}
+h2{font-size:clamp(20px,2vw,26px);margin-bottom:8px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.spread{justify-content:space-between}
+.center{text-align:center}
+.coins{display:inline-flex;align-items:center;gap:6px;background:#fff;border-radius:999px;padding:6px 16px;font-weight:700;box-shadow:0 2px 0 rgba(0,0,0,.12)}
+button{font-family:inherit;cursor:pointer;border:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:clamp(16px,1.5vw,20px);font-weight:700;padding:12px 18px;border-radius:14px;
+  background:var(--sun);color:#fff;box-shadow:0 4px 0 #c8602a;transition:transform .05s;min-height:50px}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #c8602a}
+.btn.sub2{background:#fff;color:var(--ink);box-shadow:0 4px 0 #c9bba8}
+.btn.blue{background:var(--lake);box-shadow:0 4px 0 #1b4559}
+.btn.small{min-height:42px;padding:6px 14px;font-size:15px}
+.btn:disabled{opacity:.45;cursor:default}
+.menu{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#qrBox{position:fixed;top:12px;left:12px;z-index:5;background:#fff;border-radius:12px;padding:6px 6px 4px;text-align:center;box-shadow:0 3px 0 rgba(0,0,0,.18);width:clamp(84px,9vw,124px)}
+#qrBox img{display:block;width:100%;height:auto;image-rendering:pixelated}
+#qrBox span{display:block;font-size:11px;font-weight:700;color:var(--ink);line-height:1.5}
+.btn.danger{background:#ef6a5a;color:#fff;box-shadow:0 4px 0 #b84a3d}
+.foot{text-align:center;color:#ffe6cc;font-size:clamp(12px,1.1vw,15px);margin-top:clamp(12px,2.4vh,24px);line-height:1.8}
+.foot a{color:#fff}
+/* ---- タイトル（よこ ながは ひだり：なまえ／みぎ：メニュー） ---- */
+.hero{display:grid;gap:clamp(12px,2.5vh,22px);align-items:center}
+.hero h1{color:#fff;text-align:center;font-size:clamp(34px,8vw,60px);line-height:1.25;letter-spacing:.04em;text-shadow:0 3px 0 rgba(0,0,0,.28);text-wrap:balance}
+.hero h1 small{display:block;font-size:.42em;letter-spacing:.3em;color:var(--sun2);margin-bottom:.35em}
+.hero .sub{color:#ffe6cc;text-align:center;font-size:clamp(15px,1.7vw,22px);line-height:1.8;margin-top:12px;font-weight:700;text-wrap:balance}
+.btn.big{width:100%;min-height:clamp(70px,12vh,104px);font-size:clamp(22px,2.4vw,32px);letter-spacing:.06em;margin:clamp(12px,2.4vh,22px) 0;
+  background:linear-gradient(180deg,#ffa24d,#ff7a1f);box-shadow:0 6px 0 #c45a12,0 14px 28px rgba(0,0,0,.22);animation:pulse 2.4s ease-in-out infinite}
+.btn.big:active{transform:translateY(4px);box-shadow:0 2px 0 #c45a12;animation:none}
+@keyframes pulse{50%{transform:scale(1.025)}}
+/* ---- コース えらび ---- */
+.scrTitle{color:#fff;text-align:center;font-size:clamp(26px,3.6vw,44px);text-shadow:0 3px 0 rgba(0,0,0,.28);margin-bottom:clamp(10px,2.4vh,22px);letter-spacing:.08em}
+.courseRow{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:clamp(12px,2.4vh,22px)}
+.ctile{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:120px;padding:16px;border-radius:24px;color:#fff;text-align:center;
+  border:4px solid rgba(255,255,255,.6);text-shadow:0 2px 0 rgba(0,0,0,.28);box-shadow:0 8px 0 rgba(0,0,0,.28),0 18px 40px rgba(0,0,0,.3);transition:transform .08s}
+.ctile:hover{transform:translateY(-4px)}
+.ctile:active{transform:translateY(5px);box-shadow:0 3px 0 rgba(0,0,0,.28)}
+.ctile .ic{font-size:clamp(48px,9vh,88px);line-height:1}
+.ctile b{font-size:clamp(28px,3.4vw,46px);letter-spacing:.08em}
+.ctile .d{font-size:clamp(14px,1.55vw,20px);font-weight:700;line-height:1.5}
+.ctile .hs{background:rgba(0,0,0,.3);border-radius:999px;padding:5px 18px;font-size:clamp(13px,1.3vw,17px);text-shadow:none}
+.ctile .hs strong{font-size:1.5em;font-family:var(--mono);margin-left:.3em}
+.ctile .key{position:absolute;top:12px;left:14px;background:rgba(255,255,255,.9);color:var(--ink);border-radius:8px;padding:0 10px;font-size:14px;font-weight:700;text-shadow:none}
+.ctile.c1{background:linear-gradient(160deg,#3fc886,#1c8a58)}
+.ctile.c2{background:linear-gradient(160deg,#ffa24d,#e0621a)}
+.ctile.c3{background:linear-gradient(160deg,#b680e6,#7338ad)}
+.ctile.locked{background:linear-gradient(160deg,#625c7a,#403a54);border-color:rgba(255,255,255,.28);cursor:default}
+.ctile.locked:hover,.ctile.locked:active{transform:none}
+.ctile.locked .ic{opacity:.85}
+/* ---- ゲーム ---- */
+.hud{display:flex;gap:14px;align-items:center;margin-bottom:clamp(8px,1.6vh,16px);color:#fff;font-weight:700}
+.tleft{font-family:var(--mono);font-size:clamp(26px,3vw,42px);min-width:2.2em;text-align:right}
+.timebar{flex:1;height:clamp(14px,2.4vh,22px);border-radius:999px;background:rgba(255,255,255,.25);overflow:hidden}
+.timebar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--sun),var(--gold));border-radius:999px}
+.hud .sc{font-family:var(--mono);font-size:clamp(28px,3.4vw,48px);margin-left:auto;min-width:3.2em;text-align:right}
+.stage{display:grid;grid-template-columns:1fr;gap:12px;align-items:center;position:relative;cursor:text;text-align:center;
+  min-height:clamp(300px,58vh,520px);padding:clamp(20px,3vh,36px) clamp(14px,2.4vw,36px);align-content:center;justify-items:center}
+.stL,.stR{width:100%}
+.wic{font-size:clamp(48px,11vh,100px);line-height:1.1}
+.wkanji{font-weight:700;line-height:1.25;word-break:break-all;margin:6px 0 4px}
+.wkana{color:var(--ink2);font-size:clamp(18px,2.4vw,30px);word-break:break-all;letter-spacing:.06em}
+.wkana .d{color:#c9b9a3}
+.roma{font-family:var(--mono);font-weight:700;letter-spacing:.04em;word-break:break-all;line-height:1.3;min-height:1.4em}
+.roma .t{color:var(--ok)}
+.roma .n{background:var(--gold);color:var(--ink);border-radius:6px;padding:0 3px}
+.roma .r{color:#a99a87}
+.nextkey{margin:clamp(10px,2.4vh,26px) auto 4px;display:flex;align-items:center;justify-content:center;gap:12px;color:var(--ink2);font-size:clamp(14px,1.6vw,20px);font-weight:700}
+.cap{display:inline-flex;align-items:center;justify-content:center;min-width:clamp(64px,9vh,92px);height:clamp(64px,9vh,92px);padding:0 12px;border-radius:14px;background:#fff;border:3px solid #d8cbb8;
+  box-shadow:0 5px 0 #d8cbb8;font-family:var(--mono);font-size:clamp(34px,5.4vh,52px);font-weight:700;color:var(--ink);text-transform:uppercase}
+.combo{position:absolute;right:18px;top:12px;font-weight:700;color:var(--sun);font-size:clamp(15px,1.6vw,20px)}
+.combo.big{font-size:clamp(20px,2.2vw,28px)}
+.flash{position:absolute;left:0;right:0;bottom:10px;text-align:center;font-size:clamp(22px,3vw,34px);font-weight:700;color:var(--ok);pointer-events:none;opacity:0}
+.flash.go{animation:pop .7s ease}
+@keyframes pop{0%{opacity:0;transform:scale(.6)}25%{opacity:1;transform:scale(1.1)}100%{opacity:0;transform:translateY(-30px)}}
+.shake{animation:shake .18s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.warn{display:none;margin-top:10px;background:#ffe3e3;color:#9b1c2c;border-radius:10px;padding:8px 10px;font-size:15px;font-weight:700}
+.warn.on{display:block}
+.taphint{margin-top:10px;font-size:13px;color:var(--ink2);display:none}
+.touch .taphint{display:block}
+#hid{position:fixed;bottom:0;right:0;width:1px;height:1px;opacity:0;font-size:16px;border:0;z-index:-1;color:transparent;caret-color:transparent;background:transparent;pointer-events:none}
+/* ---- カウントダウン（くらい はいけい ＋ おおきな まるい バッジ） ---- */
+.count{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:clamp(14px,3vh,30px);background:rgba(20,12,35,.88);z-index:40}
+.count.on{display:flex}
+.cnum{display:flex;align-items:center;justify-content:center;width:min(46vh,62vw);aspect-ratio:1;border-radius:50%;background:#fff;color:var(--sun);font-family:var(--mono);font-weight:700;
+  font-size:min(28vh,36vw);line-height:1;border:clamp(8px,1.6vh,16px) solid var(--gold);box-shadow:0 0 0 clamp(8px,2vh,20px) rgba(255,255,255,.2),0 20px 50px rgba(0,0,0,.5)}
+.cnum.go{background:var(--sun);color:#fff;font-size:min(8.5vh,11vw);letter-spacing:.06em;border-color:#fff;font-family:var(--font)}
+.cnum.pop{animation:cpop .5s ease-out}
+@keyframes cpop{0%{transform:scale(.55);opacity:.2}60%{transform:scale(1.08);opacity:1}100%{transform:scale(1)}}
+.cmsg{color:#fff;font-weight:700;font-size:clamp(18px,2.6vw,30px);text-align:center;line-height:1.7;padding:0 16px}
+.cmsg small{display:block;color:var(--sun2);font-size:.78em}
+/* ---- けっか ---- */
+.resGrid{display:grid;gap:14px}
+.bigscore{font-size:clamp(52px,9vh,84px);font-weight:700;font-family:var(--mono);text-align:center;line-height:1.1}
+.titlebox{margin:14px 0;padding:14px;border-radius:16px;background:linear-gradient(135deg,#fff3dd,#ffe1bf);text-align:center;border:2px solid var(--gold)}
+.titlebox .lab{font-size:13px;color:var(--ink2)}
+.titlebox .ttl{font-size:clamp(24px,2.6vw,34px);font-weight:700;margin:4px 0}
+.titlebox .nx{font-size:clamp(13px,1.3vw,16px);color:var(--ink2)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 12px}
+.stats div{background:#fff;border-radius:12px;padding:10px 6px;text-align:center;font-size:clamp(12px,1.2vw,15px);color:var(--ink2)}
+.stats b{display:block;font-size:clamp(22px,2.4vw,32px);color:var(--ink);font-family:var(--mono)}
+.bridge{margin:14px 0;padding:14px;border-radius:14px;background:var(--lake);color:#fff;font-weight:700;line-height:1.7;text-align:center;font-size:clamp(15px,1.6vw,20px)}
+.newbest{color:var(--ng);font-weight:700;text-align:center;font-size:clamp(16px,1.8vw,22px);min-height:1.4em}
+.unlock{background:#e6f6ee;color:#1d6b47;border-radius:12px;padding:10px;font-weight:700;text-align:center;margin:10px 0}
+/* ---- ガチャ ---- */
+.gGrid{display:grid;gap:14px;margin:10px 0 14px}
+.machine{display:flex;flex-direction:column;align-items:center;gap:14px;padding:6px 0}
+.capsule{width:clamp(96px,17vh,150px);height:clamp(96px,17vh,150px);border-radius:50%;position:relative;overflow:hidden;box-shadow:inset -10px -10px 0 rgba(0,0,0,.12),0 8px 0 rgba(0,0,0,.15)}
+.capsule:before{content:"";position:absolute;left:0;right:0;top:0;height:50%;background:rgba(255,255,255,.85)}
+.capsule:after{content:"";position:absolute;left:0;right:0;top:calc(50% - 3px);height:6px;background:rgba(0,0,0,.15)}
+.capsule.spin{animation:wobble .25s infinite}
+@keyframes wobble{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(12deg)}}
+.capsule.open{animation:openit .4s forwards}
+@keyframes openit{to{transform:scale(1.4);opacity:0}}
+.gR{min-height:120px}
+.gR:empty::before{content:"ここに カードが でるよ";display:flex;align-items:center;justify-content:center;min-height:200px;border:3px dashed #d8cbb8;border-radius:16px;color:#a99a87;font-weight:700}
+/* ---- カード ---- */
+.card{border-radius:16px;padding:14px;background:#fff;border:4px solid var(--r1);text-align:center;position:relative}
+.card.r2{border-color:var(--r2)}
+.card.r3{border-color:var(--r3);background:linear-gradient(135deg,#fffdf5,#fff1c9)}
+.card .stars{font-size:16px;color:var(--gold);letter-spacing:2px}
+.card .cic{font-size:clamp(46px,8vh,64px);line-height:1.2;margin:4px 0}
+.card .cn{font-size:clamp(20px,2.2vw,28px);font-weight:700}
+.card .ck{font-size:clamp(12px,1.2vw,15px);color:var(--ink2);margin-bottom:8px}
+.card .cf rt{font-size:.55em;color:var(--ink2)}
+.card .cf{font-size:clamp(15px,1.5vw,19px);line-height:2;text-align:left;background:var(--paper);border-radius:10px;padding:10px 14px}
+.badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--ng);color:#fff;font-weight:700;font-size:13px;border-radius:999px;padding:3px 12px}
+.reveal{animation:reveal .45s ease}
+@keyframes reveal{from{transform:rotateY(90deg) scale(.8)}to{transform:none}}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(96px,10vw,140px),1fr));gap:8px}
+.mini{border-radius:12px;background:#fff;border:3px solid var(--r1);padding:8px 4px;text-align:center;min-height:96px;font-family:inherit;color:var(--ink)}
+.mini.r2{border-color:var(--r2)} .mini.r3{border-color:var(--r3)}
+.mini .mi{font-size:30px}
+.mini .mn{font-size:12px;font-weight:700;line-height:1.3;word-break:break-all}
+.mini.no{background:#e6ddd0;border-color:#cbbfae;color:#9a8c7a}
+.prog{height:12px;border-radius:999px;background:#e6ddd0;overflow:hidden;margin:8px 0 14px}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--r1),var(--r2),var(--r3))}
+.zkh{display:flex;justify-content:space-between;align-items:baseline;font-size:16px;margin:16px 0 8px}
+.zkh span{font-size:14px;color:var(--ink2);font-family:var(--mono)}
+.zkh:first-child{margin-top:0}
+/* ---- モーダル ---- */
+.modal{position:fixed;inset:0;background:rgba(20,12,35,.65);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}
+.modal.on{display:flex}
+.modal .panel{max-width:560px;width:100%;max-height:92vh;overflow:auto}
+.howto li{margin:0 0 10px 1.3em;line-height:1.7}
+kbd{font-family:var(--mono);background:#fff;border:1px solid #cdbfab;border-bottom-width:3px;border-radius:6px;padding:0 6px}
+/* ---- しょうしょ ---- */
+.cert{background:#fffdf7;border:10px double var(--gold);border-radius:8px;padding:26px 20px;text-align:center;line-height:1.9}
+.cert h3{font-size:34px;letter-spacing:.12em;margin-bottom:8px}
+.cert .nm{font-size:26px;font-weight:700;border-bottom:2px solid var(--ink);display:inline-block;min-width:60%;margin:8px 0 14px}
+.cert .dt{margin-top:14px;font-size:14px}
+.nameinput{font-family:inherit;font-size:18px;padding:10px;border-radius:10px;border:2px solid #d8cbb8;width:100%;margin:10px 0}
+@media print{body{background:#fff}.sun,.ripple,.noprint{display:none!important}.screen{display:none!important}#cert.screen{display:block!important}.panel{box-shadow:none}}
+/* ---- よこ ながの がめん（Chromebook など） ---- */
+@media (min-aspect-ratio:5/4) and (min-width:760px){
+  .hero{grid-template-columns:1.05fr .95fr;gap:clamp(24px,4vw,56px)}
+  .hero h1,.hero .sub{text-align:left}
+  .hero h1{font-size:clamp(30px,3.3vw,50px)}
+  .courseRow{grid-template-columns:repeat(3,1fr);gap:clamp(14px,2.2vw,32px)}
+  .ctile{min-height:clamp(240px,50vh,390px)}
+  .resGrid{grid-template-columns:1fr 1fr;gap:clamp(18px,3vw,40px);align-items:center}
+  .gGrid{grid-template-columns:.8fr 1.2fr;gap:clamp(18px,3vw,40px);align-items:start}
+}
+.mini.back{background:linear-gradient(160deg,#7a6a9a,#4a3d6a);border-color:#3b2f58;color:#fff}
+.mini .nw{font-size:12px;color:var(--ng);font-weight:700}
+.mini.flip{animation:flipin .4s ease}
+@keyframes flipin{0%{transform:rotateY(90deg) scale(.7)}100%{transform:none}}
+.mini.isnew{box-shadow:0 0 0 3px rgba(242,177,52,.55)}
+.mini.isnew .nw{animation:blink .7s infinite alternate}
+@keyframes blink{to{opacity:.35}}
+.mini.shine{animation:flipin .4s ease,shine 1s ease-in-out 3 .4s;box-shadow:0 0 18px 6px rgba(242,177,52,.9)}
+@keyframes shine{50%{transform:scale(1.12);box-shadow:0 0 28px 12px rgba(255,235,150,1)}}
+.bigbanner{background:linear-gradient(90deg,var(--ng),var(--sun),var(--gold));color:#fff;text-align:center;font-weight:700;font-size:clamp(20px,2.4vw,30px);border-radius:14px;padding:8px;margin-bottom:8px;animation:bpop .6s ease}
+@keyframes bpop{0%{transform:scale(.5);opacity:0}70%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+.burst{position:fixed;inset:0;z-index:60;background:radial-gradient(circle,rgba(70,40,110,.9),rgba(15,8,30,.96));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;overflow:hidden;cursor:pointer}
+.burst i{position:absolute;top:-20px;width:10px;height:16px;animation:fall 2.4s linear infinite}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+.burst .bt{color:var(--gold);font-weight:700;font-size:clamp(28px,5vw,52px);text-shadow:0 3px 0 rgba(0,0,0,.4);animation:bpop .6s ease}
+.burst .bc{width:min(92vw,520px);max-height:62vh;overflow:auto;border-radius:18px}
+.burst .bh{color:#fff;opacity:.8;font-size:14px}
+.ico{display:block;width:1em;height:1em;margin:0 auto;overflow:visible}
+.wic{font-size:clamp(70px,16vh,130px)}
+.card .cic{font-size:clamp(70px,13vh,96px)}
+.mini .mi{font-size:46px;line-height:1}
+.mini.back .mi{font-size:34px;line-height:46px}
+.bi{display:inline-block;width:1.4em;height:1.4em;vertical-align:middle}
+.bi .ico{width:100%;height:100%}
+.emo{font-size:.8em}
+.sj{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.22em}
+.accbox{margin:10px 0;border-radius:16px;padding:10px 12px;text-align:center;color:#fff;font-weight:700;text-shadow:0 2px 0 rgba(0,0,0,.25)}
+.accbox .an{font-size:clamp(22px,2.6vw,32px)}
+.accbox .ap{font-size:clamp(14px,1.5vw,18px)}
+.accbox .ap b{font-size:1.5em;font-family:var(--mono)}
+.accbox.t1{background:linear-gradient(90deg,#3fc886,#1c8a58)}
+.accbox.t2{background:linear-gradient(90deg,#5b9bd5,#2f6f8f)}
+.accbox.t3{background:linear-gradient(90deg,#b680e6,#7338ad);animation:glowp 1.2s ease-in-out infinite alternate}
+.accbox.t4{background:linear-gradient(90deg,#ef6a5a,#ff9a3d,#f2b134,#6cc07a,#5b9bd5,#9b6fd0);background-size:200% 100%;animation:rb 2s linear infinite;border:3px solid #fff}
+@keyframes rb{to{background-position:200% 0}}
+@keyframes glowp{to{box-shadow:0 0 18px 6px rgba(182,128,230,.8)}}
+.accnote{text-align:center;font-size:13px;color:var(--ink2);margin:8px 0}
+.accfx{position:fixed;inset:0;z-index:70;pointer-events:auto;overflow:hidden}
+.accfx i{position:absolute;top:-20px;width:10px;height:16px;animation:fall 2.4s linear infinite}
+.accfx .abanner{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);white-space:nowrap;color:#fff;font-weight:700;font-size:clamp(34px,7vw,84px);text-shadow:0 4px 0 rgba(0,0,0,.35),0 0 24px rgba(255,200,80,.9);animation:bpop .7s ease}
+.accfx.l1 .abanner{font-size:clamp(28px,5vw,56px)}
+.accfx.l4{background:radial-gradient(circle,rgba(255,220,120,.35),rgba(30,10,60,.7))}
+.accfx.l3{background:radial-gradient(circle,rgba(180,128,230,.3),rgba(30,10,60,.55))}
+.accfx.l4 .abanner{font-size:clamp(36px,8vw,96px);background:linear-gradient(90deg,#ff6a5a,#ffd35c,#6cc07a,#5b9bd5,#b680e6);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 4px 0 rgba(0,0,0,.4))}
+.aflash{position:absolute;inset:0;background:#fff;opacity:0;animation:fl .7s ease-out}
+@keyframes fl{0%{opacity:.85}100%{opacity:0}}
+.ctile .ic .ico{width:1.5em;height:1.5em}
+/* ===== 小美玉市版：色と景色の上書き ===== */
+:root{--sky1:#5fb3ea;--sky2:#b4e0f7;--lake:#3a8fc0;--lake2:#245f86;--gold:#f4b52e;--sun:#f08a2a;--sun2:#ffbf7a}
+body{background:linear-gradient(180deg,#5fb3ea 0%,#9fd6f4 40%,#e4f5ff 62%,#a8d672 62.2%,#6fa84a 100%);background-attachment:fixed}
+.sun{left:auto;right:7vw;top:7vh;width:16vmin;height:16vmin;margin-left:0;background:radial-gradient(circle,#fffbe0 0%,#ffe27a 55%,rgba(255,226,122,0) 72%)}
+.ripple{display:none}
+.scene{position:fixed;left:0;right:0;bottom:0;height:46vh;z-index:0;pointer-events:none}
+.scene svg{display:block;width:100%;height:100%}
+#sky{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.hero h1{color:#24304f;text-shadow:0 3px 0 rgba(255,255,255,.75)}
+.hero h1 small{color:#d4651a;text-shadow:0 2px 0 rgba(255,255,255,.7)}
+.hero .sub{color:#1f4f68;text-shadow:0 1px 0 rgba(255,255,255,.7)}
+.scrTitle{color:#24304f;text-shadow:0 2px 0 rgba(255,255,255,.75)}
+.hud{color:#24304f}
+.timebar{background:rgba(36,48,79,.18)}
+.foot{color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.45)}
+.foot a{color:#fff}
+.count{background:rgba(20,40,70,.86)}
+.cmsg small{color:#ffd9a0}
+.burst{background:radial-gradient(circle,rgba(40,70,120,.92),rgba(10,16,40,.97))}
+.burst .bt{color:#ffd35c}
+.accfx.l4{background:radial-gradient(circle,rgba(255,225,140,.28),rgba(10,24,60,.72))}
+.accfx.l3{background:radial-gradient(circle,rgba(140,190,255,.25),rgba(10,24,60,.6))}
+.fxhost{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.fwcv{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.burst>.bt,.burst>.bc,.burst>.bh,.accfx>.abanner{position:relative;z-index:2}
+.accfx>.abanner{position:absolute}
+.plane{position:absolute;left:0;width:clamp(70px,11vw,150px);height:clamp(70px,11vw,150px);animation:fly 6s linear forwards;transform:translateX(-30vw);will-change:transform;z-index:1}
+.plane .ico{width:100%;height:100%}
+.plane .trail{position:absolute;right:88%;top:48%;width:38vw;height:.55vw;min-height:5px;margin-top:-.28vw;border-radius:99px;
+  background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.95))}
+@keyframes fly{from{transform:translateX(-30vw)}to{transform:translateX(125vw)}}
+#sky .plane{opacity:.95}
+@media (prefers-reduced-motion:reduce){.plane{display:none}.btn.big{animation:none}}
+.ctile .ic .ico{width:1.5em;height:1.5em}
+.foot{display:table;margin-left:auto;margin-right:auto;background:rgba(36,48,79,.6);border-radius:12px;padding:6px 14px}
+
+/* ---- ひだりは ひる、みぎは よる ---- */
+.sun{left:16vw;right:auto;top:8vh;width:17vmin;height:17vmin}
+#night{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:linear-gradient(90deg,rgba(255,150,80,0) 0%,rgba(255,150,80,0) 28%,rgba(255,128,92,.30) 46%,rgba(92,56,140,.58) 62%,rgba(30,34,96,.80) 80%,rgba(12,18,62,.90) 100%)}
+.scene2{position:fixed;left:0;right:0;bottom:0;height:46vh;z-index:0;pointer-events:none}
+.scene2 svg{display:block;width:100%;height:100%}
+.moon{position:fixed;right:9vw;top:7vh;width:11vmin;height:11vmin;border-radius:50%;z-index:1;pointer-events:none;
+  background:radial-gradient(circle at 38% 34%,#fffef0,#f6efc0 70%);box-shadow:0 0 5vmin 1.4vmin rgba(255,250,200,.45)}
+.stars{position:fixed;top:0;right:0;width:52vw;height:50vh;z-index:1;pointer-events:none;opacity:.95;
+  background-image:radial-gradient(2px 2px at 12% 18%,#fff,transparent),radial-gradient(2px 2px at 30% 8%,#fff,transparent),radial-gradient(1.6px 1.6px at 44% 28%,#fff,transparent),
+  radial-gradient(2px 2px at 58% 14%,#fff,transparent),radial-gradient(1.6px 1.6px at 72% 30%,#fff,transparent),radial-gradient(2px 2px at 86% 22%,#fff,transparent),
+  radial-gradient(1.6px 1.6px at 22% 36%,#fff,transparent),radial-gradient(2px 2px at 66% 6%,#fff,transparent),radial-gradient(1.6px 1.6px at 92% 40%,#fff,transparent),radial-gradient(1.6px 1.6px at 50% 40%,#fff,transparent);
+  -webkit-mask:linear-gradient(90deg,transparent 0%,#000 55%);mask:linear-gradient(90deg,transparent 0%,#000 55%);animation:twinkle 4s ease-in-out infinite alternate}
+@keyframes twinkle{from{opacity:.55}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.stars{animation:none}}
+.hud .sc{color:#fff;text-shadow:0 0 6px rgba(20,30,80,.95),0 0 10px rgba(20,30,80,.8),0 2px 3px rgba(20,30,80,.9)}
+.hud .tleft{color:#24304f;text-shadow:0 2px 0 rgba(255,255,255,.7)}
+
+/* ---- 配色：OGPに あわせる（空の青 → 夜の紺、さし色は オレンジ） ---- */
+:root{--ink:#24304f;--ink2:#4b5a7c;--sun:#f08a2a;--sun2:#ffbf7a;--paper:#fbfcff;--paper2:#e4edf8;--gold:#f4b52e;--lake:#3a8fc0;--lake2:#245f86;--r1:#5fb3ea;--r2:#8b6fd8;--r3:#f4b52e}
+.panel{box-shadow:0 8px 0 rgba(20,32,80,.22),0 18px 40px rgba(14,20,62,.35)}
+.ctile.c1{background:linear-gradient(160deg,#7ccbf5,#3a8fc0)}
+.ctile.c2{background:linear-gradient(160deg,#ffb35c,#e07a1f)}
+.ctile.c3{background:linear-gradient(160deg,#5b63c8,#1d2766)}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.2"/></filter></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="sjm" viewBox="0 0 100 100"><g filter="url(#rough)" stroke="#3a2e4f" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" fill="none"><path d="M24 42Q6 40 8 58Q10 66 22 62" fill="none" stroke="#3a2e4f" stroke-width="8.5"/><path d="M76 42Q94 40 92 58Q90 66 78 62" fill="none" stroke="#3a2e4f" stroke-width="8.5"/><path d="M24 42Q6 40 8 58Q10 66 22 62" fill="none" stroke="#c9d2de" stroke-width="3.2"/><path d="M76 42Q94 40 92 58Q90 66 78 62" fill="none" stroke="#c9d2de" stroke-width="3.2"/><path d="M36 13H64L65 27Q81 31 81 47V82Q81 92 71 92H29Q19 92 19 82V47Q19 31 35 27z" fill="#d8dfe9"/><path d="M24 56V80Q24 86 30 87" fill="none" stroke="#fff" stroke-width="3.2" opacity=".85"/><path d="M20 48H80M20 85H80" fill="none" stroke="#a7b3c5" stroke-width="3"/><path d="M37 27H63" fill="none" stroke="#a7b3c5" stroke-width="2.5"/><rect x="32" y="8" width="36" height="8" rx="4" fill="#aab6c8"/><path d="M28 75V60L34 67.5L40 60V75M46 60V75M52 60V75H59M65 60V75M73 60L65 67M67.5 68.5L73 75" fill="none" stroke="#2b5d9b" stroke-width="4.2"/><circle cx="76" cy="55" r="1.8" fill="#ffd35c" stroke="none"/><circle cx="24" cy="76" r="1.5" fill="#ffd35c" stroke="none"/></g></symbol></svg>
+<div class="sun"></div><div class="ripple"></div><div class="stars"></div><div class="moon"></div>
+<div class="scene"><svg viewBox="0 0 1600 460" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs><linearGradient id="hz" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe9d4"/><stop offset="1" stop-color="#a8d672"/></linearGradient></defs>
+<!-- 遠くの山（筑波山のふたこぶ） -->
+<g transform="translate(-400 0)"><path d="M980 250 L1090 128 L1130 160 L1160 138 L1230 250 Z" fill="#9a8cc4" opacity=".75"/>
+<path d="M980 250 L1090 128 L1112 148" fill="none" stroke="#b9afd6" stroke-width="3" opacity=".6"/></g>
+<path d="M0 250 Q200 200 420 232 T800 226 T1180 240 T1600 220 V300 H0z" fill="#b7dcb0" opacity=".9"/>
+<!-- 空港：滑走路と管制塔 -->
+<g transform="translate(250 0)">
+<path d="M0 262 H640 L690 282 H-30z" fill="#9aa0b4"/>
+<path d="M40 272 H110 M170 272 H240 M300 272 H370 M430 272 H500 M560 272 H610" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+<g transform="translate(560 160)"><path d="M18 102 l3 -52 h10 l3 52z" fill="#e6e0f0"/><path d="M8 50 l-3 -16 h40 l-3 16z" fill="#bfe6f6" stroke="#8f99ae" stroke-width="2"/><path d="M2 34 h46 l-4 -8 h-38z" fill="#ef6a5a"/><path d="M25 26 V10" stroke="#8f99ae" stroke-width="3"/></g>
+<g transform="translate(60 214)"><rect x="0" y="22" width="130" height="30" fill="#fff3d6"/><path d="M-6 24 L65 4 L136 24z" fill="#6bb4dc"/><rect x="14" y="30" width="22" height="12" fill="#bfe6f6"/><rect x="54" y="30" width="22" height="12" fill="#bfe6f6"/><rect x="94" y="30" width="22" height="12" fill="#bfe6f6"/></g>
+</g>
+<!-- 牧場 -->
+<path d="M0 300 Q300 270 640 296 T1280 290 T1600 296 V460 H0z" fill="url(#hz)"/>
+<path d="M0 340 Q400 312 800 338 T1600 330 V460 H0z" fill="#8cc15a"/>
+<path d="M0 400 Q500 372 900 396 T1600 390 V460 H0z" fill="#6fa84a"/>
+<!-- 納屋とサイロ -->
+<g transform="translate(80 236)"><path d="M0 90 V44 L40 14 L80 44 V90z" fill="#c9795a" stroke="#8a4a32" stroke-width="3"/><rect x="26" y="52" width="28" height="38" fill="#fff3d6"/><path d="M26 52 L54 90 M54 52 L26 90" stroke="#8a4a32" stroke-width="2.5"/>
+<rect x="92" y="26" width="30" height="64" fill="#e6e0f0" stroke="#8f99ae" stroke-width="3"/><path d="M92 26 q15 -22 30 0z" fill="#aab3c6" stroke="#8f99ae" stroke-width="3"/></g>
+<!-- 柵 -->
+<g stroke="#9c6a43" stroke-width="5" stroke-linecap="round"><path d="M420 350 H760 M420 368 H760"/><path d="M440 340 V384 M520 340 V384 M600 340 V384 M680 340 V384 M750 340 V384"/></g>
+<!-- 牛たち -->
+<g id="cw"><path d="M0 22 q0 -16 18 -16 h30 q18 0 18 16 v18 h-66z" fill="#fff"/><path d="M12 12 q9 -3 9 6 t-9 8 q-8 -4 0 -14z M38 10 q10 -2 10 8 t-10 6 q-6 -6 0 -14z" fill="#3a2e4f"/><path d="M10 40 v14 M24 40 v14 M44 40 v14 M58 40 v14" stroke="#3a2e4f" stroke-width="5" stroke-linecap="round"/><path d="M66 14 q14 0 14 12 t-12 12 h-8z" fill="#fff"/><circle cx="74" cy="22" r="2" fill="#3a2e4f"/><path d="M70 34 h9" stroke="#f6a6c1" stroke-width="5" stroke-linecap="round"/></g>
+<use href="#cw" transform="translate(470 300)"/>
+<use href="#cw" transform="translate(1000 330) scale(1.15)"/>
+<g transform="translate(1260 350) scale(-1.3 1.3)"><use href="#cw"/></g>
+<use href="#cw" transform="translate(800 372) scale(1.4)"/>
+<!-- ミルク缶 -->
+<g transform="translate(300 330) scale(1.45)" stroke="#6b7691" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><path d="M24 42Q6 40 8 58Q10 66 22 62M76 42Q94 40 92 58Q90 66 78 62" fill="none" stroke="#9aa6ba" stroke-width="5"/><path d="M36 13H64L65 27Q81 31 81 47V82Q81 92 71 92H29Q19 92 19 82V47Q19 31 35 27z" fill="#d8dfe9"/><path d="M24 56V80Q24 86 30 87" fill="none" stroke="#fff" opacity=".85"/><path d="M20 48H80M20 85H80M37 27H63" fill="none" stroke="#a7b3c5" stroke-width="2.6"/><rect x="32" y="8" width="36" height="8" rx="4" fill="#aab6c8"/><path d="M28 75V60L34 67.5L40 60V75M46 60V75M52 60V75H59M65 60V75M73 60L65 67M67.5 68.5L73 75" fill="none" stroke="#2b5d9b" stroke-width="4.2"/></g>
+</svg>
+</div><div id="night"></div><div class="scene2"><svg viewBox="0 0 1600 460" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs><radialGradient id="gl"><stop offset="0" stop-color="#ffe9a0" stop-opacity=".95"/><stop offset="1" stop-color="#ffe9a0" stop-opacity="0"/></radialGradient></defs>
+<g fill="#ffe27a"><rect x="324" y="244" width="22" height="12"/><rect x="364" y="244" width="22" height="12"/><rect x="404" y="244" width="22" height="12"/><rect x="820" y="194" width="30" height="12" opacity=".95"/></g>
+<g fill="url(#gl)"><circle cx="335" cy="250" r="24"/><circle cx="375" cy="250" r="24"/><circle cx="415" cy="250" r="24"/><circle cx="835" cy="200" r="30"/></g>
+<g fill="#ffe9a0"><circle cx="290" cy="266" r="3"/><circle cx="380" cy="266" r="3"/><circle cx="470" cy="266" r="3"/><circle cx="560" cy="266" r="3"/><circle cx="650" cy="266" r="3"/><circle cx="740" cy="266" r="3"/><circle cx="830" cy="266" r="3"/><circle cx="880" cy="266" r="3"/>
+<circle cx="270" cy="279" r="3.4"/><circle cx="380" cy="279" r="3.4"/><circle cx="490" cy="279" r="3.4"/><circle cx="600" cy="279" r="3.4"/><circle cx="710" cy="279" r="3.4"/><circle cx="820" cy="279" r="3.4"/><circle cx="920" cy="279" r="3.4"/></g>
+<circle cx="835" cy="168" r="4" fill="#ff5a5a"><animate attributeName="opacity" values="1;.15;1" dur="1.6s" repeatCount="indefinite"/></circle>
+</svg></div><div id="sky"></div>
+<input id="hid" type="email" inputmode="email" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" aria-label="タイピング入力">
+<div class="count" id="count"><div class="cnum" id="cnum">3</div><div class="cmsg" id="cmsg"></div></div>
+<main>
+
+<!-- タイトル -->
+<section class="screen on" id="title">
+  <div id="qrBox"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXIAAAFyCAIAAABnRsZeAAAHkklEQVR4nO3cW25lNxJFQcvw/KdcPYAGCBhcaZJHEf/SfVRp4Xxs5M+fP3/+Auj8ffoNAF8jK0BMVoCYrAAxWQFisgLEZAWIyQoQkxUgJitATFaAmKwAMVkBYrICxGQFiMkKEJMVICYrQExWgNg/Oz/88/NTvY9LrC/7rj/vzlXguW/y1Lva+SZ3fvPanZ/oTjvfs6cVICYrQExWgJisADFZAWKyAsRkBYjJChCTFSC2tbJd21npzfneGvKU7y2S5/y2vwVPK0BMVoCYrAAxWQFisgLEZAWIyQoQkxUgJitAbHBlu3bn9dZTv3nH3GJ1bkc7t8F90Yt/C2ueVoCYrAAxWQFisgLEZAWIyQoQkxUgJitATFaA2LGV7Yte3JV+7z1zP08rQExWgJisADFZAWKyAsRkBYjJChCTFSAmK0DMyvZf+G270rkN7s5vXrtzN/zbeFoBYrICxGQFiMkKEJMVICYrQExWgJisADFZAWLHVra/bdF45650x52vu/Ozpza43/tb8LQCxGQFiMkKEJMVICYrQExWgJisADFZAWKyAsQGV7Z33mfdsbPCnPvZOXOr07nPe+e12u/9Lax5WgFisgLEZAWIyQoQkxUgJitATFaAmKwAMVkBYlsr2+/d4Nwxtw3d8b3Lr3f6bZ93zdMKEJMVICYrQExWgJisADFZAWKyAsRkBYjJChD72VkHnrrPeury652vu/biDd1TV4FPfc9zv3nur2zN0woQkxUgJitATFaAmKwAMVkBYrICxGQFiMkKELv0lu33FrqnzN2yXbvzsu8p39vgrnlaAWKyAsRkBYjJChCTFSAmK0BMVoCYrAAxWQFiWyvbU9vBHXfeZ107db311CXUF+18k99bjXtaAWKyAsRkBYjJChCTFSAmK0BMVoCYrAAxWQFiWyvbtTu3g6fWrnPmrsa+uAzecep1Ty1l5z6RpxUgJitATFaAmKwAMVkBYrICxGQFiMkKEJMVIDa4sp277nnn3dBT7nxXO763wb3z4uwcTytATFaAmKwAMVkBYrICxGQFiMkKEJMVICYrQGxrZXvnGvLF1emLV3Lv/J5PXefd+dnvbXA9rQAxWQFisgLEZAWIyQoQkxUgJitATFaAmKwAsZ8XF5x3/uzaqX3nnZ9ox6kd7ff+X83xtALEZAWIyQoQkxUgJitATFaAmKwAMVkBYrICxLZu2c5d2ZxbUt65Stwx923MXW895c6bsjuve+e9YU8rQExWgJisADFZAWKyAsRkBYjJChCTFSAmK0Bsa2W7dup666k15Nr37uDe6c5179qL73nN0woQkxUgJitATFaAmKwAMVkBYrICxGQFiMkKENta2e7c4JxbcM5tUu/c754yt989tTp9ce0697995zd7WgFisgLEZAWIyQoQkxUgJitATFaAmKwAMVkBYj+n9p07C7/ftoac873d8Klt99qdi+S5b8PTChCTFSAmK0BMVoCYrAAxWQFisgLEZAWIyQoQ27ple+fCb+5155bBc9/Gi6vTuW9y7ts4tRrf+c1u2QLPkBUgJitATFaAmKwAMVkBYrICxGQFiMkKEDt2y3bOqc3inYvVHXeuTk+9qx0vXm62sgUuIitATFaAmKwAMVkBYrICxGQFiMkKEJMVIHbslu0pO9vBF/edL/re1nnuXc39n9zhaQWIyQoQkxUgJitATFaAmKwAMVkBYrICxGQFiB27ZXvq1umdl0FfXI7uuPMT3XnLdu5119yyBS4iK0BMVoCYrAAxWQFisgLEZAWIyQoQkxUgtnXLdm1n4Te3Spzb4J5aBp/a7+687vdWxS8udOfes6cVICYrQExWgJisADFZAWKyAsRkBYjJChCTFSC2dct2bv/34rXaOac+r/u7N5j7O5p7XU8rQExWgJisADFZAWKyAsRkBYjJChCTFSAmK0Bsa2X725zas+44tTo9dTN47cVrtWt3/v16WgFisgLEZAWIyQoQkxUgJitATFaAmKwAMVkBYv/s/LC7of/Nb567Gvvitdq1U/8nT/0b3cnTChCTFSAmK0BMVoCYrAAxWQFisgLEZAWIyQoQ21rZrt25DrxzGfzbNpqn7tHOufPS7drce/a0AsRkBYjJChCTFSAmK0BMVoCYrAAxWQFisgLEBle2ay9uB3cuv95pZ907tww+9ZvnfnbHi//rPK0AMVkBYrICxGQFiMkKEJMVICYrQExWgJisALFjK9sX3bloXDt1JXfuu3rx7u+d/wpz78rTChCTFSAmK0BMVoCYrAAxWQFisgLEZAWIyQoQs7LN3Hn5dc6L14jX5i777tj5zae+SU8rQExWgJisADFZAWKyAsRkBYjJChCTFSAmK0Ds2Mr21P5vx53rz7VT29AXN6k75m7K7rzumlu2wDNkBYjJChCTFSAmK0BMVoCYrAAxWQFisgLEfl68ojrn1DZ0x53/gnOL5LmLs3euqF/8RJ5WgJisADFZAWKyAsRkBYjJChCTFSAmK0BMVoDY1soW4P95WgFisgLEZAWIyQoQkxUgJitATFaAmKwAMVkBYrICxGQFiMkKEJMVICYrQExWgJisADFZAWKyAsRkBYj9D+wM1fsDYpTBAAAAAElFTkSuQmCC" alt="このゲームの QRコード" width="343" height="343"><span>QRで ひらく</span></div>
+  <div class="hero">
+    <div class="heroText">
+      <h1><small>空とミルクの市</small>小美玉市タイピング探検</h1>
+      <p class="sub">市にかんすることばを打って、<br>ふるさとカードを集めよう</p>
+    </div>
+    <div class="panel menuPanel">
+      <div class="row spread">
+        <span class="coins"><svg class="sj"><use href="#sjm"/></svg> ミルク缶 <b id="coinT">0</b></span>
+        <button class="btn sub2 small" id="sndBtn">🔊 おと ON</button>
+      </div>
+      <button class="btn big" id="chooseBtn">▶ コースを選択する</button>
+      <div class="menu">
+        <button class="btn blue" data-go="gacha">🎰 ガチャ</button>
+        <button class="btn blue" data-go="zukan">📖 ずかん <span id="zkT"></span></button>
+        <button class="btn sub2" id="howBtn">❓ あそびかた</button>
+        <button class="btn sub2" id="certBtn">📜 しょうしょ</button>
+      </div>
+    </div>
+  </div>
+  <p class="foot">ローマ字で うってね ／ データは この端末の中だけに保存されます<br>
+    つくった人：<a id="credit" href="https://heino-naka.github.io/" target="_blank" rel="noopener">へいなか</a></p>
+</section>
+
+<!-- コース えらび -->
+<section class="screen" id="coursesScr">
+  <h2 class="scrTitle">コースを えらぼう</h2>
+  <div class="courseRow" id="courseList"></div>
+  <div class="row" style="justify-content:center"><button class="btn sub2" data-go="title">← もどる</button></div>
+</section>
+
+<!-- ゲーム -->
+<section class="screen" id="game">
+  <div class="hud">
+    <span class="tleft" id="tleft">60</span>
+    <div class="timebar"><i id="tbar"></i></div>
+    <span class="sc" id="score">0</span>
+  </div>
+  <div class="panel stage" id="stage">
+    <div class="combo" id="combo"></div>
+    <div class="stL" id="stL">
+      <div class="wic" id="wic"></div>
+      <div class="wkanji" id="wkanji"></div>
+      <div class="wkana" id="wkana"></div>
+    </div>
+    <div class="stR" id="stR">
+      <div class="roma" id="roma"></div>
+      <div class="nextkey">つぎは <span class="cap" id="cap"></span></div>
+      
+      <p class="taphint">キーボードが でないときは ここを タップしてね</p>
+    </div>
+    <div class="flash" id="flash"></div>
+  </div>
+  <div class="row" style="justify-content:center;margin-top:12px">
+    <button class="btn sub2 small" id="quitBtn">やめる（Esc）</button>
+  </div>
+</section>
+
+<!-- けっか -->
+<section class="screen" id="result">
+  <div class="panel resGrid">
+    <div class="resL">
+      <p class="center" id="rCourse" style="color:var(--ink2)"></p>
+      <div class="bigscore" id="rScore">0</div>
+      <p class="newbest" id="rBest"></p>
+      <div class="titlebox">
+        <div class="lab">きょうの しょうごう</div>
+        <div class="ttl" id="rTitle"></div>
+        <div class="nx" id="rNext"></div>
+      </div>
+    </div>
+    <div class="resR">
+      <div class="stats">
+        <div>うった ことば<b id="rWords">0</b></div>
+        <div>せいかく さ<b id="rAcc">0%</b></div>
+        <div>さいだい コンボ<b id="rCombo">0</b></div>
+      </div>
+      <p class="center" style="font-weight:700"><svg class="sj"><use href="#sjm"/></svg> ミルク缶 <span id="rCoin" style="color:var(--sun);font-size:1.4em">+0</span> ゲット！<br><small id="rFirst" style="color:var(--ink2);font-weight:400"></small></p>
+      <div id="rAccBox"></div>
+      <div id="rUnlock"></div>
+      <div class="bridge" id="rBridge"></div>
+      <div class="menu">
+        <button class="btn" id="againBtn">🔁 もういちど</button>
+        <button class="btn blue" data-go="gacha">🎰 ガチャへ</button>
+      </div>
+      <div class="row" style="justify-content:center;margin-top:10px"><button class="btn sub2" data-go="coursesScr">📋 コースを えらぶ</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ガチャ -->
+<section class="screen" id="gacha">
+  <div class="panel">
+    <div class="row spread"><h2>🎰 ふるさとガチャ</h2><span class="coins"><svg class="sj"><use href="#sjm"/></svg> <b id="coinG">0</b></span></div>
+    <div class="gGrid">
+      <div class="gL">
+        <p id="gDesc" style="font-size:clamp(13px,1.4vw,17px);color:var(--ink2);line-height:1.7">ミルク缶 <b>40</b>こで 1かい。おなじ カードが でたら ミルク缶が <b>15</b>こ もどってくるよ。</p>
+        <div class="machine">
+          <div class="capsule" id="capsule" style="background:var(--sun)"></div>
+          <div class="row" style="justify-content:center"><button class="btn" id="spinBtn">1かい（<svg class="sj"><use href="#sjm"/></svg>40）</button><button class="btn blue" id="spin10Btn">10かい まとめて（<svg class="sj"><use href="#sjm"/></svg>400）</button></div>
+        </div>
+      </div>
+      <div class="gR" id="gres"></div>
+    </div>
+    <div class="menu">
+      <button class="btn blue" data-go="zukan">📖 ずかん</button>
+      <button class="btn sub2" data-go="title">🏠 もどる</button>
+    </div>
+  </div>
+</section>
+
+<!-- ずかん -->
+<section class="screen" id="zukan">
+  <div class="panel">
+    <div class="row spread"><h2>📖 ふるさとずかん</h2><b id="zkCount"></b></div>
+    <div class="prog"><i id="zkBar"></i></div>
+    <div id="zkGrid"></div>
+    <div class="row" style="justify-content:center;margin-top:14px">
+      <button class="btn sub2" data-go="title">🏠 もどる</button>
+      <button class="btn sub2 small" id="zkReset">🗑️ ずかんを リセット</button>
+    </div>
+  </div>
+</section>
+
+<!-- しょうしょ -->
+<section class="screen" id="cert">
+  <div class="panel">
+    <div class="cert" id="certBody"></div>
+    <div class="noprint">
+      <input class="nameinput" id="nameIn" maxlength="16" placeholder="なまえを いれてね（なくてもOK）">
+      <div class="menu">
+        <button class="btn" id="printBtn">🖨️ いんさつ</button>
+        <button class="btn sub2" data-go="title">🏠 もどる</button>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- モーダル -->
+<div class="modal" id="modal"><div class="panel" id="modalBody"></div></div>
+
+<script>
+/*CORE*/
+// ===== ことばデータ（＝ふるさとカード） =====
+// lv: 1かんたん 2ふつう 3むずかしい / rar: レア度 1〜3 / go: さいごの メッセージの しゅるい
+const WORDS = [
+ {"k":"小美玉市","r":"おみたまし","lv":1,"ic":"⭐","rar":2,"go":"place","cat":"shi","f":"小川町・美野里町・玉里村が いっしょに なって できた 町。三つの 頭の 字を 取って 名前に したよ。"},
+ {"k":"美野里","r":"みのり","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"shi","f":"昔の 美野里町の ところ。酪農が さかんで、市やくしょや お店も 集まっているよ。"},
+ {"k":"玉里","r":"たまり","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"shi","f":"昔の 玉里村の ところ。れんこんが 取れて、古い 貝塚や 古墳も 残っているよ。"},
+ {"k":"飯前","r":"いいさき","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「いいさき」と 読むよ。"},
+ {"k":"江戸","r":"えど","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「えど」と 読むよ。"},
+ {"k":"大笹","r":"おおざさ","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「おおざさ」と 読むよ。"},
+ {"k":"大谷","r":"おおや","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「おおや」と 読むよ。"},
+ {"k":"小川","r":"おがわ","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"昔の 小川町の ところ。「おがわ」と 読むよ。小川南小学校と小川南中学校と元気っ子幼稚園が あるよ。"},
+ {"k":"小曽納","r":"おそのう","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「おそのう」と 読むよ。"},
+ {"k":"堅倉","r":"かたくら","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「かたくら」と 読むよ。小美玉市やくしょと堅倉小学校が あるよ。"},
+ {"k":"上合","r":"かみあい","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「かみあい」と 読むよ。"},
+ {"k":"上玉里","r":"かみたまり","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「かみたまり」と 読むよ。玉里学園 義務教育学校が あるよ。"},
+ {"k":"上馬場","r":"かみばば","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「かみばば」と 読むよ。"},
+ {"k":"上吉影","r":"かみよしかげ","lv":2,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「かみよしかげ」と 読むよ。"},
+ {"k":"川戸","r":"かわど","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「かわど」と 読むよ。小川北 義務教育学校が あるよ。"},
+ {"k":"川中子","r":"かわなご","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「かわなご」と 読むよ。"},
+ {"k":"倉数","r":"くらかず","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「くらかず」と 読むよ。"},
+ {"k":"栗又四ケ","r":"くりまたしか","lv":2,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「くりまたしか」と 読むよ。"},
+ {"k":"小岩戸","r":"こいわと","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「こいわと」と 読むよ。"},
+ {"k":"小塙","r":"こばなわ","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「こばなわ」と 読むよ。"},
+ {"k":"西郷地","r":"さいごうち","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「さいごうち」と 読むよ。"},
+ {"k":"佐才","r":"さざい","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「さざい」と 読むよ。"},
+ {"k":"三箇","r":"さんが","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「さんが」と 読むよ。"},
+ {"k":"柴高","r":"しばたか","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「しばたか」と 読むよ。"},
+ {"k":"下玉里","r":"しもたまり","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「しもたまり」と 読むよ。"},
+ {"k":"下馬場","r":"しもばば","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「しもばば」と 読むよ。"},
+ {"k":"下吉影","r":"しもよしかげ","lv":2,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「しもよしかげ」と 読むよ。"},
+ {"k":"世楽","r":"せらく","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「せらく」と 読むよ。"},
+ {"k":"高崎","r":"たかさき","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「たかさき」と 読むよ。"},
+ {"k":"高田","r":"たかだ","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「たかだ」と 読むよ。"},
+ {"k":"田木谷","r":"たぎや","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「たぎや」と 読むよ。"},
+ {"k":"竹原","r":"たけはら","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「たけはら」と 読むよ。竹原小学校とよつば幼稚園が あるよ。"},
+ {"k":"竹原下郷","r":"たけはらしもごう","lv":2,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「たけはらしもごう」と 読むよ。"},
+ {"k":"竹原中郷","r":"たけはらなかごう","lv":2,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「たけはらなかごう」と 読むよ。"},
+ {"k":"鶴田","r":"つるた","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「つるた」と 読むよ。"},
+ {"k":"手堤","r":"てつづみ","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「てつづみ」と 読むよ。"},
+ {"k":"寺崎","r":"てらざき","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「てらざき」と 読むよ。"},
+ {"k":"外之内","r":"とのうち","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「とのうち」と 読むよ。"},
+ {"k":"中台","r":"なかだい","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「なかだい」と 読むよ。"},
+ {"k":"中延","r":"なかのべ","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「なかのべ」と 読むよ。"},
+ {"k":"中野谷","r":"なかのや","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「なかのや」と 読むよ。"},
+ {"k":"納場","r":"のうば","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「のうば」と 読むよ。納場小学校が あるよ。"},
+ {"k":"野田","r":"のだ","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「のだ」と 読むよ。"},
+ {"k":"羽刈","r":"はかり","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「はかり」と 読むよ。"},
+ {"k":"橋場美","r":"はしばみ","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「はしばみ」と 読むよ。"},
+ {"k":"幡谷","r":"はたや","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「はたや」と 読むよ。"},
+ {"k":"羽鳥","r":"はとり","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「はとり」と 読むよ。羽鳥小学校が あるよ。"},
+ {"k":"花野井","r":"はないのい","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「はないのい」と 読むよ。"},
+ {"k":"張星","r":"はりほし","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「はりほし」と 読むよ。"},
+ {"k":"東田中","r":"ひがしたなか","lv":2,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「ひがしたなか」と 読むよ。"},
+ {"k":"百里","r":"ひゃくり","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「ひゃくり」と 読むよ。"},
+ {"k":"部室","r":"へむろ","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「へむろ」と 読むよ。美野里中学校が あるよ。"},
+ {"k":"先後","r":"まつのち","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「まつのち」と 読むよ。"},
+ {"k":"宮田","r":"みやた","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「みやた」と 読むよ。"},
+ {"k":"山野","r":"やまの","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「やまの」と 読むよ。"},
+ {"k":"与沢","r":"よざわ","lv":1,"ic":"⭐","rar":1,"go":"town","cat":"machi","f":"小美玉市の 町。「よざわ」と 読むよ。"},
+ {"k":"小川南小学校","r":"おがわみなみしょうがっこう","lv":3,"ic":"⭐","rar":1,"go":"place","cat":"school","f":"小川に ある 小学校だよ。"},
+ {"k":"竹原小学校","r":"たけはらしょうがっこう","lv":3,"ic":"⭐","rar":1,"go":"place","cat":"school","f":"竹原に ある 小学校だよ。"},
+ {"k":"羽鳥小学校","r":"はとりしょうがっこう","lv":3,"ic":"⭐","rar":1,"go":"place","cat":"school","f":"羽鳥に ある 小学校だよ。"},
+ {"k":"堅倉小学校","r":"かたくらしょうがっこう","lv":3,"ic":"⭐","rar":1,"go":"place","cat":"school","f":"堅倉に ある 小学校だよ。"},
+ {"k":"納場小学校","r":"のうばしょうがっこう","lv":3,"ic":"⭐","rar":1,"go":"place","cat":"school","f":"納場に ある 小学校だよ。"},
+ {"k":"小川南中学校","r":"おがわみなみちゅうがっこう","lv":3,"ic":"⭐","rar":1,"go":"place","cat":"school","f":"小川に ある 中学校だよ。"},
+ {"k":"美野里中学校","r":"みのりちゅうがっこう","lv":3,"ic":"⭐","rar":1,"go":"place","cat":"school","f":"部室に ある 中学校だよ。"},
+ {"k":"玉里学園義務教育学校","r":"たまりがくえんぎむきょういくがっこう","lv":3,"ic":"⭐","rar":1,"go":"place","cat":"school","f":"小学校と 中学校の 9年間を、一つの 学校で 学ぶ 義務教育学校。上玉里に あるよ。"},
+ {"k":"小川北義務教育学校","r":"おがわきたぎむきょういくがっこう","lv":3,"ic":"⭐","rar":1,"go":"place","cat":"school","f":"小学校と 中学校の 9年間を、一つの 学校で 学ぶ 義務教育学校。川戸に あるよ。"},
+ {"k":"元気っ子幼稚園","r":"げんきっこようちえん","lv":3,"ic":"⭐","rar":1,"go":"place","cat":"school","f":"","card":false},
+ {"k":"よつば幼稚園","r":"よつばようちえん","lv":2,"ic":"⭐","rar":1,"go":"place","cat":"school","f":"","card":false},
+ {"k":"四季文化館みの〜れ","r":"しきぶんかんみのーれ","lv":3,"ic":"⭐","rar":2,"go":"place","cat":"place","f":"げきや 音楽など、文化の 活動が 開かれる 建物。"},
+ {"k":"小川文化センターアピオス","r":"おがわぶんかせんたーあぴおす","lv":3,"ic":"⭐","rar":1,"go":"place","cat":"place","f":"","card":false},
+ {"k":"小川図書館","r":"おがわとしょかん","lv":2,"ic":"⭐","rar":1,"go":"place","cat":"place","f":"本を 借りられる ところ。2階には、昔の 物を 見せる 史料館も あるよ。"},
+ {"k":"玉里史料館","r":"たまりしりょうかん","lv":2,"ic":"⭐","rar":1,"go":"place","cat":"place","f":"","card":false},
+ {"k":"希望ヶ丘公園","r":"きぼうがおかこうえん","lv":3,"ic":"⭐","rar":2,"go":"place","cat":"place","f":"秋には コスモスが さく 公園。つんで 帰れる 時期も あるよ。"},
+ {"k":"小川運動公園","r":"おがわうんどうこうえん","lv":3,"ic":"⭐","rar":1,"go":"place","cat":"place","f":"","card":false},
+ {"k":"玉里運動公園","r":"たまりうんどうこうえん","lv":3,"ic":"⭐","rar":1,"go":"place","cat":"place","f":"","card":false},
+ {"k":"やすらぎの里小川","r":"やすらぎのさとおがわ","lv":3,"ic":"⭐","rar":2,"go":"place","cat":"place","f":"里山の 自然や 花、池が 楽しめる しせつ。"},
+ {"k":"小美玉温泉","r":"おみたまおんせん","lv":2,"ic":"⭐","rar":2,"go":"place","cat":"place","f":"市営の 天然おんせん。"},
+ {"k":"小美玉市民家園","r":"おみたましみんかえん","lv":3,"ic":"⭐","rar":2,"go":"place","cat":"place","f":"昔の かやぶきの 家を 移して 残している ところ。"},
+ {"k":"ひょうたん美術館","r":"ひょうたんびじゅつかん","lv":3,"ic":"⭐","rar":2,"go":"place","cat":"place","f":"ひょうたんの 品物が たくさん ならんでいる 美術館。"},
+ {"k":"タカノフーズ納豆博物館","r":"たかのふーずなっとうはくぶつかん","lv":3,"ic":"⭐","rar":2,"go":"place","cat":"place","f":"納豆の 生まれた 話や 歴史を 学べる 博物館。"},
+ {"k":"池花池","r":"いけばないけ","lv":2,"ic":"⭐","rar":1,"go":"place","cat":"place","f":"冬には 白鳥が 40〜50羽ほど やって くる ため池。6月の 終わりごろには、池の 表に スイレンが 広がるよ。"},
+ {"k":"大井戸湖岸公園","r":"おおいどこがんこうえん","lv":3,"ic":"⭐","rar":1,"go":"place","cat":"place","f":"霞ヶ浦の 西浦の 湖岸エリアに ある 公園だよ。"},
+ {"k":"竹原神社","r":"たけはらじんじゃ","lv":2,"ic":"⭐","rar":2,"go":"place","cat":"place","f":"6月に アジサイまつりが 開かれる 神社。"},
+ {"k":"玉井乃跡","r":"たまいのあと","lv":2,"ic":"⭐","rar":3,"go":"place","cat":"place","f":"玉里の 名前の 元に なったと 言われる 井戸の あと。"},
+ {"k":"茨城空港","r":"いばらきくうこう","lv":2,"ic":"⭐","rar":3,"go":"place","cat":"sky","f":"飛行機に 乗れる 空の げんかん。百里基地と いっしょに 使う 空港だよ。"},
+ {"k":"百里基地","r":"ひゃくりきち","lv":2,"ic":"⭐","rar":3,"go":"place","cat":"sky","f":"航空自衛隊の 飛行機が いる ところ。勝手に 入っては いけないよ。"},
+ {"k":"自衛隊","r":"じえいたい","lv":1,"ic":"⭐","rar":1,"go":"thing","cat":"sky","f":"小美玉市の 百里基地には、航空自衛隊の 部隊が いるよ。"},
+ {"k":"航空自衛隊","r":"こうくうじえいたい","lv":2,"ic":"⭐","rar":2,"go":"thing","cat":"sky","f":"百里基地は、空を 守る 航空自衛隊の 基地。「首都防空の かなめ」と よばれて いるよ。"},
+ {"k":"防衛省","r":"ぼうえいしょう","lv":2,"ic":"⭐","rar":2,"go":"thing","cat":"sky","f":"国を 守る 仕事を する 役所。百里基地は 防衛省が 管理して いるよ。"},
+ {"k":"ひゃくりん","r":"ひゃくりん","lv":1,"ic":"⭐","rar":2,"go":"thing","cat":"sky","f":"","card":false},
+ {"k":"スカイマーク","r":"すかいまーく","lv":2,"ic":"⭐","rar":2,"go":"thing","cat":"sky","f":"茨城空港で 2010年4月に、初めての 国内定期便 神戸線を 始めた 航空会社だよ。"},
+ {"k":"送迎デッキ","r":"そうげいでっき","lv":2,"ic":"⭐","rar":1,"go":"place","cat":"sky","f":"空港の 2階から、飛行機が 飛び立つ ところや おりる ところが 見えるよ。"},
+ {"k":"空のえき そ・ら・ら","r":"そらのえきそらら","lv":2,"ic":"⭐","rar":2,"go":"place","cat":"sky","f":"茨城空港の 近くに ある 空のえき。野菜や ヨーグルト、プリンが あるよ。"},
+ {"k":"ふれあい牧場","r":"ふれあいぼくじょう","lv":2,"ic":"⭐","rar":2,"go":"place","cat":"sky","f":"ヤギや ウサギと ふれあえる 牧場。"},
+ {"k":"ヨーグルトハウス","r":"よーぐるとはうす","lv":2,"ic":"⭐","rar":2,"go":"place","cat":"sky","f":"しぼりたての 生乳で ヨーグルトを 作っているよ。作る 様子は 工場の まどから 見られるよ。"},
+ {"k":"ぞうのすべり台","r":"ぞうのすべりだい","lv":2,"ic":"⭐","rar":1,"go":"thing","cat":"sky","f":"","card":false},
+ {"k":"航空祭","r":"こうくうさい","lv":2,"ic":"⭐","rar":3,"go":"thing","cat":"sky","f":"百里基地を 開いて、飛行機の ショーを 見せてくれる 日。開く 年だけの イベントだよ。"},
+ {"k":"ブルーインパルス","r":"ぶるーいんぱるす","lv":2,"ic":"⭐","rar":2,"go":"thing","cat":"sky","f":"百里の 航空祭で 曲技飛行を 見せてくれた ことが あるよ。"},
+ {"k":"滑走路","r":"かっそうろ","lv":1,"ic":"⭐","rar":1,"go":"thing","cat":"sky","f":"飛行機が 走って、飛び立ったり おりたりする 長い 道。"},
+ {"k":"飛行機","r":"ひこうき","lv":1,"ic":"⭐","rar":1,"go":"thing","cat":"sky","f":"空を 飛ぶ 乗り物。"},
+ {"k":"ひこうき雲","r":"ひこうきぐも","lv":2,"ic":"⭐","rar":2,"go":"thing","cat":"sky","f":"飛行機が 飛んだ あとに できる 白い 雲。"},
+ {"k":"空の日","r":"そらのひ","lv":1,"ic":"⭐","rar":1,"go":"thing","cat":"sky","f":"","card":false},
+ {"k":"石岡小美玉スマートインターチェンジ","r":"いしおかおみたますまーといんたーちぇんじ","lv":3,"ic":"⭐","rar":2,"go":"place","cat":"sky","f":"常磐じどうしゃどうから 茨城空港へ 向かう 道の 入り口。"},
+ {"k":"茨城空港アクセス道路","r":"いばらきくうこうあくせすどうろ","lv":3,"ic":"⭐","rar":2,"go":"place","cat":"sky","f":"常磐じどうしゃどうと 茨城空港を 結ぶ 道。全線 つながって、空港まで 早く 行けるように なったよ。"},
+ {"k":"常磐自動車道","r":"じょうばんじどうしゃどう","lv":3,"ic":"⭐","rar":1,"go":"place","cat":"sky","f":"三郷から 宮城県の {亘理|わたり}まで 300キロメートルほど 続く 高速道路。小美玉市には 石岡小美玉スマートインターチェンジが あるよ。"},
+ {"k":"国道6号","r":"こくどう6ごう","lv":2,"ic":"⭐","rar":1,"go":"place","cat":"sky","f":"東京の 日本橋から {仙台|せんだい}まで 続く 国道。東京と 水戸の 間は 水戸街道とも よばれるよ。"},
+ {"k":"国道355号","r":"こくどう355ごう","lv":2,"ic":"⭐","rar":2,"go":"place","cat":"sky","f":"{潮来市|いたこし}から {笠間市|かさまし}まで つながる 国道。小美玉市も 通るよ。"},
+ {"k":"水戸街道","r":"みとかいどう","lv":2,"ic":"⭐","rar":1,"go":"place","cat":"sky","f":"東京と 水戸を 結ぶ 道。国道6号の べつの よび名でも あるよ。"},
+ {"k":"鹿島鉄道","r":"かしまてつどう","lv":2,"ic":"⭐","rar":1,"go":"thing","cat":"sky","f":"石岡から {鉾田|ほこた}まで 走って いた 鉄道。2007年に なくなったよ。石岡と 常陸小川の 間の 線路の あとは、茨城空港へ 行く バスの 道に なったよ。"},
+ {"k":"常磐線","r":"じょうばんせん","lv":2,"ic":"⭐","rar":1,"go":"place","cat":"sky","f":"上野から 茨城県を 通って 北へ のびる 鉄道。小美玉市には 羽鳥駅が あるよ。"},
+ {"k":"羽鳥駅","r":"はとりえき","lv":1,"ic":"⭐","rar":1,"go":"place","cat":"sky","f":"小美玉市に ただ一つ ある 駅。1895年に できたよ。"},
+ {"k":"つくば霞ヶ浦りんりんロード","r":"つくばかすみがうらりんりんろーど","lv":3,"ic":"⭐","rar":2,"go":"place","cat":"sky","f":"","card":false},
+ {"k":"茨城県庁","r":"いばらきけんちょう","lv":2,"ic":"⭐","rar":2,"go":"place","cat":"event","f":"水戸市に ある、茨城県の 仕事を する 役所だよ。"},
+ {"k":"茨城県","r":"いばらきけん","lv":2,"ic":"⭐","rar":1,"go":"place","cat":"event","f":"小美玉市が ある 県。県の 役所は 水戸市に あるよ。"},
+ {"k":"イバライガー","r":"いばらいがー","lv":2,"ic":"⭐","rar":3,"go":"thing","cat":"event","f":"","card":false},
+ {"k":"霞ヶ浦","r":"かすみがうら","lv":2,"ic":"⭐","rar":2,"go":"place","cat":"nature","f":"小美玉市の 南に ある 大きな 湖。日本で 2ばんめに 大きいと 言われるよ。"},
+ {"k":"ダイヤモンド筑波","r":"だいやもんどつくば","lv":2,"ic":"⭐","rar":3,"go":"thing","cat":"nature","f":"筑波山の 二つの いただきの 間に 夕日が しずむ 景色。霞ヶ浦の ほとりから 見えるよ。年に 2回 だけだよ。"},
+ {"k":"筑波山","r":"つくばさん","lv":1,"ic":"⭐","rar":1,"go":"place","cat":"nature","f":"いただきが 二つ ならぶ 山。小美玉からも 見えるよ。"},
+ {"k":"園部川","r":"そのべがわ","lv":1,"ic":"⭐","rar":1,"go":"place","cat":"nature","f":"","card":false},
+ {"k":"巴川","r":"ともえがわ","lv":1,"ic":"⭐","rar":1,"go":"place","cat":"nature","f":"","card":false},
+ {"k":"白鳥","r":"はくちょう","lv":1,"ic":"⭐","rar":2,"go":"creature","cat":"nature","f":"冬に なると、池に 飛んで くる 鳥だよ。"},
+ {"k":"スイレン","r":"すいれん","lv":1,"ic":"⭐","rar":1,"go":"thing","cat":"nature","f":"池花池では、6月の 終わりから 7月の 初めに スイレンの 花が 池の 表に 広がるよ。"},
+ {"k":"アジサイ","r":"あじさい","lv":1,"ic":"⭐","rar":1,"go":"thing","cat":"nature","f":"梅雨の ころに さく 花。色が 変わる ことも あるよ。"},
+ {"k":"コスモス","r":"こすもす","lv":1,"ic":"⭐","rar":1,"go":"thing","cat":"nature","f":"9月の なかごろから 10月の 終わりごろまで、希望ヶ丘の 花の かおる 里で コスモスが 見られるよ。"},
+ {"k":"菜の花","r":"なのはな","lv":1,"ic":"⭐","rar":1,"go":"thing","cat":"nature","f":"春に、黄色い 小さな 花を たくさん さかせる 花だよ。"},
+ {"k":"舟塚古墳","r":"ふなづかこふん","lv":2,"ic":"⭐","rar":2,"go":"place","cat":"place","f":"6世紀の なかごろに 作られたと 言われる 古墳。"},
+ {"k":"八幡脇貝塚","r":"はちまんわきかいづか","lv":3,"ic":"⭐","rar":2,"go":"place","cat":"place","f":"縄文時代の 初めごろの 貝塚。昔の 人が 食べた 貝が つもって できたよ。"},
+ {"k":"稽医館","r":"けいいかん","lv":1,"ic":"⭐","rar":1,"go":"place","cat":"place","f":"昔の 小川に あった 学校。医学を 学んだ ところだよ。"},
+ {"k":"酪農","r":"らくのう","lv":1,"ic":"⭐","rar":1,"go":"thing","cat":"farm","f":"牛を かって 牛乳を 取る 仕事。小美玉は 日本を 代表する 酪農の 里と 言われるよ。"},
+ {"k":"養豚","r":"ようとん","lv":1,"ic":"⭐","rar":1,"go":"thing","cat":"farm","f":"ぶたを 育てる 仕事。小美玉でも さかんだよ。"},
+ {"k":"養鶏","r":"ようけい","lv":1,"ic":"⭐","rar":1,"go":"thing","cat":"farm","f":"ニワトリを 育てて、卵を 取る 仕事。"},
+ {"k":"乳牛","r":"にゅうぎゅう","lv":2,"ic":"⭐","rar":2,"go":"creature","cat":"farm","f":"牛乳を だしてくれる 牛。"},
+ {"k":"ミルク缶","r":"みるくかん","lv":1,"ic":"⭐","rar":1,"go":"thing","cat":"farm","f":"牛乳を 入れて 運ぶ かん。"},
+ {"k":"ヤギ","r":"やぎ","lv":1,"ic":"⭐","rar":1,"go":"creature","cat":"farm","f":"ヤギの ミルクは、牛乳の 代わりに 飲まれる ことも あるよ。"},
+ {"k":"ウサギ","r":"うさぎ","lv":1,"ic":"⭐","rar":1,"go":"creature","cat":"farm","f":"耳が 長くて、ぴょんぴょん はねて 進む 動物。"},
+ {"k":"ニワトリ","r":"にわとり","lv":1,"ic":"⭐","rar":1,"go":"creature","cat":"farm","f":"まいにち 卵を うむ 鳥。小美玉市は 鶏卵の さかんな 町だよ。"},
+ {"k":"おみたまヨーグルト","r":"おみたまよーぐると","lv":2,"ic":"⭐","rar":2,"go":"food","cat":"farm","f":"小美玉の 牛乳で 作る ヨーグルト。"},
+ {"k":"おみたまプリン","r":"おみたまぷりん","lv":2,"ic":"⭐","rar":2,"go":"food","cat":"farm","f":"卵と 牛乳で 作る プリン。"},
+ {"k":"生乳","r":"なまにゅう","lv":1,"ic":"⭐","rar":1,"go":"food","cat":"farm","f":"しぼりたての 牛乳の こと。"},
+ {"k":"牛乳","r":"ぎゅうにゅう","lv":2,"ic":"⭐","rar":1,"go":"food","cat":"farm","f":"小美玉市の 酪農家さんの 牛乳は、ヨーグルトや アイス、プリンにも なるよ。"},
+ {"k":"鶏卵","r":"けいらん","lv":1,"ic":"⭐","rar":1,"go":"food","cat":"farm","f":"ニワトリの 卵の こと。小美玉は 卵が たくさん 取れる 町だよ。"},
+ {"k":"たまご","r":"たまご","lv":1,"ic":"⭐","rar":1,"go":"food","cat":"farm","f":"ニワトリが うむ 卵。ご飯や おかしの 材料に なるよ。"},
+ {"k":"れんこん","r":"れんこん","lv":1,"ic":"⭐","rar":1,"go":"food","cat":"farm","f":"玉里で よく 作られる 野菜。あなが あいているよ。"},
+ {"k":"にら","r":"にら","lv":1,"ic":"⭐","rar":1,"go":"food","cat":"farm","f":"にらを たくさん 作っている 町。"},
+ {"k":"いちご","r":"いちご","lv":1,"ic":"⭐","rar":1,"go":"food","cat":"farm","f":"小美玉市の いちごは、茨城県の {銘柄産地|めいがらさんち}に 指定されて いるよ。"},
+ {"k":"梨","r":"なし","lv":1,"ic":"⭐","rar":1,"go":"food","cat":"farm","f":"水分が たっぷりで シャリシャリした 果物。"},
+ {"k":"富有柿","r":"ふゆうがき","lv":1,"ic":"⭐","rar":1,"go":"food","cat":"farm","f":"あまくて 固い 柿の 種類。秋に 食べごろに なるよ。"},
+ {"k":"干しいも","r":"ほしいも","lv":1,"ic":"⭐","rar":1,"go":"food","cat":"farm","f":"さつまいもを ふかして 干した おやつ。茨城県は 干しいもづくりで 有名だよ。"},
+ {"k":"ブルーベリー","r":"ぶるーべりー","lv":2,"ic":"⭐","rar":2,"go":"food","cat":"farm","f":"小美玉市には、ブルーベリーや りんごの {狩|か}りが できる 観光農園が あるよ。"},
+ {"k":"とうもろこし","r":"とうもろこし","lv":2,"ic":"⭐","rar":2,"go":"food","cat":"farm","f":"つぶが ならんだ 夏の 野菜。ゆでても やいても おいしいよ。"},
+ {"k":"常陸牛","r":"ひたちぎゅう","lv":2,"ic":"⭐","rar":1,"go":"food","cat":"farm","f":"茨城県で 育てられた、ブランドの 牛肉だよ。"},
+ {"k":"納豆","r":"なっとう","lv":1,"ic":"⭐","rar":1,"go":"food","cat":"farm","f":"小美玉市には、納豆の 歴史や つくり方を 見て 学べる 博物館が あるよ。"},
+ {"k":"乳製品で乾杯","r":"にゅうせいひんでかんぱい","lv":3,"ic":"⭐","rar":1,"go":"say","cat":"farm","f":"","card":false},
+ {"k":"おみたま花火大会","r":"おみたまはなびたいかい","lv":3,"ic":"⭐","rar":3,"go":"thing","cat":"event","f":"霞ヶ浦の ほとりで 開かれる 花火大会。湖の 上に 大きな 花火が 上がるよ。"},
+ {"k":"花火","r":"はなび","lv":1,"ic":"⭐","rar":1,"go":"thing","cat":"event","f":"よるの 空に 開く、光の 花。"},
+ {"k":"打ち上げ花火","r":"うちあげはなび","lv":2,"ic":"⭐","rar":2,"go":"thing","cat":"event","f":"たまを 空高く 打ち上げて、ぱっと 開かせる 花火。大きな 花火ほど 遠くからも 見えるよ。"},
+ {"k":"小川祇園祭","r":"おがわぎおんまつり","lv":2,"ic":"⭐","rar":3,"go":"thing","cat":"event","f":"夏に 開かれる 古い お祭り。山車や ししが 町を 回るよ。"},
+ {"k":"素鵞神社","r":"そがじんじゃ","lv":2,"ic":"⭐","rar":1,"go":"place","cat":"event","f":"素鵞神社の 小川祇園祭は、約480年の 歴史が あるよ。{神輿|みこし}や 山車が 町を 回るんだ。"},
+ {"k":"羽鳥まつり","r":"はとりまつり","lv":2,"ic":"⭐","rar":2,"go":"thing","cat":"event","f":"羽鳥の 夏祭りは 羽鳥祇園祭。毎年 7月の さいごの 土よう日と 日よう日に 行われるよ。"},
+ {"k":"堅倉祭礼","r":"かたくらさいれい","lv":2,"ic":"⭐","rar":2,"go":"thing","cat":"event","f":"","card":false},
+ {"k":"小美玉さくらフェスティバル","r":"おみたまさくらふぇすてぃばる","lv":3,"ic":"⭐","rar":2,"go":"thing","cat":"event","f":"","card":false},
+ {"k":"ふるさとふれあいまつり","r":"ふるさとふれあいまつり","lv":3,"ic":"⭐","rar":1,"go":"thing","cat":"event","f":"","card":false},
+ {"k":"おみたま大空マルシェ","r":"おみたまおおぞらまるしぇ","lv":3,"ic":"⭐","rar":1,"go":"thing","cat":"event","f":"","card":false},
+ {"k":"おみたま誕生祭","r":"おみたまたんじょうさい","lv":3,"ic":"⭐","rar":1,"go":"thing","cat":"event","f":"","card":false},
+ {"k":"スカイスリーフェスタ","r":"すかいすりーふぇすた","lv":3,"ic":"⭐","rar":1,"go":"thing","cat":"event","f":"","card":false},
+ {"k":"おみたん","r":"おみたん","lv":1,"ic":"⭐","rar":2,"go":"thing","cat":"event","f":"小美玉市の マスコット。大きく なったら 空も 飛びたいと 夢見る 男の子だよ。"},
+ {"k":"ミルク","r":"みるく","lv":1,"ic":"⭐","rar":1,"go":"food","cat":"farm","f":"牛から 取れる 白い 飲み物。牛乳や ヨーグルトの 元に なるよ。"},
+ {"k":"ヨーグルト","r":"よーぐると","lv":1,"ic":"⭐","rar":1,"go":"food","cat":"farm","f":"ミルクから 作る、すっぱくて おいしい 食べ物。"},
+ {"k":"牛","r":"うし","lv":1,"ic":"⭐","rar":1,"go":"creature","cat":"farm","f":"モーと なく 動物。牧場では ミルクを 取るために 育てる 牛も いるよ。"},
+ {"k":"牧場","r":"ぼくじょう","lv":1,"ic":"⭐","rar":1,"go":"place","cat":"farm","f":"牛や ヤギなどを 育てる ところ。"},
+ {"k":"畜産","r":"ちくさん","lv":1,"ic":"⭐","rar":1,"go":"thing","cat":"farm","f":"牛や ぶた、鶏などを 育てて、肉や 卵、ミルクを 作る 仕事。"},
+ {"k":"アピオス","r":"あぴおす","lv":1,"ic":"⭐","rar":1,"go":"place","cat":"place","f":"","card":false},
+ {"k":"生涯学習センターコスモス","r":"しょうがいがくしゅうせんたーこすもす","lv":3,"ic":"⭐","rar":2,"go":"place","cat":"place","f":"生涯学習センター「コスモス」は 高崎に あるよ。"},
+ {"k":"みつお万寿","r":"みつおまんじゅう","lv":2,"ic":"⭐","rar":2,"go":"food","cat":"farm","f":"","card":false},
+ {"k":"スカイライトカフェ","r":"すかいらいとかふぇ","lv":2,"ic":"⭐","rar":2,"go":"place","cat":"shop","f":"","card":false},
+ {"k":"マーコズカフェ","r":"まーこずかふぇ","lv":2,"ic":"⭐","rar":2,"go":"place","cat":"shop","f":"","card":false},
+ {"k":"カフェ ルオム","r":"かふぇるおむ","lv":2,"ic":"⭐","rar":2,"go":"place","cat":"shop","f":"","card":false},
+ {"k":"ベルデモンターニャ","r":"べるでもんたーにゃ","lv":2,"ic":"⭐","rar":2,"go":"place","cat":"shop","f":"","card":false},
+ {"k":"木もれ陽","r":"こもれび","lv":1,"ic":"⭐","rar":1,"go":"place","cat":"shop","f":"","card":false},
+ {"k":"くすの木","r":"くすのき","lv":1,"ic":"⭐","rar":1,"go":"place","cat":"shop","f":"","card":false},
+ {"k":"フリーウィーリング","r":"ふりーうぃーりんぐ","lv":2,"ic":"⭐","rar":2,"go":"place","cat":"shop","f":"","card":false},
+ {"k":"はーとふるツリー","r":"はーとふるつりー","lv":2,"ic":"⭐","rar":2,"go":"place","cat":"shop","f":"","card":false},
+ {"k":"コーヒーフレンド","r":"こーひーふれんど","lv":2,"ic":"⭐","rar":2,"go":"place","cat":"shop","f":"","card":false},
+ {"k":"ななかまど","r":"ななかまど","lv":1,"ic":"⭐","rar":1,"go":"place","cat":"shop","f":"","card":false},
+ {"k":"ヨークベニマル","r":"よーくべにまる","lv":2,"ic":"⭐","rar":1,"go":"place","cat":"shop","f":"福島県の 郡山市に 本社が ある スーパー。茨城県には 2005年に、水戸市の 赤塚店から 始まったよ。"},
+ {"k":"セイミヤ","r":"せいみや","lv":1,"ic":"⭐","rar":1,"go":"place","cat":"shop","f":"茨城県と 千葉県を 中心に ある スーパー。本社は {潮来市|いたこし}で、1887年に {漬物|つけもの}の お店から 始まったよ。"},
+ {"k":"しまむら","r":"しまむら","lv":1,"ic":"⭐","rar":1,"go":"place","cat":"shop","f":"1923年に {埼玉県|さいたまけん}の 小川町で 「島村{呉服店|ごふくてん}」として 始まった、衣料品の お店だよ。"},
+ {"k":"ダイソー","r":"だいそー","lv":1,"ic":"⭐","rar":1,"go":"place","cat":"shop","f":"","card":false},
+ {"k":"セリア","r":"せりあ","lv":1,"ic":"⭐","rar":1,"go":"place","cat":"shop","f":"","card":false},
+ {"k":"ウェルシア","r":"うぇるしあ","lv":1,"ic":"⭐","rar":1,"go":"place","cat":"shop","f":"","card":false},
+ {"k":"TAIRAYA","r":"TAIRAYA","lv":2,"ic":"⭐","rar":1,"go":"place","cat":"shop","f":"","card":false},
+ {"k":"ペグぱん","r":"ぺぐぱん","lv":1,"ic":"⭐","rar":2,"go":"place","cat":"shop","f":"","card":false},
+ {"k":"そば処やまとや","r":"そばどころやまとや","lv":2,"ic":"⭐","rar":2,"go":"place","cat":"shop","f":"","card":false},
+ {"k":"四季健康館","r":"しきけんこうかん","lv":2,"ic":"⭐","rar":2,"go":"place","cat":"shop","f":"","card":false},
+ {"k":"花木センター","r":"かぼくせんたー","lv":2,"ic":"⭐","rar":2,"go":"place","cat":"shop","f":"","card":false},
+ {"k":"中央高等学校","r":"ちゅうおうこうとうがっこう","lv":3,"ic":"⭐","rar":2,"go":"place","cat":"school","f":"小美玉市に ある 高等学校だよ。"},
+ {"k":"だっぺ","r":"だっぺ","lv":1,"ic":"⭐","rar":2,"go":"say","cat":"event","f":"茨城の 言葉で、「〜だよね」「〜でしょ」の ような 意味で 使う 言葉だよ。"},
+ {"k":"コメリ","r":"こめり","lv":1,"ic":"⭐","rar":1,"go":"place","cat":"shop","f":"","card":false},
+ {"k":"小美玉市役所","r":"おみたましやくしょ","lv":2,"ic":"⭐","rar":1,"go":"place","cat":"place","f":"小美玉市の 仕事を する 役所。堅倉に あるよ。"},
+ {"k":"航空券","r":"こうくうけん","lv":2,"ic":"⭐","rar":2,"go":"thing","cat":"sky","f":"航空券は、飛行機に 乗る ための きっぷ。茨城空港から 飛ぶ 飛行機にも 必要だよ。"},
+ {"k":"合唱","r":"がっしょう","lv":1,"ic":"🎵","rar":1,"go":"thing","cat":"life","f":"みんなで 声を 合わせて 歌うこと。となりの 人の 声も 聞いてみよう。"},
+ {"k":"運動会","r":"うんどうかい","lv":2,"ic":"🏃","rar":1,"go":"thing","cat":"life","f":"かけっこや たまいれなど、みんなで 体を 動かす 日。ゴールの 時の 笑顔が すてきだよ。"},
+ {"k":"登校","r":"とうこう","lv":1,"ic":"🎒","rar":1,"go":"thing","cat":"life","f":"学校に 行くこと。朝、なかよしの 友だちと 歩いて 行くのも 楽しいね。"},
+ {"k":"下校","r":"げこう","lv":1,"ic":"🌇","rar":1,"go":"thing","cat":"life","f":"学校から 帰ること。帰り道では、周りの 車に 注意しよう。"},
+ {"k":"まち探検","r":"まちたんけん","lv":2,"ic":"🔍","rar":2,"go":"thing","cat":"life","f":"町を 歩いて、楽しい ところや 発見を 探す 学習。この ゲームも 町の 探検だね。"},
+ {"k":"遠足","r":"えんそく","lv":1,"ic":"🍙","rar":1,"go":"thing","cat":"life","f":"お弁当を 持って、みんなで 出かける 学校の 行事。バスの 中も わくわくするね。"},
+ {"k":"水泳","r":"すいえい","lv":1,"ic":"🏊","rar":1,"go":"thing","cat":"life","f":"プールで 泳ぐ 学習。夏の 体育の 時間が 楽しみだね。"},
+ {"k":"体育","r":"たいいく","lv":1,"ic":"⚽","rar":1,"go":"thing","cat":"life","f":"体を 動かして、強く 元気に なる 学習。"},
+ {"k":"国語","r":"こくご","lv":1,"ic":"📖","rar":1,"go":"thing","cat":"life","f":"言葉や 文章を 学ぶ 学習。タイピングも 言葉の 練習に なるよ。"},
+ {"k":"算数","r":"さんすう","lv":1,"ic":"➕","rar":1,"go":"thing","cat":"life","f":"数や 形を 学ぶ 学習。たし算、ひき算から 始まるよ。"},
+ {"k":"なわとび","r":"なわとび","lv":1,"ic":"🪢","rar":1,"go":"thing","cat":"life","f":"なわを 回して 飛ぶ 遊び。ゲームの 次は、本物の なわとびに ちょうせんしてみよう！"},
+ {"k":"音楽","r":"おんがく","lv":1,"ic":"🎵","rar":1,"go":"thing","cat":"life","f":"歌を 歌ったり、楽器を えんそうしたりする 学習。"},
+ {"k":"理科","r":"りか","lv":1,"ic":"🧪","rar":1,"go":"thing","cat":"life","f":"自然の 不思議を 実験や 観察で 調べる 学習。周りの 生き物も 理科の 材料だね。"},
+ {"k":"社会","r":"しゃかい","lv":1,"ic":"🌏","rar":1,"go":"thing","cat":"life","f":"町や くらしの ことを 学ぶ 学習。小美玉市の ことも 社会で 学ぶよ。"},
+ {"k":"生活","r":"せいかつ","lv":1,"ic":"🌱","rar":1,"go":"thing","cat":"life","f":"1・2年生で 学ぶ 学習。朝顔を 育てたり、町を 探検したりするよ。"},
+ {"k":"ランドセル","r":"らんどせる","lv":1,"ic":"🎒","rar":1,"go":"thing","cat":"life","f":"学校に 持っていく かばん。教科書や ノートを 入れて、せおって 歩くよ。"},
+ {"k":"宿泊学習","r":"しゅくはくがくしゅう","lv":3,"ic":"🏕️","rar":2,"go":"thing","cat":"life","f":"学校の みんなで 出かけて、とまりがけで 学ぶ 行事。ふだんと ちがう 時間が 過ごせるよ。"},
+ {"k":"修学旅行","r":"しゅうがくりょこう","lv":2,"ic":"🚄","rar":3,"go":"thing","cat":"life","f":"6年生が みんなで 旅行して、見学したり 学んだりする 行事。思い出に 残るよ。"},
+ {"k":"夏休み","r":"なつやすみ","lv":1,"ic":"🍉","rar":2,"go":"thing","cat":"life","f":"学校が お休みに なる、暑い 夏の 長い 休み。プールや 花火が 楽しみだね。"},
+ {"k":"冬休み","r":"ふゆやすみ","lv":1,"ic":"⛄","rar":2,"go":"thing","cat":"life","f":"12月の 終わりから 1月の 初めまでの 休み。お正月も やって くるよ。"},
+ {"k":"春休み","r":"はるやすみ","lv":1,"ic":"🌷","rar":2,"go":"thing","cat":"life","f":"学年が 変わる 前の 休み。新しい 友だちに 会うのが 楽しみだね。"},
+ {"k":"ゴールデンウィーク","r":"ごーるでんうぃーく","lv":2,"ic":"🎏","rar":2,"go":"thing","cat":"life","f":"4月の 終わりから 5月の 初めに、休みが 続く 時期。こいのぼりを 見かけるよ。"},
+ {"k":"インフルエンザ","r":"いんふるえんざ","lv":2,"ic":"🌡️","rar":2,"go":"thing","cat":"life","f":"冬に はやりやすい 病気。てあらい・うがいを して、かからないように しよう。"},
+ {"k":"保健室","r":"ほけんしつ","lv":1,"ic":"🩹","rar":2,"go":"place","cat":"life","f":"けがを したり 具合が 悪く なったりした 時、行く 部屋。先生が 手あてを してくれるよ。"},
+ {"k":"卒業式","r":"そつぎょうしき","lv":2,"ic":"🎓","rar":2,"go":"thing","cat":"life","f":"学校を 卒業する 日の 式。「ありがとう」を 伝える 大切な 日だよ。"},
+ {"k":"入学式","r":"にゅうがくしき","lv":2,"ic":"🌸","rar":2,"go":"thing","cat":"life","f":"新しい 学校に 入る 日の 式。ピカピカの ランドセルで 行くよ。"},
+ {"k":"委員会","r":"いいんかい","lv":1,"ic":"🏅","rar":2,"go":"thing","cat":"life","f":"学校の 仕事を 分たんして 行う 友だちの 集まり。みんなの ために 働くよ。"},
+ {"k":"クラブ活動","r":"くらぶかつどう","lv":2,"ic":"⚾","rar":2,"go":"thing","cat":"life","f":"すきな ことを、学年を 声た なかまと 楽しむ 活動。"},
+ {"k":"体育館","r":"たいいくかん","lv":2,"ic":"🏟️","rar":2,"go":"place","cat":"life","f":"体育や 行事を する、大きな 建物。広くて ひびきが いいね。"},
+ {"k":"プール","r":"ぷーる","lv":1,"ic":"🏊","rar":1,"go":"place","cat":"life","f":"学校や 町に ある、泳ぐ ための 水の 場所。"},
+ {"k":"教科書","r":"きょうかしょ","lv":2,"ic":"📚","rar":2,"go":"thing","cat":"life","f":"学校で 使う 本。毎日 かばんに 入れて 持ち運ぶよ。"},
+ {"k":"連絡帳","r":"れんらくちょう","lv":2,"ic":"📒","rar":2,"go":"thing","cat":"life","f":"先生や おうちの 人に 大事な ことを 伝える ノート。あしたの よていも かくよ。"},
+ {"k":"セブンイレブン","r":"せぶんいれぶん","lv":2,"ic":"🏪","rar":1,"go":"place","cat":"life","f":"","card":false},
+ {"k":"ローソン","r":"ろーそん","lv":1,"ic":"🏪","rar":1,"go":"place","cat":"life","f":"","card":false},
+ {"k":"ファミリーマート","r":"ふぁみりーまーと","lv":2,"ic":"🏪","rar":1,"go":"place","cat":"life","f":"","card":false},
+ {"k":"セイコーマート","r":"せいこーまーと","lv":2,"ic":"🏪","rar":1,"go":"place","cat":"life","f":"","card":false},
+ {"k":"おはようございます","r":"おはようございます","lv":2,"ic":"🌅","rar":1,"go":"say","cat":"life","f":"","card":false},
+ {"k":"こんにちは","r":"こんにちは","lv":1,"ic":"☀️","rar":1,"go":"say","cat":"life","f":"","card":false},
+ {"k":"さようなら","r":"さようなら","lv":1,"ic":"👋","rar":1,"go":"say","cat":"life","f":"","card":false},
+ {"k":"ごめんね","r":"ごめんね","lv":1,"ic":"🙇","rar":1,"go":"say","cat":"life","f":"","card":false},
+ {"k":"ごめんなさい","r":"ごめんなさい","lv":2,"ic":"🙇","rar":1,"go":"say","cat":"life","f":"","card":false},
+ {"k":"ありがとう","r":"ありがとう","lv":1,"ic":"💗","rar":1,"go":"say","cat":"life","f":"","card":false},
+ {"k":"ありがとうございます","r":"ありがとうございます","lv":3,"ic":"💗","rar":1,"go":"say","cat":"life","f":"","card":false},
+ {"k":"お願いします","r":"おねがいします","lv":2,"ic":"🙏","rar":1,"go":"say","cat":"life","f":"","card":false},
+ {"k":"いいよ","r":"いいよ","lv":1,"ic":"⭕","rar":1,"go":"say","cat":"life","f":"","card":false},
+ {"k":"嫌です","r":"いやです","lv":1,"ic":"❌","rar":1,"go":"say","cat":"life","f":"","card":false},
+ {"k":"やめて","r":"やめて","lv":1,"ic":"✋","rar":1,"go":"say","cat":"life","f":"","card":false},
+ {"k":"また今度ね","r":"またこんどね","lv":2,"ic":"📅","rar":1,"go":"say","cat":"life","f":"","card":false},
+ {"k":"また明日","r":"またあした","lv":1,"ic":"🌅","rar":1,"go":"say","cat":"life","f":"","card":false},
+ {"k":"一緒にやらない？","r":"いっしょにやらない？","lv":2,"ic":"👫","rar":1,"go":"say","cat":"life","f":"","card":false},
+ {"k":"私はやらない","r":"わたしはやらない","lv":2,"ic":"❌","rar":1,"go":"say","cat":"life","f":"","card":false},
+ {"k":"僕はいらない","r":"ぼくはいらない","lv":2,"ic":"❌","rar":1,"go":"say","cat":"life","f":"","card":false},
+ {"k":"私もやりたい","r":"わたしもやりたい","lv":2,"ic":"🙋","rar":1,"go":"say","cat":"life","f":"","card":false},
+ {"k":"ブランコ","r":"ぶらんこ","lv":1,"ic":"🛝","rar":1,"go":"place","cat":"life","f":"","card":false},
+ {"k":"すべり台","r":"すべりだい","lv":1,"ic":"🛝","rar":1,"go":"place","cat":"life","f":"","card":false},
+ {"k":"うんてい","r":"うんてい","lv":1,"ic":"🤸","rar":1,"go":"place","cat":"life","f":"","card":false},
+ {"k":"一輪車","r":"いちりんしゃ","lv":2,"ic":"🚲","rar":1,"go":"thing","cat":"life","f":"","card":false},
+ {"k":"給食","r":"きゅうしょく","lv":2,"ic":"🍱","rar":1,"go":"thing","cat":"life","f":"","card":false},
+ {"k":"昼休み","r":"ひるやすみ","lv":1,"ic":"⏰","rar":1,"go":"thing","cat":"life","f":"","card":false},
+ {"k":"プリント","r":"ぷりんと","lv":1,"ic":"📄","rar":1,"go":"thing","cat":"life","f":"","card":false},
+ {"k":"タイピング","r":"たいぴんぐ","lv":1,"ic":"⌨️","rar":1,"go":"thing","cat":"life","f":"","card":false}
+];
+WORDS.forEach((w,i)=>w.id=i); // ※ idは もとの じゅんばんを まもる（ほぞんデータと むすびつくため）
+const CARDS=WORDS.filter(w=>w.card!==false); // ガチャで でる カード（タイピングだけの ことばも ある）
+const CATS=[['machi','🏘️ 町域（まちの なまえ）'],['shi','🏙️ 小美玉市と むかしの 町むら'],['school','🏫 学校・園'],['place','📍 めいしょ・しせつ'],['sky','✈️ 空と きち・こうつう'],['farm','🐄 ぼくじょう・しょくじ'],['shop','🛒 お店・カフェ'],['nature','🌿 しぜん・いきもの'],['event','🎆 まつり・ぶんか'],['life','🎒 学校の くらし']];
+
+const COURSES = [
+ {lv:1,name:'かんたん',ic:'🥛',icon:'milkcan',desc:'みじかい ことば',need:null},
+ {lv:2,name:'ふつう',ic:'✈️',icon:'airplane',desc:'ぼくじょうや くうこう',need:{lv:1,score:1200}},
+ {lv:3,name:'むずかしい',ic:'🎆',icon:'hanabi_big',desc:'ながい なまえに ちょうせん',need:{lv:2,score:2200}},
+];
+const TITLES = [ // スコアで きまる しょうごう
+ [0,'牧場の おてつだい'],[400,'子牛の なかま'],[900,'ミルク缶はこび めいじん'],[1500,'ヨーグルトづくり めいじん'],
+ [2200,'滑走路の さんぽ人'],[3000,'管制塔の みはり番'],[4000,'空の たんけん家'],[5200,'ひこうき雲の パイロット'],[6600,'花火大会の めいじん'],[9000,'小美玉市マスター'],
+];
+const SJT='<svg class="sj"><use href="#sjm"/></svg>';
+const GAME_SEC = 60, GACHA_COST = 250, DUP_BACK = 25, PLAY_BONUS = 30, FIRST_BONUS = 100;
+const LV_MUL = {1:1,2:1.2,3:1.5}; // むずかしい コースほど てんすうが おおきい
+
+// ===== ローマ字 =====
+const T = {};
+('あ:a,い:i|yi,う:u|wu|whu,え:e,お:o,か:ka|ca,き:ki,く:ku|cu|qu,け:ke,こ:ko|co,さ:sa,し:shi|si|ci,す:su,せ:se|ce,そ:so,'+
+ 'た:ta,ち:chi|ti,つ:tsu|tu,て:te,と:to,な:na,に:ni,ぬ:nu,ね:ne,の:no,は:ha,ひ:hi,ふ:fu|hu,へ:he,ほ:ho,'+
+ 'ま:ma,み:mi,む:mu,め:me,も:mo,や:ya,ゆ:yu,よ:yo,ら:ra,り:ri,る:ru,れ:re,ろ:ro,わ:wa,を:wo,'+
+ 'が:ga,ぎ:gi,ぐ:gu,げ:ge,ご:go,ざ:za,じ:ji|zi,ず:zu,ぜ:ze,ぞ:zo,だ:da,ぢ:di,づ:du,で:de,ど:do,'+
+ 'ば:ba,び:bi,ぶ:bu,べ:be,ぼ:bo,ぱ:pa,ぴ:pi,ぷ:pu,ぺ:pe,ぽ:po,ゔ:vu,'+
+ 'ぁ:la|xa,ぃ:li|xi,ぅ:lu|xu,ぇ:le|xe,ぉ:lo|xo,ゃ:lya|xya,ゅ:lyu|xyu,ょ:lyo|xyo,ゎ:lwa|xwa,ー:-'
+).split(',').forEach(p=>{const [k,v]=p.split(':');T[k]=v.split('|')});
+('きゃ:kya,きゅ:kyu,きょ:kyo,しゃ:sha|sya,しゅ:shu|syu,しょ:sho|syo,しぇ:she|sye,ちゃ:cha|tya|cya,ちゅ:chu|tyu|cyu,ちょ:cho|tyo|cyo,ちぇ:che|tye|cye,'+
+ 'にゃ:nya,にゅ:nyu,にょ:nyo,ひゃ:hya,ひゅ:hyu,ひょ:hyo,みゃ:mya,みゅ:myu,みょ:myo,りゃ:rya,りゅ:ryu,りょ:ryo,'+
+ 'ぎゃ:gya,ぎゅ:gyu,ぎょ:gyo,じゃ:ja|zya|jya,じゅ:ju|zyu|jyu,じょ:jo|zyo|jyo,じぇ:je|zye|jye,'+
+ 'びゃ:bya,びゅ:byu,びょ:byo,ぴゃ:pya,ぴゅ:pyu,ぴょ:pyo,てぃ:thi,でぃ:dhi,ふぁ:fa,ふぃ:fi,ふぇ:fe,ふぉ:fo,うぃ:wi,うぇ:we'
+).split(',').forEach(p=>{const [k,v]=p.split(':');const a=v.split('|');
+  // 「き」+「ゃ」のように わけて うっても OK
+  for(const x of T[k[0]])for(const y of T[k[1]])a.push(x+y);T[k]=a});
+
+function toHira(s){return s.replace(/[\u30a1-\u30f6]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60))}
+function makeUnits(kana){
+  const s=toHira(kana).replace(/[・\s]/g,''); const u=[];
+  for(let i=0;i<s.length;i++){
+    const two=s.substr(i,2);
+    if(two.length===2&&T[two]&&'ぁぃぅぇぉゃゅょ'.includes(two[1])){u.push({k:two,c:T[two].slice()});i++;continue}
+    if(s[i]==='っ'||s[i]==='ん'){u.push({k:s[i],c:[]});continue}
+    if(/[0-9?？]/.test(s[i])){const d=s[i]==='？'?'?':s[i];u.push({k:s[i],c:[d],up:true});continue} // 数字と ？（？は Shift+/）
+    if(/[A-Z]/.test(s[i])){u.push({k:s[i],c:[s[i]],up:true});continue} // 大もじ＝Shiftを おして うつ
+    if(!T[s[i]]) throw new Error('ローマ字がない文字: '+s[i]+' in '+kana);
+    u.push({k:s[i],c:T[s[i]].slice()});
+  }
+  for(let i=u.length-1;i>=0;i--){ // うしろから きめる（つぎの もじを みるため）
+    const nx=u[i+1];
+    if(u[i].k==='っ'){
+      const set=[]; if(nx) for(const c of nx.c){const f=c[0]; if(!'aiueon-'.includes(f)&&!set.includes(f)) set.push(f)}
+      u[i].c=[...set,'ltu','xtu','ltsu'];
+    }else if(u[i].k==='ん'){
+      const single = nx && nx.c.every(c=>!'aiueoyn'.includes(c[0]));
+      u[i].c = single?['nn','n','xn']:['nn','xn'];
+    }
+  }
+  return u;
+}
+function makeMatcher(kana){return {u:makeUnits(kana),i:0,buf:''}}
+function press(m,k){
+  const u=m.u[m.i]; if(!u) return false;
+  if(!u.up) k=k.toLowerCase();
+  const nb=m.buf+k, ms=u.c.filter(c=>c.startsWith(nb));
+  if(ms.length){
+    m.buf=nb; u.ch=ms[0];
+    if(ms.includes(nb)&&!ms.some(c=>c.length>nb.length)){u.ch=nb;m.i++;m.buf=''}
+    return true;
+  }
+  if(m.buf&&u.c.includes(m.buf)){ // 「ん」を n ひとつで おわらせて つぎへ
+    const keep=m.buf; u.ch=keep; m.i++; m.buf='';
+    if(m.i<m.u.length&&press(m,k)) return true;
+    m.i--; m.buf=keep; return false;
+  }
+  return false;
+}
+function isDone(m){return m.i>=m.u.length}
+function guide(m){
+  let typed='',rest='';
+  m.u.forEach((u,j)=>{
+    if(j<m.i) typed+=u.ch;
+    else if(j===m.i){typed+=m.buf; const c=u.c.find(c=>c.startsWith(m.buf))||u.c[0]; rest+=c.slice(m.buf.length)}
+    else rest+=u.c[0];
+  });
+  return {typed,rest};
+}
+function kanaDone(m){return m.u.slice(0,m.i).map(u=>u.k).join('')}
+// スコア
+function keyPoint(combo,lv){return Math.round(5*Math.min(3,1+Math.floor(combo/25))*(LV_MUL[lv]||1))} // はやさより せいかくさ：1もじの てんは ひかえめ
+function wordBonus(m,noMiss,lv){return Math.round((m.u.length*3+(noMiss?60:0))*(LV_MUL[lv]||1))} // ノーミスで うてると おおきい
+const MISS_PENALTY=10;
+const ACC_TIERS=[{min:100,name:'パーフェクト',mul:1,lv:4},{min:95,name:'ほぼ かんぺき',mul:.5,lv:3},{min:90,name:'すごい せいかくさ',mul:.25,lv:2},{min:80,name:'せいかくさ じょうず',mul:.1,lv:1}];
+function accOf(ok,ng){return ok+ng?ok/(ok+ng)*100:0} // ひょうじは きりすて（ミスが あれば 100%に ならない）
+function accBonus(score,ok,ng){ if(ok<40) return {tier:null,pt:0}; const a=accOf(ok,ng); const t=ACC_TIERS.find(t=>t.min===100?ng===0:a>=t.min); return t?{tier:t,pt:Math.round(score*t.mul)}:{tier:null,pt:0}}
+function titleOf(score){let t=TITLES[0];for(const x of TITLES) if(score>=x[0]) t=x; return t}
+function nextTitle(score){return TITLES.find(x=>x[0]>score)||null}
+function coinsOf(score){return PLAY_BONUS+Math.floor(score/10)} // あそんだだけで すこし もらえる
+/*ENDCORE*/
+/* ===== てがき風 イラスト（SVG・ファイル内で かんけつ）===== */
+const ICONS={
+pin:`<ellipse cx="50" cy="91" rx="16" ry="4" fill="#3a2e4f" opacity=".18" stroke="none"/><path d="M50 88C30 62 22 52 22 38a28 28 0 0 1 56 0c0 14-8 24-28 50z" fill="#ef6a5a"/><circle cx="50" cy="38" r="11" fill="#fff3d6"/>`,
+kominkan:`<rect x="18" y="46" width="64" height="40" fill="#fff3d6"/><path d="M12 48L50 20l38 28z" fill="#c9795a"/><rect x="42" y="62" width="16" height="24" fill="#b9825a"/><rect x="24" y="56" width="12" height="12" fill="#bfe6f6"/><rect x="64" y="56" width="12" height="12" fill="#bfe6f6"/><path d="M50 20V8" fill="none"/><path d="M50 8h14l-4 4 4 4H50z" fill="#ffd35c"/>`,
+school:`<rect x="14" y="48" width="72" height="38" fill="#fff3d6"/><rect x="38" y="26" width="24" height="22" fill="#ffe1a8"/><path d="M34 27L50 14l16 13z" fill="#c9795a"/><circle cx="50" cy="37" r="6" fill="#fff"/><path d="M50 33v4h3" fill="none" stroke-width="2"/><rect x="43" y="64" width="14" height="22" fill="#b9825a"/><rect x="21" y="56" width="12" height="12" fill="#bfe6f6"/><rect x="67" y="56" width="12" height="12" fill="#bfe6f6"/>`,
+police:`<path d="M20 62Q20 30 50 30t30 32z" fill="#4a6fa5"/><rect x="14" y="60" width="72" height="13" rx="6" fill="#2f4a78"/><path d="M50 36l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" fill="#ffd35c"/><path d="M26 82h48" fill="none"/>`,
+lake:`<circle cx="72" cy="26" r="11" fill="#ffd35c"/><path d="M8 62Q26 34 44 56Q58 40 92 62z" fill="#6cc07a"/><rect x="8" y="62" width="84" height="26" rx="4" fill="#7cc4e8"/><path d="M20 72q6-4 12 0t12 0M52 80q6-4 12 0t12 0" fill="none" stroke-width="2.5"/>`,
+sunset:`<path d="M20 62a30 30 0 0 1 60 0z" fill="#ff9a3d"/><path d="M50 14v8M20 30l6 5M80 30l-6 5M8 52h8M84 52h8" fill="none"/><rect x="8" y="62" width="84" height="26" rx="4" fill="#6bb4dc"/><path d="M30 70h40M38 78h24" fill="none" stroke="#ffb98a" stroke-width="3"/>`,
+hirou:`<path d="M10 56Q30 40 50 54T90 52V88H10z" fill="#7cc4e8"/><path d="M22 56V30M28 56V24M34 56V32M76 54V28M82 54V34" fill="none"/><path d="M22 30l-3-6M28 24l3-6M76 28l-3-6M82 34l4-4" fill="none"/><path d="M20 70q6-4 12 0t12 0M52 78q6-4 12 0t12 0" fill="none" stroke-width="2.5"/>`,
+shijimi:`<path d="M54 30C76 30 90 46 88 62C84 74 66 80 52 78C40 74 36 50 54 30z" fill="#5a5278"/><path d="M60 40Q76 46 78 62M56 50Q68 56 70 68" fill="none" stroke="#b9afd6" stroke-width="2.5"/><path d="M26 34C50 28 72 44 74 62C70 78 42 86 24 80C10 72 10 44 26 34z" fill="#6f5f88"/><path d="M26 44Q52 46 64 64M22 56Q42 58 54 72M24 68Q36 70 44 78" fill="none" stroke="#d3c9ea" stroke-width="3"/><path d="M24 36l-4-6" fill="none"/>`,
+shijimi2:`<path d="M60 36C80 36 92 48 90 62C86 74 70 78 58 76C48 72 44 52 60 36z" fill="#7a6a42"/><path d="M28 30C54 24 76 42 78 62C74 80 44 88 24 80C8 70 10 40 28 30z" fill="#a08a4a"/><path d="M26 44Q54 46 68 64M22 56Q44 58 58 72M24 68Q38 70 46 78" fill="none" stroke="#efe0a8" stroke-width="3"/><path d="M80 8q-5 8 0 12 5-4 0-12zM90 26q-4 7 0 10 4-3 0-10zM66 4q-4 6 0 9 4-3 0-9z" fill="#7cc4e8" stroke-width="2.5"/>`,
+bird:`<path d="M12 78h76" fill="none" stroke="#9c6a43"/><path d="M30 60Q24 38 44 32q22-4 28 16 2 12-8 18z" fill="#6bb4dc"/><circle cx="54" cy="34" r="14" fill="#6bb4dc"/><path d="M66 32l12 4-12 4z" fill="#ffb347"/><circle cx="58" cy="32" r="2.5" fill="#3a2e4f"/><path d="M34 54Q22 52 14 62Q26 66 36 62z" fill="#4a8fc0"/><path d="M44 66v12M54 66v12" fill="none"/>`,
+duck:`<path d="M14 54Q18 80 50 80Q86 80 86 56Q62 64 42 56Q28 46 14 54z" fill="#f4f0e8"/><path d="M62 38Q56 58 72 60Q88 58 84 38z" fill="#2b2b3f"/><circle cx="74" cy="30" r="14" fill="#2b2b3f"/><path d="M84 28l14 6-14 6z" fill="#8aa6c0"/><circle cx="78" cy="27" r="2.5" fill="#fff"/><path d="M8 88q8-5 16 0t16 0t16 0t16 0t16 0" fill="none" stroke="#6bb4dc" stroke-width="3.5"/>`,
+eagle:`<path d="M22 88L36 56l16 8-8 26z" fill="#f4f0e8"/><path d="M32 38Q54 22 70 42Q76 70 54 84L34 64z" fill="#4a3426"/><path d="M38 46Q52 36 64 46Q56 58 40 56z" fill="#f4f0e8"/><circle cx="62" cy="26" r="13" fill="#4a3426"/><path d="M70 22l20 6q-2 14-16 10l-6-8z" fill="#ffc83d"/><circle cx="64" cy="23" r="2.5" fill="#fff"/><path d="M50 84v8M60 80v12" fill="none" stroke="#ffc83d" stroke-width="3"/>`,
+eel:`<path d="M14 70Q30 30 50 56T88 38" fill="none" stroke="#3a2e4f" stroke-width="16"/><path d="M14 70Q30 30 50 56T88 38" fill="none" stroke="#7a6a50" stroke-width="10"/><path d="M20 68Q32 40 50 58T82 42" fill="none" stroke="#d9c89a" stroke-width="3"/><circle cx="85" cy="38" r="2.5" fill="#fff"/>`,
+goby:`<path d="M10 52Q28 28 62 40l22-12v34L62 58Q28 74 10 52z" fill="#d9b27a"/><path d="M34 40Q46 30 58 38" fill="none"/><circle cx="24" cy="48" r="3" fill="#3a2e4f"/><path d="M36 50q4 4 8 0M48 52q4 4 8 0" fill="none" stroke="#9c6a43" stroke-width="2.5"/><path d="M40 62q4 12 14 12" fill="none"/>`,
+town:`<rect x="12" y="52" width="32" height="32" fill="#fff3d6"/><path d="M8 54L28 34l20 20z" fill="#c9795a"/><rect x="52" y="62" width="34" height="22" fill="#ffe1a8"/><path d="M48 64L69 46l21 18z" fill="#6bb4dc"/><rect x="24" y="66" width="10" height="18" fill="#b9825a"/><path d="M66 6c-9 0-14 6-14 13 0 9 14 20 14 20s14-11 14-20c0-7-5-13-14-13z" fill="#ef6a5a"/><circle cx="66" cy="19" r="5" fill="#fff3d6"/>`,
+townmap:`<path d="M12 28l26-8 24 8 26-8v52l-26 8-24-8-26 8z" fill="#fff3d6"/><path d="M38 20v52M62 28v52" fill="none" stroke-width="2"/><path d="M26 56q10-8 20 0t18-6" fill="none" stroke="#7cc4e8" stroke-width="4"/><path d="M68 14c-8 0-12 5-12 11 0 8 12 17 12 17s12-9 12-17c0-6-4-11-12-11z" fill="#ef6a5a"/><circle cx="68" cy="25" r="4" fill="#fff3d6"/>`,
+imo:`<path d="M12 62Q10 34 40 38q32 4 50 22-8 20-40 20-30 0-38-18z" fill="#b8456a"/><path d="M26 48q16 2 34 12M20 62q20 6 44 8" fill="none" stroke="#e58aa5" stroke-width="3"/><path d="M84 52q8-14 2-24 10 4 8 24z" fill="#6cc07a"/>`,
+tent:`<path d="M6 82h88" fill="none"/><path d="M50 18L12 82h76z" fill="#ff9a3d"/><path d="M50 18L50 82M50 46L32 82" fill="none" stroke-width="2.5"/><path d="M50 40L66 82H34z" fill="#8a4a2a"/><path d="M50 18v-8h12l-3 4 3 4H50" fill="#ef6a5a"/>`,
+park:`<circle cx="34" cy="38" r="22" fill="#6cc07a"/><rect x="30" y="56" width="8" height="28" fill="#9c6a43"/><path d="M8 86h84" fill="none"/><path d="M58 70h32M62 70v16M86 70v16M58 62h32" fill="none" stroke-width="3.5"/><circle cx="26" cy="32" r="4" fill="#b8e6a8" stroke="none"/>`,
+hill:`<path d="M4 84L36 28l32 56z" fill="#6cc07a"/><path d="M50 84L72 48l24 36z" fill="#58a868"/><circle cx="78" cy="22" r="9" fill="#ffd35c"/><path d="M14 84Q24 64 38 70" fill="none" stroke="#fff3d6" stroke-width="4"/><path d="M4 86h92" fill="none"/>`,
+boat:`<path d="M10 56h80L76 74H24z" fill="#d9965b"/><path d="M30 56v-10h40v10M44 46V28" fill="none"/><path d="M44 28h16l-4 6 4 6H44" fill="#ef6a5a"/><path d="M8 84q8-5 16 0t16 0t16 0t16 0t16 0" fill="none" stroke="#6bb4dc" stroke-width="3.5"/>`,
+telescope:`<path d="M18 38l50-16 6 18-50 16z" fill="#6bb4dc"/><path d="M66 20l12-4 8 20-12 4z" fill="#3a2e4f"/><path d="M42 58L26 88M42 58V88M42 58l16 30" fill="none" stroke-width="4"/><circle cx="82" cy="14" r="5" fill="#ffd35c"/><path d="M34 40l-8-10" fill="none"/>`,
+sakura:`<path d="M44 90Q44 66 40 54M44 66Q60 56 66 42" fill="none" stroke="#3a2e4f" stroke-width="14"/><path d="M44 90Q44 66 40 54M44 66Q60 56 66 42" fill="none" stroke="#9c6a43" stroke-width="8"/><circle cx="30" cy="38" r="17" fill="#f6a6c1"/><circle cx="52" cy="28" r="19" fill="#f8b9cf"/><circle cx="72" cy="40" r="16" fill="#f6a6c1"/><circle cx="48" cy="46" r="14" fill="#fbc9db"/><path d="M26 82l3 2M70 78l3 2M58 88l3-2" fill="none" stroke="#f6a6c1" stroke-width="5"/>`,
+brackish:`<ellipse cx="50" cy="60" rx="40" ry="26" fill="#7cc4e8"/><path d="M50 34a40 26 0 0 0-40 26a40 26 0 0 0 40 26z" fill="#a9e0ec"/><path d="M50 34v52" fill="none" stroke-width="2.5" stroke-dasharray="4 5"/><path d="M58 52q6-4 12 0t12 0M58 66q6-4 12 0t12 0" fill="none" stroke="#fff" stroke-width="3"/><path d="M28 48c-4 6-5 8-5 10a5 5 0 0 0 10 0c0-2-1-4-5-10z" fill="#fff" stroke-width="2"/><path d="M50 4l4 8 8 1-6 6 2 8-8-4-8 4 2-8-6-6 8-1z" fill="#ffd35c" stroke-width="2" transform="translate(0 0) scale(.9)"/>`,
+river:`<rect x="6" y="14" width="88" height="72" rx="8" fill="#9ad88a"/><path d="M14 80Q40 70 38 52T62 34T90 20" fill="none" stroke="#3a2e4f" stroke-width="22"/><path d="M14 80Q40 70 38 52T62 34T90 20" fill="none" stroke="#7cc4e8" stroke-width="16"/><path d="M30 70q6-3 10 0M54 40q6-3 10 0" fill="none" stroke="#fff" stroke-width="2.5"/>`,
+shijimiryo:`<path d="M8 58h84L78 76H22z" fill="#d9965b"/><path d="M60 58V16" fill="none"/><path d="M60 16l24 6" fill="none" stroke-width="4"/><path d="M84 22v14M78 22v12M90 24v12" fill="none" stroke-width="2.5"/><path d="M24 58q0-14 14-14t14 14z" fill="#e6d9b0"/><circle cx="32" cy="52" r="3" fill="#7a6a8c"/><circle cx="42" cy="50" r="3" fill="#7a6a8c"/><path d="M8 86q8-5 16 0t16 0t16 0t16 0t16 0" fill="none" stroke="#6bb4dc" stroke-width="3.5"/>`,
+hydrangea:`<circle cx="50" cy="42" r="30" fill="#8aa6e8"/><circle cx="36" cy="34" r="9" fill="#a98bd8"/><circle cx="58" cy="30" r="9" fill="#7cc4e8"/><circle cx="66" cy="50" r="9" fill="#a98bd8"/><circle cx="42" cy="54" r="9" fill="#7cc4e8"/><circle cx="52" cy="42" r="8" fill="#c9b0f0"/><path d="M50 72v16" fill="none"/><path d="M50 82Q30 74 20 84Q36 92 50 82zM50 82Q70 74 80 84Q64 92 50 82z" fill="#6cc07a"/>`,
+kiln:`<path d="M12 84Q12 28 50 28t38 56z" fill="#c9795a"/><path d="M12 84h76" fill="none"/><path d="M36 84Q36 62 50 62t14 22z" fill="#3a2e4f"/><path d="M50 82q-8-6-2-14 2 6 6 4 4 6-4 10z" fill="#ff9a3d" stroke-width="2"/><path d="M62 24q-6-8 2-14M72 24q-6-8 2-14" fill="none" stroke="#b7aebd"/>`,
+sun:`<circle cx="50" cy="50" r="22" fill="#ffd35c"/><path d="M50 8v12M50 80v12M8 50h12M80 50h12M20 20l8 8M72 72l8 8M80 20l-8 8M28 72l-8 8" fill="none"/><circle cx="42" cy="46" r="2.5" fill="#3a2e4f"/><circle cx="58" cy="46" r="2.5" fill="#3a2e4f"/><path d="M42 58q8 7 16 0" fill="none" stroke-width="2.5"/>`,
+scroll:`<rect x="16" y="14" width="68" height="70" fill="#fff3d6"/><path d="M12 14h76M12 86h76" fill="none" stroke="#9c6a43" stroke-width="6"/><path d="M20 70L40 40l14 20 10-12 18 22z" fill="#8cc98a"/><circle cx="68" cy="30" r="8" fill="#ffd35c"/><path d="M22 76h56" fill="none" stroke="#7cc4e8" stroke-width="3"/>`,
+wetland:`<path d="M18 86V34M30 86V26M82 86V32" fill="none"/><ellipse cx="18" cy="30" rx="4" ry="9" fill="#9c6a43"/><ellipse cx="30" cy="22" rx="4" ry="9" fill="#9c6a43"/><ellipse cx="82" cy="28" rx="4" ry="9" fill="#9c6a43"/><ellipse cx="54" cy="68" rx="15" ry="9" fill="#f4f0e8"/><circle cx="66" cy="56" r="7" fill="#f4f0e8"/><path d="M72 55l16 3-16 2z" fill="#ffb347"/><circle cx="68" cy="54" r="1.8" fill="#3a2e4f"/><path d="M50 76v8M58 76v8" fill="none"/><path d="M8 90q8-5 16 0t16 0t16 0t16 0t16 0" fill="none" stroke="#6bb4dc" stroke-width="3.5"/>`,
+haniwa:`<path d="M32 90V54Q32 22 50 22t18 32v36z" fill="#d9965b"/><path d="M32 52L14 36M68 52l18-16" fill="none" stroke="#3a2e4f" stroke-width="10"/><path d="M32 52L14 36M68 52l18-16" fill="none" stroke="#d9965b" stroke-width="5"/><ellipse cx="42" cy="40" rx="4" ry="5" fill="#3a2e4f"/><ellipse cx="58" cy="40" rx="4" ry="5" fill="#3a2e4f"/><ellipse cx="50" cy="56" rx="4" ry="6" fill="#3a2e4f"/><path d="M34 70h32" fill="none" stroke="#a86a3a" stroke-width="2.5"/>`,
+ruins:`<path d="M4 88Q4 52 50 52t46 36z" fill="#b99a6a"/><path d="M38 60V44Q38 30 48 30t10 14v16z" fill="#d9965b"/><ellipse cx="44" cy="40" rx="2.5" ry="3" fill="#3a2e4f"/><ellipse cx="52" cy="40" rx="2.5" ry="3" fill="#3a2e4f"/><path d="M78 56V22" fill="none"/><path d="M78 22h14l-4 5 4 5H78" fill="#ef6a5a"/><path d="M16 80q8-2 14 2" fill="none" stroke="#e6d9b0" stroke-width="3"/>`,
+damselfly:`<path d="M20 52h54" fill="none" stroke="#3a2e4f" stroke-width="9"/><path d="M20 52h54" fill="none" stroke="#4aa8d8" stroke-width="4"/><circle cx="80" cy="52" r="8" fill="#3a8fbf"/><circle cx="83" cy="50" r="2" fill="#fff"/><path d="M58 50Q50 24 30 24q0 20 28 26zM46 50Q38 78 20 78q2-22 26-28z" fill="#e6f4fa" stroke-width="2.5"/><path d="M62 50Q62 28 78 22q0 22-16 28z" fill="#e6f4fa" stroke-width="2.5"/>`,
+ramsar:`<circle cx="50" cy="50" r="36" fill="#7cc4e8"/><path d="M26 34q10-10 22-4t4 16-18 6-8-18zM58 50q12-4 18 6t-8 20-12-10z" fill="#8cc98a"/><path d="M70 10c-6 8-8 11-8 14a8 8 0 0 0 16 0c0-3-2-6-8-14z" fill="#4a8fc0" stroke-width="2.5"/>`,
+moon:`<circle cx="50" cy="38" r="26" fill="#ffe08a"/><circle cx="42" cy="32" r="4" fill="#f4c95a" stroke="none"/><circle cx="58" cy="46" r="5" fill="#f4c95a" stroke="none"/><rect x="6" y="66" width="88" height="22" rx="4" fill="#6a8fd0"/><path d="M36 72h28M42 80h16" fill="none" stroke="#ffe08a" stroke-width="3"/><path d="M10 66q4-18 10-22M16 66q4-14 12-14M86 66q-4-18-10-22" fill="none"/>`,
+bigtree:`<rect x="42" y="52" width="16" height="36" fill="#9c6a43"/><circle cx="50" cy="34" r="26" fill="#58a868"/><circle cx="34" cy="44" r="14" fill="#6cc07a"/><circle cx="66" cy="42" r="14" fill="#6cc07a"/><rect x="66" y="64" width="26" height="16" fill="#fff3d6"/><path d="M79 80v8" fill="none"/><path d="M79 66l2.5 5 5 .5-4 3.5 1.2 5-4.7-2.8-4.7 2.8 1.2-5-4-3.5 5-.5z" fill="#ffd35c" stroke-width="1.5" transform="translate(0 -4) scale(1)"/>`,
+interchange:`<rect x="4" y="10" width="92" height="80" rx="8" fill="#9ad88a"/><path d="M10 86Q50 80 60 54T90 14" fill="none" stroke="#3a2e4f" stroke-width="20"/><path d="M10 86Q50 80 60 54T90 14" fill="none" stroke="#a9a3b8" stroke-width="14"/><path d="M14 84Q48 78 58 54T86 18" fill="none" stroke="#fff" stroke-width="2.5" stroke-dasharray="6 6"/><rect x="12" y="18" width="30" height="18" rx="3" fill="#3f9a6a"/><path d="M18 27h18M32 22l5 5-5 5" fill="none" stroke="#fff" stroke-width="2.5"/>`,
+license:`<rect x="10" y="22" width="80" height="56" rx="8" fill="#fff3d6"/><rect x="18" y="32" width="24" height="28" fill="#bfe6f6"/><circle cx="30" cy="42" r="6" fill="#f6c9a0"/><path d="M20 58q10-12 20 0" fill="#6bb4dc"/><path d="M50 36h32M50 46h32M50 56h20" fill="none" stroke-width="2.5"/><path d="M20 70h60" fill="none" stroke="#ef6a5a" stroke-width="4"/>`,
+townhall:`<path d="M8 40L50 16l42 24z" fill="#c9795a"/><rect x="14" y="40" width="72" height="8" fill="#fff3d6"/><rect x="18" y="48" width="10" height="34" fill="#fff3d6"/><rect x="38" y="48" width="10" height="34" fill="#fff3d6"/><rect x="58" y="48" width="10" height="34" fill="#fff3d6"/><rect x="76" y="48" width="8" height="34" fill="#fff3d6"/><rect x="8" y="82" width="84" height="8" fill="#b7aebd"/><path d="M50 16V6h12l-3 4 3 4H50" fill="#ffd35c"/>`,
+books:`<rect x="12" y="62" width="62" height="14" fill="#ef6a5a"/><rect x="18" y="48" width="56" height="14" fill="#6bb4dc"/><rect x="14" y="34" width="58" height="14" fill="#ffd35c"/><path d="M60 84l8-34 22 6-8 34z" fill="#6cc07a"/><path d="M26 69h30M30 55h26M24 41h30" fill="none" stroke="#fff" stroke-width="2.5"/>`,
+yuuyuu:`<rect x="14" y="40" width="72" height="46" fill="#fff3d6"/><path d="M8 42L50 16l42 26z" fill="#6bb4dc"/><path d="M50 74c-14-9-14-20-6-22 4 0 6 3 6 5 0-2 2-5 6-5 8 2 8 13-6 22z" fill="#ef6a5a"/><rect x="20" y="48" width="12" height="12" fill="#bfe6f6"/><rect x="68" y="48" width="12" height="12" fill="#bfe6f6"/>`,
+baseball:`<circle cx="42" cy="52" r="26" fill="#fff"/><path d="M26 34Q36 52 26 70M58 34Q48 52 58 70" fill="none" stroke="#ef6a5a" stroke-width="3"/><path d="M28 40l6 2M28 50l7 1M28 60l6-1M56 40l-6 2M56 50l-7 1M56 60l-6-1" fill="none" stroke="#ef6a5a" stroke-width="2"/><path d="M64 80L88 16" fill="none" stroke="#3a2e4f" stroke-width="12"/><path d="M64 80L88 16" fill="none" stroke="#d9965b" stroke-width="7"/>`,
+carrot:`<path d="M50 90Q30 62 36 36Q50 28 64 36Q70 62 50 90z" fill="#ff9a3d"/><path d="M40 48h10M52 58h10M44 68h8" fill="none" stroke="#e07a1a" stroke-width="2.5"/><path d="M50 34Q36 20 30 8Q44 8 52 26zM50 34Q50 14 54 4Q62 16 54 34zM52 34Q66 22 76 14Q76 28 56 36z" fill="#6cc07a"/>`,
+soccer:`<circle cx="50" cy="50" r="34" fill="#fff"/><path d="M50 34l14 10-5 16H41l-5-16z" fill="#3a2e4f"/><path d="M50 34V18M64 44l16-6M59 60l10 14M41 60L31 74M36 44l-16-6" fill="none" stroke-width="2.5"/>`,
+shop:`<rect x="14" y="44" width="72" height="42" fill="#fff3d6"/><path d="M8 44l6-22h72l6 22z" fill="#ef6a5a"/><path d="M26 22l-4 22M42 22l-2 22M58 22v22M74 22l2 22" fill="none" stroke="#fff" stroke-width="5"/><rect x="22" y="60" width="38" height="26" fill="#d9965b"/><circle cx="32" cy="58" r="6" fill="#ef6a5a"/><circle cx="44" cy="57" r="6" fill="#ffd35c"/><circle cx="54" cy="58" r="5" fill="#6cc07a"/>`,
+forest:`<path d="M26 82V60M62 82V56" fill="none" stroke="#9c6a43" stroke-width="7"/><path d="M26 20l-18 40h36z" fill="#58a868"/><path d="M62 12L40 56h44z" fill="#6cc07a"/><path d="M72 70q10-10 20 0z" fill="#ef6a5a"/><path d="M76 70v10h8V70" fill="#fff3d6"/><path d="M4 88h92" fill="none"/>`,
+hall:`<rect x="10" y="16" width="80" height="68" fill="#a83a4a"/><path d="M10 16Q30 34 34 84H10zM90 16Q70 34 66 84h24z" fill="#c24a5a"/><rect x="10" y="84" width="80" height="6" fill="#9c6a43"/><path d="M50 22v12M38 34l6 6M62 34l-6 6" fill="none" stroke="#ffd35c" stroke-width="3.5"/><circle cx="50" cy="52" r="10" fill="#ffd35c"/><path d="M34 84h32l-6-14H40z" fill="#ffe9a8" stroke-width="2.5"/>`,
+bags:`<path d="M12 36h40l4 52H8z" fill="#ef6a5a"/><path d="M22 36q0-14 10-14t10 14" fill="none"/><path d="M50 46h36l4 42H52z" fill="#6bb4dc"/><path d="M58 46q0-12 10-12t10 12" fill="none"/><path d="M22 60q10 8 20 0" fill="none" stroke="#fff" stroke-width="3"/>`,
+burger:`<path d="M10 40q0-22 30-22t30 22z" fill="#e0a05a"/><circle cx="26" cy="30" r="2" fill="#fff3d6" stroke="none"/><circle cx="40" cy="26" r="2" fill="#fff3d6" stroke="none"/><circle cx="54" cy="31" r="2" fill="#fff3d6" stroke="none"/><path d="M8 42h64q-4 8-10 0-6 8-12 0-6 8-12 0-6 8-12 0-6 8-10 0z" fill="#6cc07a"/><rect x="10" y="48" width="60" height="10" rx="3" fill="#7a4a2a"/><path d="M10 60h60q0 14-12 14H22q-12 0-12-14z" fill="#e0a05a"/><path d="M74 90L78 50h16l-4 40z" fill="#ef6a5a"/><path d="M78 50l-2-14M84 50l0-16M90 50l4-14" fill="none" stroke="#ffd35c" stroke-width="5"/>`,
+basket:`<path d="M12 46h76l-8 38H20z" fill="#d9b27a"/><path d="M12 46q38-34 76 0" fill="none"/><path d="M24 58h52M28 70h44" fill="none" stroke="#a97a4a" stroke-width="2.5"/><rect x="26" y="26" width="12" height="20" rx="3" fill="#6bb4dc"/><circle cx="52" cy="34" r="10" fill="#ef6a5a"/><path d="M64 46V28h12v18" fill="#ffd35c"/>`,
+bottle:`<rect x="34" y="40" width="32" height="46" rx="8" fill="#fff"/><path d="M38 40q0-12 12-12t12 12z" fill="#f6a6c1"/><path d="M46 28q0-10 4-12t4 12" fill="#f6c9a0"/><path d="M34 52h12M34 62h12M34 72h12" fill="none" stroke-width="2.5"/><path d="M52 62h8M52 72h8" fill="none" stroke="#7cc4e8" stroke-width="3"/><path d="M62 18l3 6 6 1-4 4 1 6-6-3-6 3 1-6-4-4 6-1z" fill="#ffd35c" stroke-width="2"/>`,
+ramen:`<path d="M10 52h80q0 32-40 32T10 52z" fill="#fff3d6"/><path d="M14 52q36-18 72 0z" fill="#e6b45a"/><path d="M24 50q6-6 12 0t12 0 12 0" fill="none" stroke="#fff3d6" stroke-width="3"/><circle cx="34" cy="48" r="8" fill="#fff"/><circle cx="34" cy="48" r="3.5" fill="#ffb347" stroke="none"/><circle cx="62" cy="46" r="7" fill="#fff"/><path d="M58 46l8 0" fill="none" stroke="#ef6a5a" stroke-width="3"/><path d="M70 30L90 10M78 34l16-14" fill="none" stroke-width="4"/><path d="M40 28q-4-8 2-14M54 26q-4-8 2-14" fill="none" stroke="#b7aebd"/>`,
+farmhouse:`<path d="M6 54L50 14l44 40z" fill="#c9a24a"/><path d="M12 54Q50 46 88 54" fill="none" stroke="#a97a2a" stroke-width="2.5"/><rect x="16" y="54" width="68" height="32" fill="#fff3d6"/><path d="M16 54v32M36 54v32M56 54v32M84 54v32" fill="none" stroke="#9c6a43" stroke-width="3"/><rect x="62" y="64" width="16" height="22" fill="#b9825a"/><rect x="22" y="62" width="12" height="12" fill="#bfe6f6"/><path d="M50 14V8" fill="none"/>`,
+office:`<rect x="14" y="26" width="72" height="60" fill="#e6e0f0"/><rect x="14" y="20" width="72" height="8" fill="#6bb4dc"/><rect x="22" y="36" width="12" height="12" fill="#bfe6f6"/><rect x="44" y="36" width="12" height="12" fill="#bfe6f6"/><rect x="66" y="36" width="12" height="12" fill="#bfe6f6"/><rect x="22" y="56" width="12" height="12" fill="#bfe6f6"/><rect x="66" y="56" width="12" height="12" fill="#bfe6f6"/><rect x="42" y="62" width="16" height="24" fill="#b9825a"/>`,
+danchi:`<rect x="10" y="22" width="38" height="64" fill="#f0e6d0"/><rect x="52" y="38" width="38" height="48" fill="#e6dcc4"/><path d="M16 32h8M30 32h8M16 46h8M30 46h8M16 60h8M30 60h8M58 48h8M72 48h8M58 62h8M72 62h8" fill="none" stroke="#6bb4dc" stroke-width="6"/><rect x="24" y="72" width="10" height="14" fill="#b9825a"/><path d="M4 86h92" fill="none"/>`,
+fireworks:`<path d="M30 40V10M30 40L12 22M30 40l18-18M30 40L8 36M30 40l22-4" fill="none" stroke="#ffd35c" stroke-width="3.5"/><path d="M70 62V38M70 62L52 46M70 62l18-16M70 62L50 66M70 62l24 6M70 62V86" fill="none" stroke="#ef6a5a" stroke-width="3.5"/><circle cx="30" cy="40" r="5" fill="#ff9a3d"/><circle cx="70" cy="62" r="5" fill="#f6a6c1"/><path d="M18 74l2 5 5 1-4 3 1 5-4-3-4 3 1-5-4-3 5-1z" fill="#6bb4dc" stroke-width="2"/>`,
+kuri:`<path d="M50 94C28 90 14 70 18 50C24 34 40 28 50 28C60 28 76 34 82 50C86 70 72 90 50 94z" fill="#9a5a2e"/><path d="M26 46Q50 36 74 46Q70 34 50 30Q30 34 26 46z" fill="#d9a35a"/><path d="M34 60Q50 68 66 60M30 74Q50 82 70 74" fill="none" stroke="#c98a4a" stroke-width="3"/><path d="M50 16Q60 8 66 14Q60 24 50 24z" fill="#6cc07a"/><path d="M50 28V20" fill="none"/><path d="M12 26l8 6M84 22l-6 8M26 12l4 8" fill="none" stroke="#6cc07a" stroke-width="3.5"/>`,
+swan:`<path d="M12 86q8-5 16 0t16 0t16 0t16 0t16 0" fill="none" stroke="#6bb4dc" stroke-width="3.5"/><path d="M16 66Q14 84 46 84Q82 84 84 62Q70 70 52 62Q38 58 16 66z" fill="#fdfdfd"/><path d="M16 66Q4 54 12 44" fill="none" stroke="#3a2e4f" stroke-width="5"/><path d="M52 62Q60 62 60 44Q60 28 70 24" fill="none" stroke="#3a2e4f" stroke-width="15"/><path d="M52 62Q60 62 60 44Q60 28 70 24" fill="none" stroke="#fdfdfd" stroke-width="9"/><circle cx="72" cy="22" r="10" fill="#fdfdfd"/><path d="M80 20l14 6-14 6z" fill="#ffb347"/><circle cx="76" cy="19" r="2.2" fill="#3a2e4f"/><path d="M30 70q14 8 34 0" fill="none" stroke="#cfd6e6" stroke-width="2.5"/>`,
+blackswan:`<path d="M12 86q8-5 16 0t16 0t16 0t16 0t16 0" fill="none" stroke="#6bb4dc" stroke-width="3.5"/><path d="M16 66Q14 84 46 84Q82 84 84 62Q70 70 52 62Q38 58 16 66z" fill="#3b3b4f"/><path d="M16 66Q4 54 12 44" fill="none" stroke="#3a2e4f" stroke-width="5"/><path d="M52 62Q60 62 60 44Q60 28 70 24" fill="none" stroke="#3a2e4f" stroke-width="15"/><path d="M52 62Q60 62 60 44Q60 28 70 24" fill="none" stroke="#3b3b4f" stroke-width="9"/><circle cx="72" cy="22" r="10" fill="#3b3b4f"/><path d="M80 20l14 6-14 6z" fill="#ef6a5a"/><circle cx="76" cy="19" r="2.2" fill="#fff"/><path d="M30 70q14 8 34 0" fill="none" stroke="#8a8aa6" stroke-width="2.5"/>`,
+milky:`<path d="M12 52h76q0 34-38 34T12 52z" fill="#6bb4dc"/><path d="M20 52Q22 24 50 22Q78 24 80 52z" fill="#fffdf5"/><path d="M34 40h4M46 32h4M60 38h4M50 46h4M68 46h4M38 48h4" fill="none" stroke="#d9c89a" stroke-width="3"/><path d="M34 12l6 8 10-10 10 10 6-8v14H34z" fill="#ffd35c"/><circle cx="34" cy="12" r="2.5" fill="#ef6a5a"/><circle cx="50" cy="8" r="2.5" fill="#ef6a5a"/><circle cx="66" cy="12" r="2.5" fill="#ef6a5a"/><path d="M26 66q10 6 24 6" fill="none" stroke="#fff" stroke-width="3"/>`,
+ine:`<path d="M50 94V50" fill="none" stroke="#3a2e4f" stroke-width="7"/><path d="M50 94V50" fill="none" stroke="#9ac66a" stroke-width="3"/><path d="M50 50Q50 22 76 14" fill="none" stroke="#3a2e4f" stroke-width="7"/><path d="M50 50Q50 22 76 14" fill="none" stroke="#e0b64a" stroke-width="3"/><ellipse cx="56" cy="38" rx="5" ry="9" transform="rotate(-30 56 38)" fill="#f2c64a"/><ellipse cx="64" cy="28" rx="5" ry="9" transform="rotate(-50 64 28)" fill="#f2c64a"/><ellipse cx="73" cy="20" rx="5" ry="9" transform="rotate(-70 73 20)" fill="#f2c64a"/><ellipse cx="46" cy="44" rx="5" ry="9" transform="rotate(25 46 44)" fill="#f2c64a"/><ellipse cx="38" cy="34" rx="5" ry="9" transform="rotate(40 38 34)" fill="#f2c64a"/><path d="M50 86Q22 78 12 52Q38 58 50 80zM50 80Q76 74 88 50Q60 56 50 76z" fill="#6cc07a"/>`,
+kinder:`<rect x="12" y="46" width="52" height="40" fill="#ffe9a8"/><path d="M6 48L38 22l32 26z" fill="#f6a6c1"/><rect x="30" y="62" width="16" height="24" fill="#b9825a"/><rect x="18" y="54" width="9" height="9" fill="#bfe6f6"/><rect x="50" y="54" width="9" height="9" fill="#bfe6f6"/><path d="M38 22V10" fill="none"/><path d="M38 6l3 5h5l-4 3 2 5-6-3-6 3 2-5-4-3h5z" fill="#ffd35c" stroke-width="2"/><path d="M70 86V54l22 32z" fill="#6bb4dc"/><path d="M70 54h6" fill="none"/>`,
+nursery:`<rect x="14" y="44" width="72" height="42" fill="#fff3d6"/><path d="M8 46L50 18l42 28z" fill="#ffb98a"/><circle cx="50" cy="62" r="14" fill="#d9a35a"/><circle cx="40" cy="50" r="5" fill="#d9a35a"/><circle cx="60" cy="50" r="5" fill="#d9a35a"/><circle cx="45" cy="60" r="2" fill="#3a2e4f"/><circle cx="55" cy="60" r="2" fill="#3a2e4f"/><ellipse cx="50" cy="67" rx="5" ry="3.5" fill="#f4d9b0"/><rect x="20" y="62" width="10" height="24" fill="#b9825a"/><rect x="70" y="60" width="10" height="10" fill="#bfe6f6"/>`,
+kodomoen:`<path d="M10 56a40 40 0 0 1 80 0" fill="none" stroke="#ef6a5a" stroke-width="5"/><path d="M18 56a32 32 0 0 1 64 0" fill="none" stroke="#ffd35c" stroke-width="5"/><path d="M26 56a24 24 0 0 1 48 0" fill="none" stroke="#6cc07a" stroke-width="5"/><rect x="18" y="56" width="64" height="30" fill="#fff3d6"/><path d="M12 58L50 36l38 22z" fill="#6bb4dc"/><rect x="42" y="66" width="16" height="20" fill="#b9825a"/><circle cx="28" cy="70" r="5" fill="#bfe6f6"/><circle cx="72" cy="70" r="5" fill="#bfe6f6"/>`,
+highschool:`<rect x="12" y="46" width="76" height="40" fill="#e6e0f0"/><rect x="36" y="30" width="28" height="18" fill="#cfc6e6"/><path d="M50 30V14h16l-4 5 4 5H50" fill="#ef6a5a"/><rect x="42" y="64" width="16" height="22" fill="#b9825a"/><rect x="18" y="54" width="14" height="12" fill="#bfe6f6"/><rect x="68" y="54" width="14" height="12" fill="#bfe6f6"/><rect x="40" y="36" width="20" height="6" fill="#fff"/><path d="M30 12l20-8 20 8-20 8z" fill="#3a2e4f"/><path d="M38 17v7q12 6 24 0v-7" fill="#3a2e4f"/><path d="M70 12v10" fill="none" stroke="#ffd35c" stroke-width="2.5"/>`,
+gassho:`<circle cx="44" cy="56" r="26" fill="#ffe1a8"/><path d="M32 50q4-4 8 0M50 50q4-4 8 0" fill="none"/><ellipse cx="44" cy="68" rx="7" ry="8" fill="#ef6a5a"/><path d="M76 40V14l14 4v22" fill="none"/><circle cx="71" cy="42" r="5" fill="#3a2e4f"/><circle cx="85" cy="42" r="5" fill="#3a2e4f"/><path d="M76 14l14 4" stroke-width="5"/>`,
+undokai:`<path d="M20 92V10" fill="none"/><path d="M20 10h52l-10 13 10 13H20z" fill="#ef6a5a"/><circle cx="46" cy="78" r="11" fill="#fff"/><circle cx="72" cy="82" r="9" fill="#ef6a5a"/><path d="M8 92h84" fill="none"/>`,
+tokou:`<circle cx="80" cy="18" r="9" fill="#ffd35c"/><rect x="36" y="46" width="28" height="30" rx="6" fill="#6bb4dc"/><rect x="62" y="48" width="14" height="24" rx="4" fill="#ef6a5a"/><circle cx="50" cy="32" r="14" fill="#ffe1a8"/><path d="M35 30Q36 14 50 14t15 16z" fill="#ffd35c"/><circle cx="45" cy="34" r="1.8" fill="#3a2e4f"/><circle cx="55" cy="34" r="1.8" fill="#3a2e4f"/><path d="M42 76v14M58 76v14M36 90h12M52 90h12" fill="none"/>`,
+geko:`<circle cx="22" cy="24" r="12" fill="#ff9a3d"/><path d="M8 40h30" fill="none" stroke="#ffb98a"/><rect x="36" y="46" width="28" height="30" rx="6" fill="#6bb4dc"/><rect x="62" y="48" width="14" height="24" rx="4" fill="#ef6a5a"/><circle cx="50" cy="32" r="14" fill="#ffe1a8"/><path d="M35 30Q36 14 50 14t15 16z" fill="#ffd35c"/><circle cx="45" cy="34" r="1.8" fill="#3a2e4f"/><circle cx="55" cy="34" r="1.8" fill="#3a2e4f"/><path d="M42 76v14M58 76v14M36 90h12M52 90h12" fill="none"/>`,
+tanken:`<rect x="10" y="18" width="64" height="56" rx="4" fill="#fff3d6"/><path d="M18 56Q34 28 50 50T68 30" fill="none" stroke="#6bb4dc" stroke-width="4"/><circle cx="26" cy="32" r="4" fill="#ef6a5a"/><circle cx="62" cy="58" r="20" fill="#bfe6f6"/><path d="M76 72l16 18" stroke-width="8"/>`,
+ensoku:`<path d="M50 14Q64 14 84 74Q86 86 74 86H26Q14 86 16 74Q36 14 50 14z" fill="#fff"/><path d="M34 62h32v24H34z" fill="#3a2e4f"/><circle cx="50" cy="40" r="2.5" fill="#ef6a5a" stroke="none"/>`,
+swim:`<rect x="6" y="56" width="88" height="34" rx="4" fill="#7cc4e8"/><circle cx="38" cy="48" r="13" fill="#ffe1a8"/><path d="M25 46Q27 32 38 32t13 14z" fill="#ef6a5a"/><path d="M48 56Q64 20 90 44" fill="none" stroke-width="7"/><path d="M48 56Q64 20 90 44" fill="none" stroke="#ffe1a8" stroke-width="3"/><path d="M14 72q6-4 12 0t12 0M52 78q6-4 12 0t12 0" fill="none" stroke="#fff" stroke-width="2.5"/>`,
+taiiku:`<circle cx="50" cy="50" r="38" fill="#ef6a5a"/><path d="M14 50h72M50 12v76" fill="none" stroke="#fff3d6" stroke-width="4"/><path d="M22 28Q50 44 78 28M22 72Q50 56 78 72" fill="none" stroke="#fff3d6" stroke-width="4"/>`,
+kokugo:`<rect x="18" y="12" width="64" height="76" rx="5" fill="#fff3d6"/><rect x="18" y="12" width="12" height="76" fill="#ef6a5a"/><text x="56" y="62" font-size="38" text-anchor="middle" fill="#3a2e4f" stroke="none" font-family="sans-serif" font-weight="700">あ</text>`,
+sansu:`<rect x="12" y="14" width="76" height="72" rx="5" fill="#fff3d6"/><path d="M34 32v22M23 43h22" stroke="#ef6a5a" stroke-width="5" fill="none"/><path d="M58 43h22" stroke="#6bb4dc" stroke-width="5" fill="none"/><path d="M24 70h22M56 66h24M56 74h24" stroke="#6cc07a" stroke-width="5" fill="none"/>`,
+nawatobi:`<path d="M26 14Q6 96 50 90Q94 96 74 14" fill="none" stroke="#3a2e4f" stroke-width="9"/><path d="M26 14Q6 96 50 90Q94 96 74 14" fill="none" stroke="#ef6a5a" stroke-width="5"/><rect x="18" y="4" width="14" height="24" rx="5" fill="#6bb4dc"/><rect x="68" y="4" width="14" height="24" rx="5" fill="#6bb4dc"/><path d="M38 70V54M62 70V54" stroke-width="5"/><ellipse cx="36" cy="74" rx="9" ry="5" fill="#ffd35c"/><ellipse cx="64" cy="74" rx="9" ry="5" fill="#ffd35c"/>`,
+ongaku:`<path d="M34 72V22l46-8v50" fill="none" stroke-width="5"/><path d="M34 34l46-8" stroke-width="7"/><ellipse cx="26" cy="74" rx="12" ry="9" fill="#3a2e4f"/><ellipse cx="72" cy="66" rx="12" ry="9" fill="#3a2e4f"/>`,
+rika:`<path d="M42 12h16v24l24 46q4 8-6 8H24q-10 0-6-8l24-46z" fill="#bfe6f6"/><path d="M32 62h36l14 20q4 8-6 8H24q-10 0-6-8z" fill="#6cc07a"/><circle cx="46" cy="50" r="4" fill="#fff"/><circle cx="56" cy="40" r="3" fill="#fff"/><path d="M38 12h24" stroke-width="5"/>`,
+shakai:`<circle cx="50" cy="44" r="34" fill="#7cc4e8"/><path d="M28 28Q40 22 44 34Q38 44 30 40zM54 46Q70 40 74 56Q66 70 56 62zM46 66Q54 64 52 76Q46 78 46 66z" fill="#6cc07a"/><path d="M50 78v10M32 90h36" fill="none"/>`,
+seikatsu:`<path d="M30 70L38 92H62L70 70z" fill="#c9795a"/><path d="M50 70V50" fill="none" stroke="#6cc07a" stroke-width="4"/><path d="M50 62Q30 60 26 48Q42 46 50 62zM50 62Q70 60 74 48Q58 46 50 62z" fill="#6cc07a"/><circle cx="50" cy="32" r="22" fill="#9b6fd0"/><path d="M50 20l4 9 10 1-7 7 2 10-9-5-9 5 2-10-7-7 10-1z" fill="#fff" stroke-width="2"/>`,
+kenmap:`<path d="M30 12L66 18L78 40L70 60L74 86L44 90L28 70L22 42z" fill="#9ad88a"/><path d="M50 62C40 50 38 46 38 40a12 12 0 0 1 24 0c0 6-4 10-12 22z" fill="#ef6a5a"/><circle cx="50" cy="40" r="4" fill="#fff3d6"/>`,
+gunmap:`<path d="M16 30L50 14L86 28L84 66L52 88L18 68z" fill="#fff3d6" stroke-dasharray="6 5"/><path d="M34 40L62 36L58 66L34 40" fill="none" stroke="#6bb4dc" stroke-width="3"/><circle cx="34" cy="40" r="7" fill="#ef6a5a"/><circle cx="62" cy="36" r="7" fill="#ffd35c"/><circle cx="58" cy="66" r="7" fill="#6cc07a"/>`,
+randoseru:`<rect x="22" y="14" width="56" height="74" rx="12" fill="#ef6a5a"/><path d="M22 40Q50 62 78 40V30Q50 50 22 30z" fill="#c94d3f"/><rect x="43" y="44" width="14" height="14" rx="3" fill="#ffd35c"/><path d="M22 70q-8 4-8 14M78 70q8 4 8 14" fill="none" stroke-width="5"/>`,
+shukuhaku:`<path d="M70 12a18 18 0 1 0 14 28A14 14 0 0 1 70 12z" fill="#ffd35c"/><path d="M24 24l3 6 6 1-5 4 1 6-5-3-5 3 1-6-5-4 6-1z" fill="#ffd35c" stroke-width="2"/><rect x="8" y="62" width="84" height="26" rx="6" fill="#bfe6f6"/><rect x="12" y="52" width="26" height="14" rx="6" fill="#fff"/><path d="M44 62v26" fill="none"/>`,
+shugaku:`<path d="M6 70V56Q10 36 40 36H72Q92 40 94 62V70z" fill="#fff"/><path d="M94 62Q86 60 76 60" fill="none"/><path d="M6 62h88" stroke="#6bb4dc" stroke-width="6" fill="none"/><rect x="18" y="44" width="10" height="9" fill="#bfe6f6"/><rect x="34" y="44" width="10" height="9" fill="#bfe6f6"/><rect x="50" y="44" width="10" height="9" fill="#bfe6f6"/><circle cx="26" cy="76" r="6" fill="#bfe6f6"/><circle cx="70" cy="76" r="6" fill="#bfe6f6"/><path d="M6 84h88" fill="none"/>`,
+natsu:`<path d="M10 40a40 40 0 0 0 80 0z" fill="#6cc07a"/><path d="M16 40a34 34 0 0 0 68 0z" fill="#ef6a5a"/><circle cx="36" cy="52" r="2.5" fill="#3a2e4f" stroke="none"/><circle cx="50" cy="60" r="2.5" fill="#3a2e4f" stroke="none"/><circle cx="64" cy="52" r="2.5" fill="#3a2e4f" stroke="none"/><circle cx="80" cy="18" r="9" fill="#ffd35c"/>`,
+fuyu:`<circle cx="50" cy="68" r="22" fill="#fff"/><circle cx="50" cy="36" r="15" fill="#fff"/><path d="M36 26h28l-3-12H39z" fill="#6bb4dc"/><circle cx="45" cy="34" r="2" fill="#3a2e4f"/><circle cx="55" cy="34" r="2" fill="#3a2e4f"/><path d="M50 38l10 3-10 2z" fill="#ff9a3d" stroke-width="2"/><circle cx="50" cy="60" r="2.5" fill="#3a2e4f"/><circle cx="50" cy="72" r="2.5" fill="#3a2e4f"/><path d="M22 54l-10-8M78 54l10-8" fill="none" stroke="#b9825a" stroke-width="3"/>`,
+haru:`<path d="M50 90V54" fill="none" stroke="#6cc07a" stroke-width="5"/><path d="M50 82Q26 78 22 54Q42 54 50 82zM50 82Q74 78 78 54Q58 54 50 82z" fill="#6cc07a"/><path d="M28 18Q28 52 50 56Q72 52 72 18L61 30L50 12L39 30z" fill="#f6a6c1"/>`,
+gw:`<path d="M16 96V4" fill="none" stroke-width="4"/><path d="M16 8h6" fill="none"/><path d="M26 28Q44 14 60 28L82 18V46L60 36Q44 50 26 36z" fill="#ef6a5a"/><circle cx="36" cy="30" r="2.5" fill="#fff" stroke-width="2"/><path d="M26 66Q44 52 60 66L82 56V84L60 74Q44 88 26 74z" fill="#6bb4dc"/><circle cx="36" cy="68" r="2.5" fill="#fff" stroke-width="2"/>`,
+flu:`<rect x="40" y="10" width="20" height="62" rx="10" fill="#fff"/><circle cx="50" cy="78" r="14" fill="#ef6a5a"/><path d="M50 78V30" stroke="#ef6a5a" stroke-width="6" fill="none"/><path d="M60 24h8M60 36h8M60 48h8" fill="none" stroke-width="2.5"/><path d="M20 40l6-6M26 40l-6-6M78 62l6-6M84 62l-6-6" fill="none" stroke="#9b6fd0" stroke-width="3"/>`,
+hoken:`<rect x="26" y="8" width="48" height="40" rx="5" fill="#fff"/><path d="M50 16v24M38 28h24" stroke="#ef6a5a" stroke-width="8" fill="none"/><rect x="8" y="66" width="84" height="22" rx="5" fill="#bfe6f6"/><rect x="12" y="56" width="26" height="14" rx="6" fill="#fff"/><path d="M8 88v6M92 88v6" fill="none"/>`,
+sotsugyo:`<rect x="12" y="34" width="76" height="30" rx="15" fill="#fff3d6" transform="rotate(-12 50 50)"/><path d="M42 30l8 40" stroke="#ef6a5a" stroke-width="9" fill="none"/><path d="M50 56l-14 18l-2-12zM50 56l14 18l2-12z" fill="#ef6a5a"/>`,
+nyugaku:`<rect x="14" y="14" width="72" height="50" rx="5" fill="#fff3d6"/><path d="M34 88V64M66 88V64" stroke-width="5" fill="none"/><circle cx="32" cy="32" r="9" fill="#f6a6c1"/><circle cx="56" cy="24" r="8" fill="#f6a6c1"/><circle cx="68" cy="46" r="10" fill="#f6a6c1"/><circle cx="40" cy="50" r="7" fill="#f6a6c1"/>`,
+iinkai:`<circle cx="50" cy="38" r="26" fill="#ffd35c"/><circle cx="50" cy="38" r="16" fill="#fff3d6"/><path d="M50 28l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1z" fill="#ef6a5a" stroke-width="2"/><path d="M36 58l-8 32l14-8l6 10l4-30zM64 58l8 32l-14-8l-6 10l-4-30z" fill="#6bb4dc"/>`,
+club:`<path d="M20 90L52 40L62 30L70 40L62 50L28 92z" fill="#d9a35a"/><path d="M58 22L76 20L80 38L66 46z" fill="#d9a35a"/><circle cx="74" cy="72" r="16" fill="#fff"/><path d="M64 64q8 8 4 20M84 62q-6 10 0 20" fill="none" stroke="#ef6a5a" stroke-width="2.5"/>`,
+taiikukan:`<rect x="10" y="50" width="80" height="38" fill="#fff3d6"/><path d="M6 52Q50 4 94 52z" fill="#6bb4dc"/><rect x="40" y="64" width="20" height="24" fill="#b9825a"/><circle cx="24" cy="66" r="8" fill="#ff9a3d"/><circle cx="76" cy="66" r="8" fill="#ff9a3d"/>`,
+pool:`<rect x="8" y="44" width="84" height="46" rx="5" fill="#7cc4e8"/><path d="M8 62h84M8 76h84" stroke="#fff" stroke-width="2.5" stroke-dasharray="8 6" fill="none"/><circle cx="50" cy="26" r="17" fill="#fff"/><path d="M50 9a17 17 0 0 1 12 5l-8 8a6 6 0 0 0-4-1zM50 43a17 17 0 0 1-12-5l8-8a6 6 0 0 0 8 0z" fill="#ef6a5a" stroke-width="2"/><circle cx="50" cy="26" r="6" fill="#fff8ee"/>`,
+kyokasho:`<rect x="14" y="62" width="72" height="22" rx="3" fill="#6bb4dc"/><rect x="20" y="40" width="64" height="22" rx="3" fill="#ef6a5a"/><rect x="12" y="18" width="66" height="22" rx="3" fill="#ffd35c"/><path d="M22 73h20M28 51h20M20 29h20" stroke="#fff" stroke-width="3" fill="none"/>`,
+renrakucho:`<rect x="22" y="10" width="54" height="80" rx="5" fill="#ffd35c"/><path d="M22 20h-6M22 36h-6M22 52h-6M22 68h-6" stroke-width="4" fill="none"/><rect x="34" y="24" width="30" height="22" fill="#fff"/><path d="M38 34h22M38 40h14" fill="none" stroke-width="2.5"/><path d="M70 90L84 40l8 4L78 94z" fill="#ef6a5a"/>`,
+kokudo6:`<path d="M16 14h68v46Q84 80 50 92Q16 80 16 60z" fill="#3b78c4"/><path d="M24 22h52v38Q76 74 50 84Q24 74 24 60z" fill="none" stroke="#fff" stroke-width="2.5"/><text x="50" y="68" font-size="46" text-anchor="middle" fill="#fff" stroke="none" font-family="sans-serif" font-weight="700">6</text>`,
+cafe1:`<path d="M18 44h58v22Q76 86 46 86Q18 86 18 66z" fill="#fff"/><path d="M76 50h8q8 0 8 10t-8 10h-8" fill="none"/><ellipse cx="47" cy="44" rx="29" ry="8" fill="#b9825a"/><circle cx="47" cy="44" r="5" fill="#ffd35c" stroke-width="2"/><path d="M36 30q-6-8 0-16M50 30q-6-8 0-16M64 30q-6-8 0-16" fill="none" stroke-width="2.5"/><path d="M10 92h74" fill="none"/>`,
+naya:`<path d="M10 90V50L30 24h40l20 26v40z" fill="#c9795a"/><path d="M10 50L30 24h40l20 26" fill="none"/><rect x="34" y="52" width="32" height="38" fill="#fff3d6"/><path d="M34 52l32 38M66 52L34 90" fill="none" stroke-width="2.5"/><rect x="42" y="30" width="16" height="10" fill="#fff3d6"/><path d="M80 82h12v10H80z" fill="#fff"/>`,
+melon:`<circle cx="50" cy="56" r="34" fill="#bfe6a0"/><path d="M20 44Q50 60 80 44M18 60Q50 76 82 60M34 26Q26 56 38 86M50 22V90M66 26Q74 56 62 86" fill="none" stroke="#fff" stroke-width="2.5"/><path d="M50 22V8M50 12q8-6 16 0" fill="none" stroke-width="4"/>`,
+sprout:`<path d="M6 76Q50 64 94 76V92H6z" fill="#b9825a"/><path d="M50 74V44" fill="none" stroke-width="5"/><path d="M50 52Q22 50 18 22Q46 22 50 52zM50 46Q78 44 82 16Q54 16 50 46z" fill="#6cc07a"/><circle cx="84" cy="80" r="0" fill="none"/>`,
+shobo:`<rect x="8" y="42" width="84" height="32" rx="4" fill="#ef6a5a"/><path d="M62 42V28h14l12 14z" fill="#ef6a5a"/><path d="M66 32h8l6 8H66z" fill="#bfe6f6" stroke-width="2"/><path d="M14 36h42M18 30h34" stroke="#b9825a" stroke-width="3" fill="none"/><circle cx="26" cy="78" r="9" fill="#3a2e4f"/><circle cx="72" cy="78" r="9" fill="#3a2e4f"/><circle cx="26" cy="78" r="3" fill="#fff" stroke="none"/><circle cx="72" cy="78" r="3" fill="#fff" stroke="none"/><path d="M40 24l4 6 4-6" fill="none" stroke="#ffd35c" stroke-width="3"/>`,
+shageki:`<path d="M50 62V92M30 92h40" fill="none"/><circle cx="50" cy="38" r="32" fill="#fff"/><circle cx="50" cy="38" r="22" fill="#ef6a5a"/><circle cx="50" cy="38" r="12" fill="#fff"/><circle cx="50" cy="38" r="5" fill="#3a2e4f"/><circle cx="62" cy="30" r="2.5" fill="#3a2e4f" stroke="none"/><circle cx="38" cy="46" r="2.5" fill="#3a2e4f" stroke="none"/>`,
+highway:`<path d="M30 92V50M70 92V50" stroke-width="5" fill="none"/><rect x="10" y="12" width="80" height="42" rx="5" fill="#2f8f5a"/><path d="M50 46V22M40 32l10-10 10 10" fill="none" stroke="#fff" stroke-width="5"/><rect x="26" y="64" width="48" height="16" rx="6" fill="#ffd35c" transform="translate(0 14)"/><circle cx="36" cy="94" r="0" fill="none"/>`,
+road:`<path d="M40 36L8 92H92L60 36z" fill="#8a8aa6"/><path d="M50 40v8M50 56v10M50 74v12" stroke="#fff" stroke-width="4" fill="none"/><circle cx="76" cy="20" r="11" fill="#ffd35c"/><path d="M6 36h88" fill="none"/><path d="M10 36Q26 22 40 36M60 36Q74 26 90 36" fill="#6cc07a"/>`,
+shrine:`<path d="M10 40Q50 6 90 40z" fill="#c9795a"/><rect x="20" y="40" width="60" height="38" fill="#fff3d6"/><rect x="42" y="52" width="16" height="26" fill="#b9825a"/><path d="M20 78h60M14 86h72" fill="none"/><path d="M30 14l8 8M70 14l-8 8" fill="none" stroke-width="3"/>`,
+cedar:`<path d="M22 92V40Q22 8 50 8t28 32V92z" fill="#3f8f5a"/><path d="M20 60Q50 72 80 60" fill="none" stroke="#fff3d6" stroke-width="6"/><path d="M26 62l-2 10M40 66l-2 10M60 66l2 10M74 62l2 10" fill="none" stroke="#fff" stroke-width="3"/><path d="M36 92V80M64 92V80M32 82h36" stroke="#ef6a5a" stroke-width="5" fill="none"/>`,
+uofune:`<ellipse cx="50" cy="66" rx="42" ry="22" fill="#fff"/><ellipse cx="50" cy="64" rx="30" ry="14" fill="#fff3d6"/><path d="M26 60Q34 40 52 52Q44 70 26 60z" fill="#f2b134"/><path d="M48 62Q58 36 78 50Q70 70 48 62z" fill="#f2b134"/><path d="M34 44q6-6 10 0M62 38q6-6 10 0" fill="none" stroke="#ffd35c" stroke-width="2.5"/><path d="M30 24l16 10" stroke="#b9825a" stroke-width="3" fill="none"/>`,
+unagidon:`<path d="M12 46h76q0 40-38 40T12 46z" fill="#ef6a5a"/><path d="M12 46h76" fill="none"/><ellipse cx="50" cy="44" rx="38" ry="12" fill="#fff"/><path d="M18 40Q28 28 82 36Q86 46 80 48Q40 54 18 46z" fill="#8a5a3a"/><path d="M34 32l4 16M50 32l3 18M66 34l2 14" fill="none" stroke="#c98a4a" stroke-width="3"/><path d="M78 14L96 6" stroke="#b9825a" stroke-width="3" fill="none"/>`,
+suido:`<path d="M12 28h44q10 0 10 10v8" fill="none" stroke-width="12"/><path d="M12 28h44q10 0 10 10v8" fill="none" stroke="#bfc8d6" stroke-width="6"/><path d="M60 46h12v6H60z" fill="#bfc8d6"/><path d="M66 60C56 74 54 80 54 84a12 12 0 0 0 24 0c0-4-2-10-12-24z" fill="#6bb4dc"/><path d="M60 82q2 4 6 4" fill="none" stroke="#fff" stroke-width="2.5"/>`,
+cycling:`<circle cx="24" cy="66" r="18" fill="none"/><circle cx="76" cy="66" r="18" fill="none"/><path d="M24 66L42 36H66L76 66M42 36L52 66H24M52 66L66 36" fill="none" stroke="#ef6a5a" stroke-width="4"/><path d="M36 30h12M62 30l6-8h8" fill="none" stroke-width="5"/>`,
+conbini:`<rect x="10" y="44" width="80" height="44" fill="#fff"/><rect x="10" y="14" width="80" height="14" rx="3" fill="#ffd35c"/><path d="M6 28h88l-6 16H12z" fill="#fff"/><path d="M6 28h14l-2 16M34 28h14l-2 16M62 28h14l-2 16" fill="#ef6a5a" stroke-width="2"/><path d="M20 28l-2 16h16l2-16M48 28l-2 16h16l2-16M76 28l-2 16h14l4-16" fill="#6cc07a" stroke-width="2" opacity="0"/><rect x="38" y="56" width="24" height="32" fill="#bfe6f6"/><path d="M50 56v32" fill="none"/><rect x="16" y="54" width="16" height="14" fill="#bfe6f6"/><rect x="68" y="54" width="16" height="14" fill="#bfe6f6"/>`,
+sunrise:`<path d="M16 66a34 34 0 0 1 68 0z" fill="#ffd35c"/><path d="M50 12v10M20 30l7 7M80 30l-7 7M6 56h10M84 56h10" fill="none"/><rect x="6" y="66" width="88" height="22" rx="4" fill="#bfe6f6"/>`,
+hello:`<path d="M10 14h80v52H52L34 88V66H10z" fill="#fff"/><circle cx="50" cy="40" r="13" fill="#ffd35c"/><path d="M50 16v6M50 58v6M26 40h6M68 40h6M33 23l4 4M67 23l-4 4" fill="none" stroke-width="2.5"/>`,
+bye:`<rect x="30" y="46" width="40" height="40" rx="14" fill="#ffe1a8"/><rect x="30" y="20" width="9" height="34" rx="4.5" fill="#ffe1a8"/><rect x="42" y="12" width="9" height="42" rx="4.5" fill="#ffe1a8"/><rect x="54" y="14" width="9" height="40" rx="4.5" fill="#ffe1a8"/><rect x="66" y="24" width="9" height="32" rx="4.5" fill="#ffe1a8"/><path d="M14 40q-6 10 0 22M86 40q6 10 0 22" fill="none"/>`,
+sorry:`<circle cx="50" cy="54" r="34" fill="#ffe1a8"/><path d="M32 46l12 4M68 46l-12 4" fill="none"/><circle cx="38" cy="56" r="2.5" fill="#3a2e4f"/><circle cx="62" cy="56" r="2.5" fill="#3a2e4f"/><path d="M40 74q10-6 20 0" fill="none"/><path d="M82 20c-6 8-8 12-8 15a8 8 0 0 0 16 0c0-3-2-7-8-15z" fill="#6bb4dc"/>`,
+thanks:`<path d="M10 14h80v52H52L34 88V66H10z" fill="#fff"/><path d="M50 56C26 40 28 22 40 22q10 0 10 9q0-9 10-9c12 0 14 18-10 34z" fill="#ef6a5a"/>`,
+please:`<path d="M50 90L32 64Q28 36 46 10q4 28 4 80z" fill="#ffe1a8"/><path d="M50 90L68 64Q72 36 54 10q-4 28-4 80z" fill="#ffd9a0"/><path d="M16 22l6 6M84 22l-6 6M10 46h8M82 46h8" fill="none" stroke="#ffd35c" stroke-width="3"/>`,
+ok:`<circle cx="50" cy="50" r="38" fill="#fff"/><circle cx="50" cy="50" r="22" fill="none" stroke="#ef6a5a" stroke-width="10"/>`,
+ng:`<circle cx="50" cy="50" r="38" fill="#fff"/><path d="M32 32l36 36M68 32L32 68" stroke="#6bb4dc" stroke-width="10" fill="none"/>`,
+stop:`<path d="M34 10h32l24 24v32L66 90H34L10 66V34z" fill="#ef6a5a"/><rect x="34" y="44" width="32" height="26" rx="10" fill="#fff"/><path d="M38 46V30M46 44V26M54 44V26M62 46V30" stroke="#fff" stroke-width="7" fill="none"/>`,
+calendar:`<rect x="12" y="20" width="76" height="68" rx="6" fill="#fff"/><path d="M12 26a6 6 0 0 1 6-6h64a6 6 0 0 1 6 6v14H12z" fill="#ef6a5a"/><path d="M32 10v18M68 10v18" stroke-width="5" fill="none"/><path d="M24 54h8M42 54h8M60 54h8M24 70h8M42 70h8" stroke-width="4" fill="none"/><circle cx="64" cy="71" r="6" fill="#ffd35c"/>`,
+together:`<circle cx="30" cy="30" r="12" fill="#ffe1a8"/><rect x="18" y="44" width="24" height="34" rx="8" fill="#6bb4dc"/><circle cx="70" cy="30" r="12" fill="#ffe1a8"/><rect x="58" y="44" width="24" height="34" rx="8" fill="#f6a6c1"/><path d="M42 58h16" stroke-width="6"/><path d="M26 78v12M34 78v12M66 78v12M74 78v12" fill="none"/>`,
+raise:`<circle cx="46" cy="40" r="13" fill="#ffe1a8"/><rect x="32" y="54" width="28" height="32" rx="9" fill="#f6a6c1"/><path d="M58 60Q74 54 72 26" fill="none" stroke="#3a2e4f" stroke-width="10"/><path d="M58 60Q74 54 72 26" fill="none" stroke="#ffe1a8" stroke-width="5"/><circle cx="72" cy="22" r="7" fill="#ffe1a8"/>`,
+swing:`<path d="M12 92L32 10H68L88 92" fill="none" stroke-width="5"/><path d="M12 10h76" stroke-width="6"/><path d="M40 12V66M60 12V66" stroke-width="3" fill="none"/><rect x="32" y="64" width="36" height="9" rx="3" fill="#ffd35c"/>`,
+slide:`<path d="M12 92V16" stroke-width="5" fill="none"/><path d="M12 16h18" stroke-width="5" fill="none"/><path d="M12 36h16M12 54h18M12 72h20" stroke-width="3" fill="none"/><path d="M30 20L90 84H72L24 36z" fill="#ef6a5a"/>`,
+monkey:`<path d="M12 92V28M88 92V28" stroke-width="6" fill="none"/><rect x="6" y="20" width="88" height="16" rx="3" fill="#ffd35c"/><path d="M22 20v16M36 20v16M50 20v16M64 20v16M78 20v16" fill="none" stroke-width="2.5"/><path d="M40 36v22M60 36v22" stroke-width="5" fill="none"/><circle cx="50" cy="70" r="12" fill="#ffe1a8"/>`,
+unicycle:`<circle cx="50" cy="66" r="24" fill="#fff"/><circle cx="50" cy="66" r="4" fill="#ffd35c"/><path d="M50 66V34" stroke-width="5" fill="none"/><rect x="34" y="26" width="32" height="9" rx="4" fill="#ef6a5a"/><path d="M26 92h48" fill="none"/>`,
+lunch:`<rect x="6" y="34" width="88" height="54" rx="6" fill="#d9a35a"/><path d="M12 46h30v8q-15 14-30 0z" fill="#fff"/><path d="M12 46h30" stroke="#ef6a5a" stroke-width="5" fill="none"/><rect x="52" y="40" width="16" height="30" fill="#fff"/><path d="M52 40l8-8 8 8" fill="#bfe6f6"/><circle cx="78" cy="62" r="11" fill="#fff"/><circle cx="78" cy="62" r="5" fill="#ff9a3d"/><path d="M40 14q-6 8 0 14M52 12q-6 8 0 14" fill="none" stroke-width="2.5"/>`,
+hirun:`<circle cx="38" cy="42" r="28" fill="#fff"/><path d="M38 42V24M38 42l13 6" stroke-width="4" fill="none"/><circle cx="72" cy="72" r="18" fill="#ef6a5a"/><path d="M60 66q10 8 6 20M82 60q-6 10 0 22" fill="none" stroke="#fff3d6" stroke-width="3"/>`,
+print:`<path d="M20 8h44l18 18v66H20z" fill="#fff"/><path d="M64 8v18h18" fill="#e6e0f0"/><path d="M30 40h40M30 52h40M30 64h26" stroke-width="3" fill="none"/><path d="M60 78l3 6 7 1-5 4 1 6-6-3-6 3 1-6-5-4 7-1z" fill="#ef6a5a" stroke-width="2"/>`,
+keyboard:`<rect x="6" y="28" width="88" height="48" rx="7" fill="#fff"/><path d="M16 40h8M30 40h8M44 40h8M58 40h8M72 40h8M20 52h8M34 52h8M48 52h8M62 52h8M76 52h6" stroke-width="5" fill="none"/><rect x="28" y="62" width="44" height="7" rx="3" fill="#ffd35c" stroke-width="2.5"/>`,
+hero:`<path d="M50 10L62 32l24 4-18 18 5 26-23-12-23 12 5-26L14 36l24-4z" fill="#ffd35c"/><path d="M52 28L40 54h10L44 76l18-28H52z" fill="#ef6a5a" stroke-width="2.5"/>`,
+};
+Object.assign(ICONS,{
+"milkcan":"<path d=\"M24 42Q6 40 8 58Q10 66 22 62\" fill=\"none\" stroke=\"#3a2e4f\" stroke-width=\"8.5\"/><path d=\"M76 42Q94 40 92 58Q90 66 78 62\" fill=\"none\" stroke=\"#3a2e4f\" stroke-width=\"8.5\"/><path d=\"M24 42Q6 40 8 58Q10 66 22 62\" fill=\"none\" stroke=\"#c9d2de\" stroke-width=\"3.2\"/><path d=\"M76 42Q94 40 92 58Q90 66 78 62\" fill=\"none\" stroke=\"#c9d2de\" stroke-width=\"3.2\"/><path d=\"M36 13H64L65 27Q81 31 81 47V82Q81 92 71 92H29Q19 92 19 82V47Q19 31 35 27z\" fill=\"#d8dfe9\"/><path d=\"M24 56V80Q24 86 30 87\" fill=\"none\" stroke=\"#fff\" stroke-width=\"3.2\" opacity=\".85\"/><path d=\"M20 48H80M20 85H80\" fill=\"none\" stroke=\"#a7b3c5\" stroke-width=\"3\"/><path d=\"M37 27H63\" fill=\"none\" stroke=\"#a7b3c5\" stroke-width=\"2.5\"/><rect x=\"32\" y=\"8\" width=\"36\" height=\"8\" rx=\"4\" fill=\"#aab6c8\"/><path d=\"M28 75V60L34 67.5L40 60V75M46 60V75M52 60V75H59M65 60V75M73 60L65 67M67.5 68.5L73 75\" fill=\"none\" stroke=\"#2b5d9b\" stroke-width=\"4.2\"/><circle cx=\"76\" cy=\"55\" r=\"1.8\" fill=\"#ffd35c\" stroke=\"none\"/><circle cx=\"24\" cy=\"76\" r=\"1.5\" fill=\"#ffd35c\" stroke=\"none\"/>",
+"airplane":"<path d=\"M8 46L2 20Q10 17 19 20L38 43z\" fill=\"#ef6a5a\"/><path d=\"M14 50L3 60H17L28 52z\" fill=\"#f4968b\"/><path d=\"M54 42L40 28Q46 24 54 27L74 42z\" fill=\"#a9d3ee\"/><path d=\"M7 53Q6 45 17 44L74 41Q93 42 97 52Q93 60 74 61L17 60Q7 59 7 53z\" fill=\"#fff\"/><path d=\"M9 55L94 55Q90 60 74 61L17 60Q9 59 9 55z\" fill=\"#7fc1ea\" stroke=\"none\"/><path d=\"M7 53Q6 45 17 44L74 41Q93 42 97 52Q93 60 74 61L17 60Q7 59 7 53z\" fill=\"none\"/><path d=\"M46 54L24 86Q31 90 40 87L76 57z\" fill=\"#cfe6f6\"/><path d=\"M36 70L66 58\" fill=\"none\" stroke=\"#9cc9e8\" stroke-width=\"2\"/><ellipse cx=\"49\" cy=\"67\" rx=\"11\" ry=\"5.5\" fill=\"#e4e9f1\"/><ellipse cx=\"58\" cy=\"67\" rx=\"2.6\" ry=\"4.2\" fill=\"#3a2e4f\" stroke=\"none\"/><path d=\"M82 47Q89 46 94 50L82 51z\" fill=\"#bfe6f6\" stroke-width=\"2\"/><path d=\"M24 50h.1M31 50h.1M38 50h.1M45 50h.1M52 50h.1M59 50h.1M66 50h.1\" fill=\"none\" stroke=\"#6bb4dc\" stroke-width=\"3.6\"/><circle cx=\"12\" cy=\"30\" r=\"3\" fill=\"#fff\" stroke=\"none\"/>",
+"jet":"<path d=\"M10 50L54 42L92 50L54 58z\" fill=\"#aab3c6\"/><path d=\"M54 42L38 18l12-2 22 26z\" fill=\"#8f99ae\"/><path d=\"M54 58L38 82l12 2 22-26z\" fill=\"#8f99ae\"/><path d=\"M12 50L4 44v12z\" fill=\"#8f99ae\"/><path d=\"M62 46q10 4 22 4\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2.5\"/><path d=\"M72 48q6-4 12 0\" fill=\"#bfe6f6\" stroke-width=\"2.5\"/>",
+"contrail":"<rect x=\"6\" y=\"8\" width=\"88\" height=\"84\" rx=\"10\" fill=\"#bfe6f6\"/><path d=\"M10 78Q40 74 62 50T88 22\" fill=\"none\" stroke=\"#fff\" stroke-width=\"12\"/><path d=\"M10 78Q40 74 62 50T88 22\" fill=\"none\" stroke=\"#3a2e4f\" stroke-width=\"2\" stroke-dasharray=\"1 9\"/><path d=\"M82 14l12 4-8 8-8 2-4-6z\" fill=\"#fff\"/>",
+"tower":"<path d=\"M42 90l4-40h8l4 40z\" fill=\"#e6e0f0\"/><path d=\"M34 50l-4-18h40l-4 18z\" fill=\"#bfe6f6\"/><path d=\"M28 32h44l-4-8H32z\" fill=\"#ef6a5a\"/><path d=\"M50 24V10\" fill=\"none\"/><path d=\"M50 10l10 4-10 4\" fill=\"#ffd35c\"/><path d=\"M40 40h20\" fill=\"none\" stroke-width=\"2.5\"/><path d=\"M26 90h48\" fill=\"none\"/>",
+"runway":"<path d=\"M44 20h12l36 70H8z\" fill=\"#8a8aa6\"/><path d=\"M50 26v8M50 44v10M50 64v14\" stroke=\"#fff\" stroke-width=\"4\" fill=\"none\"/><path d=\"M30 20l8-6 6 6M62 18l8-6 8 8\" fill=\"none\" stroke-width=\"0\"/><path d=\"M64 12l14-4 4 6-14 4z\" fill=\"#fff\"/><path d=\"M68 14l-6-8\" fill=\"none\"/>",
+"terminal":"<rect x=\"8\" y=\"46\" width=\"84\" height=\"40\" fill=\"#fff3d6\"/><path d=\"M4 48L50 24l46 24z\" fill=\"#6bb4dc\"/><rect x=\"14\" y=\"56\" width=\"16\" height=\"14\" fill=\"#bfe6f6\"/><rect x=\"38\" y=\"56\" width=\"24\" height=\"30\" fill=\"#bfe6f6\"/><rect x=\"70\" y=\"56\" width=\"16\" height=\"14\" fill=\"#bfe6f6\"/><path d=\"M50 24V12M50 12h10\" fill=\"none\"/><path d=\"M70 14l16 6-4 4-16-4z\" fill=\"#fff\"/>",
+"deck":"<path d=\"M6 88h88\" fill=\"none\"/><path d=\"M12 88V58M30 88V58M48 88V58M66 88V58M84 88V58M8 58h88M8 66h88\" fill=\"none\" stroke-width=\"3\"/><path d=\"M24 36l10-8 18 2 22-10q6-2 4 4L66 40l14 2q4 2-2 4L50 48z\" fill=\"#fff\"/><circle cx=\"82\" cy=\"16\" r=\"8\" fill=\"#ffd35c\"/>",
+"basegate":"<path d=\"M8 88h84\" fill=\"none\"/><path d=\"M14 88V44M34 88V44M66 88V44M86 88V44\" fill=\"none\" stroke-width=\"3\"/><path d=\"M10 52h28M10 66h28M62 52h28M62 66h28\" fill=\"none\" stroke-width=\"2.5\"/><rect x=\"36\" y=\"62\" width=\"30\" height=\"8\" fill=\"#ef6a5a\"/><path d=\"M42 62v8M50 62v8M58 62v8\" stroke=\"#fff\" stroke-width=\"3\" fill=\"none\"/><path d=\"M72 20l16-4-2 8-14 4z\" fill=\"#aab3c6\"/>",
+"ministry":"<rect x=\"14\" y=\"40\" width=\"72\" height=\"46\" fill=\"#e6e0f0\"/><path d=\"M8 42L50 24l42 18z\" fill=\"#aab3c6\"/><path d=\"M22 50h8M36 50h8M56 50h8M70 50h8M22 64h8M36 64h8M56 64h8M70 64h8\" stroke=\"#6bb4dc\" stroke-width=\"6\" fill=\"none\"/><rect x=\"44\" y=\"68\" width=\"12\" height=\"18\" fill=\"#b9825a\"/><path d=\"M50 24V8\" fill=\"none\"/><path d=\"M50 8h14v8H50\" fill=\"#fff\"/>",
+"cow":"<path d=\"M18 48q0-14 16-14h30q16 0 16 14v22H18z\" fill=\"#fff\"/><path d=\"M28 40q8-2 8 6t-8 8q-8-4 0-14zM56 38q10-2 10 8t-10 6q-6-6 0-14z\" fill=\"#3a2e4f\"/><path d=\"M26 70v18M38 70v18M62 70v18M74 70v18\" stroke-width=\"6\" fill=\"none\"/><path d=\"M82 40q14 0 14 12t-12 12H74z\" fill=\"#fff\"/><circle cx=\"90\" cy=\"50\" r=\"2\" fill=\"#3a2e4f\" stroke=\"none\"/><path d=\"M86 62h8\" fill=\"none\" stroke=\"#f6a6c1\" stroke-width=\"5\"/><path d=\"M78 34l-4-8M88 36l4-8\" fill=\"none\"/><path d=\"M18 52q-8 4-8 14\" fill=\"none\"/>",
+"calf":"<path d=\"M18 48q0-14 16-14h30q16 0 16 14v22H18z\" fill=\"#fff\"/><path d=\"M28 40q8-2 8 6t-8 8q-8-4 0-14zM56 38q10-2 10 8t-10 6q-6-6 0-14z\" fill=\"#3a2e4f\"/><path d=\"M26 70v18M38 70v18M62 70v18M74 70v18\" stroke-width=\"6\" fill=\"none\"/><path d=\"M82 40q14 0 14 12t-12 12H74z\" fill=\"#fff\"/><circle cx=\"90\" cy=\"50\" r=\"2\" fill=\"#3a2e4f\" stroke=\"none\"/><path d=\"M86 62h8\" fill=\"none\" stroke=\"#f6a6c1\" stroke-width=\"5\"/><path d=\"M78 34l-4-8M88 36l4-8\" fill=\"none\"/><path d=\"M18 52q-8 4-8 14\" fill=\"none\"/>",
+"goat":"<path d=\"M22 52q0-12 14-12h28q14 0 14 12v16H22z\" fill=\"#f4f0e8\"/><path d=\"M26 68v20M40 68v20M60 68v20M74 68v20\" stroke-width=\"5\" fill=\"none\"/><path d=\"M76 44q10-14 14-8q4 8-4 16h-10z\" fill=\"#f4f0e8\"/><path d=\"M80 38q-4-16 2-22M86 40q4-14 10-18\" fill=\"none\" stroke-width=\"3\"/><path d=\"M82 56q4 6 8 2\" fill=\"none\" stroke=\"#3a2e4f\"/><circle cx=\"84\" cy=\"46\" r=\"2\" fill=\"#3a2e4f\" stroke=\"none\"/><path d=\"M22 56l-8-6\" fill=\"none\"/>",
+"rabbit":"<ellipse cx=\"50\" cy=\"66\" rx=\"26\" ry=\"22\" fill=\"#fff\"/><circle cx=\"50\" cy=\"42\" r=\"16\" fill=\"#fff\"/><path d=\"M42 30Q34 4 42 4t8 26zM58 30Q66 4 58 4t-8 26z\" fill=\"#fff\"/><path d=\"M43 26Q40 10 43 10M57 26Q60 10 57 10\" fill=\"none\" stroke=\"#f6a6c1\" stroke-width=\"3\"/><circle cx=\"44\" cy=\"42\" r=\"2\" fill=\"#3a2e4f\" stroke=\"none\"/><circle cx=\"56\" cy=\"42\" r=\"2\" fill=\"#3a2e4f\" stroke=\"none\"/><path d=\"M47 49q3 3 6 0\" fill=\"none\" stroke-width=\"2.5\"/><circle cx=\"74\" cy=\"76\" r=\"7\" fill=\"#fff\"/>",
+"chicken":"<path d=\"M24 54q0-20 24-20t26 20q4 22-24 30-26-4-26-30z\" fill=\"#fff\"/><path d=\"M62 22q-2-8 4-10t4 8q6-6 8 2t-8 12z\" fill=\"#ef6a5a\"/><circle cx=\"64\" cy=\"34\" r=\"13\" fill=\"#fff\"/><path d=\"M76 32l12 4-12 4z\" fill=\"#ffb347\"/><circle cx=\"68\" cy=\"31\" r=\"2.2\" fill=\"#3a2e4f\" stroke=\"none\"/><path d=\"M70 44q4 8 0 12\" fill=\"#ef6a5a\" stroke-width=\"2.5\"/><path d=\"M40 88v-4M54 88v-4M34 88h12M48 88h12\" fill=\"none\" stroke=\"#ffb347\" stroke-width=\"3\"/><path d=\"M26 50q10 14 26 4\" fill=\"none\" stroke=\"#e6dcc4\" stroke-width=\"3\"/>",
+"pig":"<ellipse cx=\"48\" cy=\"58\" rx=\"34\" ry=\"26\" fill=\"#f6b9c8\"/><path d=\"M26 38l4-14 12 10zM62 34l12-12 4 16z\" fill=\"#f6b9c8\"/><ellipse cx=\"82\" cy=\"58\" rx=\"12\" ry=\"10\" fill=\"#f09ab0\"/><circle cx=\"79\" cy=\"58\" r=\"2\" fill=\"#3a2e4f\" stroke=\"none\"/><circle cx=\"86\" cy=\"58\" r=\"2\" fill=\"#3a2e4f\" stroke=\"none\"/><circle cx=\"70\" cy=\"46\" r=\"2.5\" fill=\"#3a2e4f\" stroke=\"none\"/><path d=\"M34 80v10M58 80v10\" stroke-width=\"6\" fill=\"none\"/><path d=\"M14 54q-8-4-4-12\" fill=\"none\"/>",
+"egg":"<path d=\"M50 10C30 10 22 46 22 62a28 28 0 0 0 56 0C78 46 70 10 50 10z\" fill=\"#fff3d6\"/><path d=\"M36 52q2-14 10-22\" fill=\"none\" stroke=\"#fff\" stroke-width=\"4\"/><path d=\"M20 90h60\" fill=\"none\"/>",
+"eggs":"<path d=\"M30 20C18 20 12 44 12 54a18 18 0 0 0 36 0C48 44 42 20 30 20z\" fill=\"#fff3d6\"/><path d=\"M68 28C56 28 50 52 50 62a18 18 0 0 0 36 0C86 52 80 28 68 28z\" fill=\"#ffe1a8\"/><path d=\"M6 90h88\" fill=\"none\"/>",
+"pudding":"<path d=\"M20 52h60l-6 32H26z\" fill=\"#ffd35c\"/><path d=\"M18 52q2-14 32-14t32 14q-32 8-64 0z\" fill=\"#8a4a2a\"/><circle cx=\"50\" cy=\"28\" r=\"8\" fill=\"#ef6a5a\"/><path d=\"M50 20q4-6 8-6\" fill=\"none\" stroke=\"#6cc07a\" stroke-width=\"3\"/><path d=\"M26 92h48\" fill=\"none\"/>",
+"yogurt":"<path d=\"M24 28h52l-6 58H30z\" fill=\"#fff\"/><path d=\"M22 22h56v8H22z\" fill=\"#6bb4dc\"/><path d=\"M28 50h44v20H28z\" fill=\"#f6a6c1\"/><path d=\"M36 60q6-6 12 0t12 0\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2.5\"/><path d=\"M60 8l22 12\" stroke=\"#aab3c6\" stroke-width=\"5\" fill=\"none\"/>",
+"milkglass":"<path d=\"M26 22h48l-6 66H32z\" fill=\"#fff\"/><path d=\"M29 46h42l-3 42H32z\" fill=\"#f4f0e8\"/><path d=\"M30 56q8 6 20 0t20 0\" fill=\"none\" stroke=\"#bfe6f6\" stroke-width=\"3\"/><path d=\"M22 16l10-6M78 16l-10-6M50 10v-6\" fill=\"none\" stroke=\"#ffd35c\" stroke-width=\"3\"/>",
+"beef":"<path d=\"M12 56Q10 30 40 28q36-2 48 22-6 28-40 30Q18 82 12 56z\" fill=\"#e0707a\"/><path d=\"M24 50q16-8 30 2M26 64q18 6 38-2\" fill=\"none\" stroke=\"#fff\" stroke-width=\"4\"/><circle cx=\"70\" cy=\"46\" r=\"6\" fill=\"#fff\"/>",
+"natto":"<path d=\"M12 56h76v26q0 6-6 6H18q-6 0-6-6z\" fill=\"#e6c88a\"/><path d=\"M12 56h76\" fill=\"none\"/><circle cx=\"26\" cy=\"48\" r=\"6\" fill=\"#a97a4a\"/><circle cx=\"38\" cy=\"44\" r=\"6\" fill=\"#a97a4a\"/><circle cx=\"50\" cy=\"46\" r=\"6\" fill=\"#a97a4a\"/><circle cx=\"62\" cy=\"43\" r=\"6\" fill=\"#a97a4a\"/><circle cx=\"74\" cy=\"47\" r=\"6\" fill=\"#a97a4a\"/><circle cx=\"32\" cy=\"38\" r=\"6\" fill=\"#a97a4a\"/><circle cx=\"46\" cy=\"36\" r=\"6\" fill=\"#a97a4a\"/><circle cx=\"60\" cy=\"35\" r=\"6\" fill=\"#a97a4a\"/><path d=\"M20 66h60\" fill=\"none\" stroke=\"#fff3d6\" stroke-width=\"3\" stroke-dasharray=\"5 5\"/>",
+"renkon":"<ellipse cx=\"50\" cy=\"52\" rx=\"38\" ry=\"32\" fill=\"#fff3d6\"/><circle cx=\"50\" cy=\"52\" r=\"6\" fill=\"#3a2e4f\" stroke=\"none\" opacity=\".55\"/><circle cx=\"50\" cy=\"32\" r=\"5\" fill=\"#f4e4c0\"/><circle cx=\"50\" cy=\"72\" r=\"5\" fill=\"#f4e4c0\"/><circle cx=\"30\" cy=\"42\" r=\"5\" fill=\"#f4e4c0\"/><circle cx=\"70\" cy=\"42\" r=\"5\" fill=\"#f4e4c0\"/><circle cx=\"30\" cy=\"62\" r=\"5\" fill=\"#f4e4c0\"/><circle cx=\"70\" cy=\"62\" r=\"5\" fill=\"#f4e4c0\"/><circle cx=\"50\" cy=\"52\" r=\"5\" fill=\"#f4e4c0\"/>",
+"nira":"<path d=\"M30 92Q28 40 22 10M42 92Q42 36 40 6M54 92Q54 38 58 6M66 92Q68 44 78 12\" fill=\"none\" stroke=\"#3a2e4f\" stroke-width=\"9\"/><path d=\"M30 92Q28 40 22 10M42 92Q42 36 40 6M54 92Q54 38 58 6M66 92Q68 44 78 12\" fill=\"none\" stroke=\"#6cc07a\" stroke-width=\"5\"/><rect x=\"24\" y=\"64\" width=\"52\" height=\"8\" fill=\"#ef6a5a\"/>",
+"strawberry":"<path d=\"M50 90Q16 66 18 40Q22 26 50 30Q78 26 82 40Q84 66 50 90z\" fill=\"#ef6a5a\"/><path d=\"M30 20L50 30L70 20L60 34H40z\" fill=\"#6cc07a\"/><path d=\"M50 30V14\" fill=\"none\"/><circle cx=\"38\" cy=\"46\" r=\"2\" fill=\"#fff3d6\" stroke=\"none\"/><circle cx=\"56\" cy=\"44\" r=\"2\" fill=\"#fff3d6\" stroke=\"none\"/><circle cx=\"46\" cy=\"58\" r=\"2\" fill=\"#fff3d6\" stroke=\"none\"/><circle cx=\"62\" cy=\"58\" r=\"2\" fill=\"#fff3d6\" stroke=\"none\"/><circle cx=\"52\" cy=\"72\" r=\"2\" fill=\"#fff3d6\" stroke=\"none\"/>",
+"pear":"<path d=\"M50 26C36 26 36 40 26 52Q14 72 34 86Q50 94 66 86Q86 72 74 52C64 40 64 26 50 26z\" fill=\"#e6d86a\"/><path d=\"M50 26V12M50 14q10-8 18-2\" fill=\"none\" stroke-width=\"4\"/><circle cx=\"40\" cy=\"62\" r=\"1.8\" fill=\"#9c8a3a\" stroke=\"none\"/><circle cx=\"58\" cy=\"70\" r=\"1.8\" fill=\"#9c8a3a\" stroke=\"none\"/><circle cx=\"52\" cy=\"54\" r=\"1.8\" fill=\"#9c8a3a\" stroke=\"none\"/>",
+"persimmon":"<path d=\"M14 58Q12 30 50 30t36 28q-4 28-36 28T14 58z\" fill=\"#ff9a3d\"/><path d=\"M30 34L50 40L70 34L58 26H42z\" fill=\"#6cc07a\"/><path d=\"M50 40V24\" fill=\"none\"/>",
+"blueberry":"<circle cx=\"34\" cy=\"62\" r=\"20\" fill=\"#5b6bd0\"/><circle cx=\"66\" cy=\"56\" r=\"20\" fill=\"#6a78e0\"/><circle cx=\"48\" cy=\"36\" r=\"18\" fill=\"#4a5ac0\"/><path d=\"M30 56l4 4 4-4M62 50l4 4 4-4M44 30l4 4 4-4\" fill=\"none\" stroke=\"#c9d0ff\" stroke-width=\"2.5\"/>",
+"corn":"<path d=\"M50 8Q76 24 70 62Q62 84 50 88Q38 84 30 62Q24 24 50 8z\" fill=\"#ffd35c\"/><path d=\"M50 14V84M38 34h24M34 48h32M34 62h32\" fill=\"none\" stroke=\"#e0b23a\" stroke-width=\"2.5\"/><path d=\"M50 90Q22 82 14 50Q38 56 50 84zM50 90Q78 82 86 50Q62 56 50 84z\" fill=\"#6cc07a\"/>",
+"hoshiimo":"<path d=\"M10 62q4-16 26-12l38-8q16-2 16 10t-16 14l-40 6q-20 0-24-10z\" fill=\"#d9965b\"/><path d=\"M26 60q16-4 34-8\" fill=\"none\" stroke=\"#f0c388\" stroke-width=\"4\"/>",
+"onsen":"<ellipse cx=\"50\" cy=\"72\" rx=\"42\" ry=\"16\" fill=\"#7cc4e8\"/><path d=\"M14 72q8-4 14 0t14 0 14 0 14 0 14 0\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2.5\"/><path d=\"M30 58q-8-12 0-24t0-24M50 56q-8-12 0-24t0-24M70 58q-8-12 0-24t0-24\" fill=\"none\" stroke=\"#b7aebd\" stroke-width=\"3.5\"/><path d=\"M8 76q4 14 42 14t42-14\" fill=\"#d9a35a\"/>",
+"gourd":"<path d=\"M50 14q10 0 12 10 0 10-8 14 24 8 24 34 0 20-28 20T22 72q0-26 24-34-8-4-8-14 2-10 12-10z\" fill=\"#c9a24a\"/><path d=\"M50 14V6M50 8q10-6 16 0\" fill=\"none\" stroke=\"#6cc07a\" stroke-width=\"4\"/><path d=\"M36 64q8 10 18 4\" fill=\"none\" stroke=\"#fff3d6\" stroke-width=\"3\"/>",
+"museum":"<path d=\"M8 38L50 14l42 24z\" fill=\"#bfc8d6\"/><rect x=\"14\" y=\"40\" width=\"72\" height=\"8\" fill=\"#e6e0f0\"/><rect x=\"20\" y=\"48\" width=\"10\" height=\"30\" fill=\"#fff3d6\"/><rect x=\"38\" y=\"48\" width=\"10\" height=\"30\" fill=\"#fff3d6\"/><rect x=\"56\" y=\"48\" width=\"10\" height=\"30\" fill=\"#fff3d6\"/><rect x=\"74\" y=\"48\" width=\"8\" height=\"30\" fill=\"#fff3d6\"/><rect x=\"8\" y=\"78\" width=\"84\" height=\"10\" fill=\"#aab3c6\"/>",
+"tsukuba":"<path d=\"M2 88L28 36l12 14 8-16 8 16 8-14 26 52z\" fill=\"#7a6aa8\"/><path d=\"M28 36l-6 14M60 34l6 14\" fill=\"none\" stroke=\"#b9afd6\" stroke-width=\"3\"/><path d=\"M2 88h96\" fill=\"none\"/><circle cx=\"48\" cy=\"24\" r=\"8\" fill=\"#ffd35c\"/><path d=\"M48 8v6M32 24h6M58 24h6\" fill=\"none\" stroke=\"#ffd35c\" stroke-width=\"3\"/>",
+"diamond":"<path d=\"M2 90L30 44l12 12 8-18 8 18 12-12 28 46z\" fill=\"#7a6aa8\"/><path d=\"M50 14l9 11-9 11-9-11z\" fill=\"#bfe6f6\"/><path d=\"M50 4v6M30 25h6M64 25h6M36 12l4 4M64 12l-4 4\" fill=\"none\" stroke=\"#ffd35c\" stroke-width=\"3\"/>",
+"kasumi":"<path d=\"M4 58q22-14 44 0t48-6V90H4z\" fill=\"#7cc4e8\"/><path d=\"M14 72q6-4 12 0t12 0M52 80q6-4 12 0t12 0\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2.5\"/><path d=\"M4 58L28 40l14 14 16-22 20 24 18 2\" fill=\"#9ad88a\"/><circle cx=\"82\" cy=\"20\" r=\"9\" fill=\"#ffd35c\"/>",
+"suiren":"<ellipse cx=\"50\" cy=\"74\" rx=\"40\" ry=\"14\" fill=\"#7cc4e8\"/><ellipse cx=\"30\" cy=\"72\" rx=\"16\" ry=\"6\" fill=\"#6cc07a\"/><ellipse cx=\"72\" cy=\"78\" rx=\"14\" ry=\"5\" fill=\"#6cc07a\"/><path d=\"M50 70Q34 66 32 44Q46 46 50 70zM50 70Q66 66 68 44Q54 46 50 70zM50 70Q42 50 50 30Q58 50 50 70z\" fill=\"#f6a6c1\"/>",
+"cosmos":"<path d=\"M50 92V54\" fill=\"none\" stroke=\"#3a2e4f\" stroke-width=\"7\"/><path d=\"M50 92V54\" fill=\"none\" stroke=\"#6cc07a\" stroke-width=\"3\"/><path d=\"M50 54Q36 52 30 40Q44 36 50 54zM50 54Q64 52 70 40Q56 36 50 54z\" fill=\"#f6a6c1\"/><path d=\"M50 40Q34 34 36 16Q50 16 50 40zM50 40Q66 34 64 16Q50 16 50 40zM50 40Q30 44 18 30Q32 22 50 40zM50 40Q70 44 82 30Q68 22 50 40z\" fill=\"#f6a6c1\"/><circle cx=\"50\" cy=\"38\" r=\"6\" fill=\"#ffd35c\"/>",
+"nanohana":"<path d=\"M30 92V50M50 92V36M70 92V54\" fill=\"none\" stroke=\"#6cc07a\" stroke-width=\"5\"/><circle cx=\"30\" cy=\"44\" r=\"6\" fill=\"#ffd35c\"/><circle cx=\"24\" cy=\"52\" r=\"5\" fill=\"#ffd35c\"/><circle cx=\"36\" cy=\"54\" r=\"5\" fill=\"#ffd35c\"/><circle cx=\"50\" cy=\"30\" r=\"6\" fill=\"#ffd35c\"/><circle cx=\"44\" cy=\"40\" r=\"5\" fill=\"#ffd35c\"/><circle cx=\"56\" cy=\"40\" r=\"5\" fill=\"#ffd35c\"/><circle cx=\"70\" cy=\"48\" r=\"6\" fill=\"#ffd35c\"/><circle cx=\"64\" cy=\"58\" r=\"5\" fill=\"#ffd35c\"/><circle cx=\"76\" cy=\"58\" r=\"5\" fill=\"#ffd35c\"/>",
+"train":"<rect x=\"14\" y=\"20\" width=\"72\" height=\"52\" rx=\"12\" fill=\"#fff\"/><rect x=\"14\" y=\"44\" width=\"72\" height=\"8\" fill=\"#3f9a6a\"/><rect x=\"22\" y=\"28\" width=\"22\" height=\"14\" rx=\"3\" fill=\"#bfe6f6\"/><rect x=\"56\" y=\"28\" width=\"22\" height=\"14\" rx=\"3\" fill=\"#bfe6f6\"/><circle cx=\"32\" cy=\"60\" r=\"3\" fill=\"#ffd35c\" stroke=\"none\"/><circle cx=\"68\" cy=\"60\" r=\"3\" fill=\"#ffd35c\" stroke=\"none\"/><path d=\"M22 72l-8 18M78 72l8 18M10 90h80\" fill=\"none\" stroke-width=\"3.5\"/>",
+"oldtrain":"<rect x=\"14\" y=\"26\" width=\"72\" height=\"46\" rx=\"8\" fill=\"#d9965b\"/><rect x=\"22\" y=\"34\" width=\"18\" height=\"14\" fill=\"#bfe6f6\"/><rect x=\"60\" y=\"34\" width=\"18\" height=\"14\" fill=\"#bfe6f6\"/><path d=\"M14 56h72\" fill=\"none\"/><circle cx=\"32\" cy=\"76\" r=\"8\" fill=\"#3a2e4f\"/><circle cx=\"68\" cy=\"76\" r=\"8\" fill=\"#3a2e4f\"/><path d=\"M8 90h84\" fill=\"none\"/><path d=\"M50 26V14h10\" fill=\"none\"/>",
+"station":"<rect x=\"14\" y=\"40\" width=\"72\" height=\"46\" fill=\"#fff3d6\"/><path d=\"M8 42L50 22l42 20z\" fill=\"#6bb4dc\"/><circle cx=\"50\" cy=\"52\" r=\"8\" fill=\"#fff\"/><path d=\"M50 47v5h4\" fill=\"none\" stroke-width=\"2.5\"/><rect x=\"42\" y=\"64\" width=\"16\" height=\"22\" fill=\"#b9825a\"/><rect x=\"20\" y=\"54\" width=\"12\" height=\"12\" fill=\"#bfe6f6\"/><rect x=\"68\" y=\"54\" width=\"12\" height=\"12\" fill=\"#bfe6f6\"/>",
+"pref":"<rect x=\"14\" y=\"30\" width=\"72\" height=\"56\" fill=\"#e6e0f0\"/><rect x=\"38\" y=\"14\" width=\"24\" height=\"18\" fill=\"#cfc6e6\"/><path d=\"M50 14V4h10v5H50\" fill=\"#ef6a5a\"/><path d=\"M22 40h10M44 40h10M66 40h10M22 54h10M44 54h10M66 54h10\" stroke=\"#6bb4dc\" stroke-width=\"6\" fill=\"none\"/><rect x=\"42\" y=\"68\" width=\"16\" height=\"18\" fill=\"#b9825a\"/>",
+"festival":"<path d=\"M10 26h80\" fill=\"none\" stroke-width=\"4\"/><path d=\"M26 26v6M50 26v6M74 26v6\" fill=\"none\"/><ellipse cx=\"26\" cy=\"48\" rx=\"13\" ry=\"16\" fill=\"#ef6a5a\"/><ellipse cx=\"50\" cy=\"52\" rx=\"13\" ry=\"16\" fill=\"#ffd35c\"/><ellipse cx=\"74\" cy=\"48\" rx=\"13\" ry=\"16\" fill=\"#ef6a5a\"/><path d=\"M18 40h16M18 48h16M18 56h16M42 44h16M42 52h16M42 60h16M66 40h16M66 48h16M66 56h16\" fill=\"none\" stroke=\"#fff3d6\" stroke-width=\"2\"/><path d=\"M26 66v10M50 70v10M74 66v10\" fill=\"none\"/>",
+"mikoshi":"<path d=\"M18 36Q50 6 82 36z\" fill=\"#ffd35c\"/><rect x=\"26\" y=\"36\" width=\"48\" height=\"30\" fill=\"#ef6a5a\"/><path d=\"M26 48h48\" fill=\"none\" stroke=\"#ffd35c\" stroke-width=\"3\"/><path d=\"M10 76h80M10 84h80\" fill=\"none\" stroke=\"#9c6a43\" stroke-width=\"5\"/><path d=\"M50 14V6\" fill=\"none\"/>",
+"hanabi_big":"<rect x=\"4\" y=\"4\" width=\"92\" height=\"92\" rx=\"16\" fill=\"#26306b\"/><circle cx=\"20\" cy=\"18\" r=\"1.6\" fill=\"#fff\" stroke=\"none\"/><circle cx=\"82\" cy=\"14\" r=\"1.4\" fill=\"#fff\" stroke=\"none\"/><circle cx=\"90\" cy=\"46\" r=\"1.2\" fill=\"#fff\" stroke=\"none\"/><circle cx=\"10\" cy=\"60\" r=\"1.2\" fill=\"#fff\" stroke=\"none\"/><circle cx=\"50\" cy=\"48\" r=\"16\" fill=\"#ffd35c\" opacity=\".28\" stroke=\"none\"/><path d=\"M60.0 48.0L88.0 48.0M59.2 51.8L85.1 62.5M57.1 55.1L76.9 74.9M53.8 57.2L64.5 83.1M50.0 58.0L50.0 86.0M46.2 57.2L35.5 83.1M42.9 55.1L23.1 74.9M40.8 51.8L14.9 62.5M40.0 48.0L12.0 48.0M40.8 44.2L14.9 33.5M42.9 40.9L23.1 21.1M46.2 38.8L35.5 12.9M50.0 38.0L50.0 10.0M53.8 38.8L64.5 12.9M57.1 40.9L76.9 21.1M59.2 44.2L85.1 33.5\" fill=\"none\" stroke=\"#ffd35c\" stroke-width=\"3.4\"/><path d=\"M59.8 50.0L75.5 53.1M58.3 53.6L71.6 62.4M55.6 56.3L64.4 69.6M52.0 57.8L55.1 73.5M48.0 57.8L44.9 73.5M44.4 56.3L35.6 69.6M41.7 53.6L28.4 62.4M40.2 50.0L24.5 53.1M40.2 46.0L24.5 42.9M41.7 42.4L28.4 33.6M44.4 39.7L35.6 26.4M48.0 38.2L44.9 22.5M52.0 38.2L55.1 22.5M55.6 39.7L64.4 26.4M58.3 42.4L71.6 33.6M59.8 46.0L75.5 42.9\" fill=\"none\" stroke=\"#ff9a3d\" stroke-width=\"3\"/><circle cx=\"90.0\" cy=\"48.0\" r=\"2.6\" fill=\"#fff3b0\" stroke=\"none\"/><circle cx=\"87.0\" cy=\"63.3\" r=\"2.6\" fill=\"#fff3b0\" stroke=\"none\"/><circle cx=\"78.3\" cy=\"76.3\" r=\"2.6\" fill=\"#fff3b0\" stroke=\"none\"/><circle cx=\"65.3\" cy=\"85.0\" r=\"2.6\" fill=\"#fff3b0\" stroke=\"none\"/><circle cx=\"50.0\" cy=\"88.0\" r=\"2.6\" fill=\"#fff3b0\" stroke=\"none\"/><circle cx=\"34.7\" cy=\"85.0\" r=\"2.6\" fill=\"#fff3b0\" stroke=\"none\"/><circle cx=\"21.7\" cy=\"76.3\" r=\"2.6\" fill=\"#fff3b0\" stroke=\"none\"/><circle cx=\"13.0\" cy=\"63.3\" r=\"2.6\" fill=\"#fff3b0\" stroke=\"none\"/><circle cx=\"10.0\" cy=\"48.0\" r=\"2.6\" fill=\"#fff3b0\" stroke=\"none\"/><circle cx=\"13.0\" cy=\"32.7\" r=\"2.6\" fill=\"#fff3b0\" stroke=\"none\"/><circle cx=\"21.7\" cy=\"19.7\" r=\"2.6\" fill=\"#fff3b0\" stroke=\"none\"/><circle cx=\"34.7\" cy=\"11.0\" r=\"2.6\" fill=\"#fff3b0\" stroke=\"none\"/><circle cx=\"50.0\" cy=\"8.0\" r=\"2.6\" fill=\"#fff3b0\" stroke=\"none\"/><circle cx=\"65.3\" cy=\"11.0\" r=\"2.6\" fill=\"#fff3b0\" stroke=\"none\"/><circle cx=\"78.3\" cy=\"19.7\" r=\"2.6\" fill=\"#fff3b0\" stroke=\"none\"/><circle cx=\"87.0\" cy=\"32.7\" r=\"2.6\" fill=\"#fff3b0\" stroke=\"none\"/><circle cx=\"77.5\" cy=\"53.5\" r=\"2.2\" fill=\"#ffb45c\" stroke=\"none\"/><circle cx=\"73.3\" cy=\"63.6\" r=\"2.2\" fill=\"#ffb45c\" stroke=\"none\"/><circle cx=\"65.6\" cy=\"71.3\" r=\"2.2\" fill=\"#ffb45c\" stroke=\"none\"/><circle cx=\"55.5\" cy=\"75.5\" r=\"2.2\" fill=\"#ffb45c\" stroke=\"none\"/><circle cx=\"44.5\" cy=\"75.5\" r=\"2.2\" fill=\"#ffb45c\" stroke=\"none\"/><circle cx=\"34.4\" cy=\"71.3\" r=\"2.2\" fill=\"#ffb45c\" stroke=\"none\"/><circle cx=\"26.7\" cy=\"63.6\" r=\"2.2\" fill=\"#ffb45c\" stroke=\"none\"/><circle cx=\"22.5\" cy=\"53.5\" r=\"2.2\" fill=\"#ffb45c\" stroke=\"none\"/><circle cx=\"22.5\" cy=\"42.5\" r=\"2.2\" fill=\"#ffb45c\" stroke=\"none\"/><circle cx=\"26.7\" cy=\"32.4\" r=\"2.2\" fill=\"#ffb45c\" stroke=\"none\"/><circle cx=\"34.4\" cy=\"24.7\" r=\"2.2\" fill=\"#ffb45c\" stroke=\"none\"/><circle cx=\"44.5\" cy=\"20.5\" r=\"2.2\" fill=\"#ffb45c\" stroke=\"none\"/><circle cx=\"55.5\" cy=\"20.5\" r=\"2.2\" fill=\"#ffb45c\" stroke=\"none\"/><circle cx=\"65.6\" cy=\"24.7\" r=\"2.2\" fill=\"#ffb45c\" stroke=\"none\"/><circle cx=\"73.3\" cy=\"32.4\" r=\"2.2\" fill=\"#ffb45c\" stroke=\"none\"/><circle cx=\"77.5\" cy=\"42.5\" r=\"2.2\" fill=\"#ffb45c\" stroke=\"none\"/><circle cx=\"50\" cy=\"48\" r=\"5\" fill=\"#fff\" stroke=\"none\"/><path d=\"M50 92V78\" fill=\"none\" stroke=\"#c9d3ff\" stroke-width=\"2.5\" stroke-dasharray=\"2 5\"/>",
+"hanabi_up":"<rect x=\"4\" y=\"4\" width=\"92\" height=\"92\" rx=\"16\" fill=\"#26306b\"/><circle cx=\"20\" cy=\"18\" r=\"1.6\" fill=\"#fff\" stroke=\"none\"/><circle cx=\"82\" cy=\"14\" r=\"1.4\" fill=\"#fff\" stroke=\"none\"/><circle cx=\"90\" cy=\"46\" r=\"1.2\" fill=\"#fff\" stroke=\"none\"/><circle cx=\"10\" cy=\"60\" r=\"1.2\" fill=\"#fff\" stroke=\"none\"/><path d=\"M50 94Q46 80 52 66\" fill=\"none\" stroke=\"#c9d3ff\" stroke-width=\"3\" stroke-dasharray=\"3 6\"/><path d=\"M58.0 36.0L80.0 36.0M57.4 38.6L77.2 48.1M55.7 40.7L69.5 57.9M53.3 41.8L58.2 63.3M50.7 41.8L45.8 63.3M48.3 40.7L34.5 57.9M46.6 38.6L26.8 48.1M46.0 36.0L24.0 36.0M46.6 33.4L26.8 23.9M48.3 31.3L34.5 14.1M50.7 30.2L45.8 8.7M53.3 30.2L58.2 8.7M55.7 31.3L69.5 14.1M57.4 33.4L77.2 23.9\" fill=\"none\" stroke=\"#ff6a5a\" stroke-width=\"3.4\"/><circle cx=\"83.0\" cy=\"36.0\" r=\"2.4\" fill=\"#ffd0c8\" stroke=\"none\"/><circle cx=\"79.9\" cy=\"49.5\" r=\"2.4\" fill=\"#ffd0c8\" stroke=\"none\"/><circle cx=\"71.3\" cy=\"60.2\" r=\"2.4\" fill=\"#ffd0c8\" stroke=\"none\"/><circle cx=\"58.9\" cy=\"66.2\" r=\"2.4\" fill=\"#ffd0c8\" stroke=\"none\"/><circle cx=\"45.1\" cy=\"66.2\" r=\"2.4\" fill=\"#ffd0c8\" stroke=\"none\"/><circle cx=\"32.7\" cy=\"60.2\" r=\"2.4\" fill=\"#ffd0c8\" stroke=\"none\"/><circle cx=\"24.1\" cy=\"49.5\" r=\"2.4\" fill=\"#ffd0c8\" stroke=\"none\"/><circle cx=\"21.0\" cy=\"36.0\" r=\"2.4\" fill=\"#ffd0c8\" stroke=\"none\"/><circle cx=\"24.1\" cy=\"22.5\" r=\"2.4\" fill=\"#ffd0c8\" stroke=\"none\"/><circle cx=\"32.7\" cy=\"11.8\" r=\"2.4\" fill=\"#ffd0c8\" stroke=\"none\"/><circle cx=\"45.1\" cy=\"5.8\" r=\"2.4\" fill=\"#ffd0c8\" stroke=\"none\"/><circle cx=\"58.9\" cy=\"5.8\" r=\"2.4\" fill=\"#ffd0c8\" stroke=\"none\"/><circle cx=\"71.3\" cy=\"11.8\" r=\"2.4\" fill=\"#ffd0c8\" stroke=\"none\"/><circle cx=\"79.9\" cy=\"22.5\" r=\"2.4\" fill=\"#ffd0c8\" stroke=\"none\"/><path d=\"M57.8 37.3L67.6 39.6M56.7 39.7L64.5 46.0M54.6 41.4L58.9 50.4M52.0 42.0L52.0 52.0M49.4 41.4L45.1 50.4M47.3 39.7L39.5 46.0M46.2 37.3L36.4 39.6M46.2 34.7L36.4 32.4M47.3 32.3L39.5 26.0M49.4 30.6L45.1 21.6M52.0 30.0L52.0 20.0M54.6 30.6L58.9 21.6M56.7 32.3L64.5 26.0M57.8 34.7L67.6 32.4\" fill=\"none\" stroke=\"#ffd35c\" stroke-width=\"3\"/><circle cx=\"52\" cy=\"36\" r=\"4.5\" fill=\"#fff\" stroke=\"none\"/>",
+"lantern":"<path d=\"M50 6v10\" fill=\"none\"/><ellipse cx=\"50\" cy=\"48\" rx=\"24\" ry=\"30\" fill=\"#ef6a5a\"/><path d=\"M26 40q24 8 48 0M26 56q24 8 48 0\" fill=\"none\" stroke=\"#a83a3a\" stroke-width=\"2.5\"/><rect x=\"38\" y=\"16\" width=\"24\" height=\"8\" fill=\"#3a2e4f\"/><rect x=\"38\" y=\"76\" width=\"24\" height=\"8\" fill=\"#3a2e4f\"/><path d=\"M50 84v10\" fill=\"none\"/>",
+"marche":"<path d=\"M6 40h88l-6-16H12z\" fill=\"#6bb4dc\"/><path d=\"M6 40q8 10 16 0t16 0 16 0 16 0 16 0 4 0\" fill=\"#ffd35c\"/><rect x=\"14\" y=\"52\" width=\"72\" height=\"34\" fill=\"#fff3d6\"/><circle cx=\"34\" cy=\"62\" r=\"7\" fill=\"#ef6a5a\"/><circle cx=\"50\" cy=\"60\" r=\"7\" fill=\"#ffd35c\"/><circle cx=\"66\" cy=\"62\" r=\"7\" fill=\"#6cc07a\"/><path d=\"M30 8l2 0M70 6l14-4 4 6-14 4z\" fill=\"#fff\"/>",
+"birthday":"<rect x=\"20\" y=\"52\" width=\"60\" height=\"34\" rx=\"4\" fill=\"#fff3d6\"/><path d=\"M20 62q10 8 20 0t20 0 20 0\" fill=\"#f6a6c1\"/><path d=\"M36 52V38M50 52V34M64 52V38\" fill=\"none\" stroke-width=\"4\"/><path d=\"M36 30q-4-6 0-10 4 4 0 10zM50 26q-4-6 0-10 4 4 0 10zM64 30q-4-6 0-10 4 4 0 10z\" fill=\"#ffd35c\" stroke-width=\"2\"/>",
+"sky3":"<rect x=\"6\" y=\"14\" width=\"88\" height=\"72\" rx=\"10\" fill=\"#bfe6f6\"/><path d=\"M12 70Q40 66 58 46T86 28\" fill=\"none\" stroke=\"#fff\" stroke-width=\"8\"/><path d=\"M66 30l12-4 4 6-12 4z\" fill=\"#fff\"/><path d=\"M30 34q8-8 16 0t-4 6H32z\" fill=\"#fff\"/>",
+"zoo":"<path d=\"M12 92V30M88 92V30\" stroke-width=\"5\" fill=\"none\"/><path d=\"M12 30Q50 6 88 30\" fill=\"none\" stroke-width=\"5\"/><path d=\"M24 88Q22 56 40 52Q54 50 56 66q4 22 -2 22\" fill=\"#aab3c6\"/><circle cx=\"62\" cy=\"50\" r=\"10\" fill=\"#aab3c6\"/><path d=\"M70 54q10 8 6 22\" fill=\"none\" stroke-width=\"5\"/>",
+"shrineB":"<path d=\"M8 36Q50 8 92 36z\" fill=\"#c9795a\"/><rect x=\"18\" y=\"36\" width=\"64\" height=\"8\" fill=\"#fff3d6\"/><path d=\"M26 44v44M74 44v44\" stroke-width=\"7\" fill=\"none\"/><path d=\"M26 44v44M74 44v44\" stroke=\"#ef6a5a\" stroke-width=\"4\" fill=\"none\"/><path d=\"M32 56h36\" stroke-width=\"5\" fill=\"none\"/>",
+"kofun":"<path d=\"M4 88Q8 56 40 56h20q32 0 36 32z\" fill=\"#7cc46a\"/><path d=\"M40 56q10-16 20 0\" fill=\"#7cc46a\"/><path d=\"M4 88h92\" fill=\"none\"/><path d=\"M50 36V20h14l-4 4 4 4H50\" fill=\"#ef6a5a\"/><ellipse cx=\"50\" cy=\"74\" rx=\"10\" ry=\"8\" fill=\"#3a2e4f\" opacity=\".6\" stroke=\"none\"/>",
+"kaizuka":"<path d=\"M4 88Q14 56 50 56t46 32z\" fill=\"#e6d9b0\"/><path d=\"M24 72q10-10 22-2M52 66q12-8 26 2\" fill=\"none\" stroke=\"#fff\" stroke-width=\"3\"/><path d=\"M30 56q8-4 14 0-6 8-14 0zM56 52q8-4 14 0-6 8-14 0z\" fill=\"#a08a4a\"/><path d=\"M20 90h60\" fill=\"none\"/>",
+"jukuschool":"<rect x=\"12\" y=\"46\" width=\"76\" height=\"40\" fill=\"#fff3d6\"/><path d=\"M6 48L50 18l44 30z\" fill=\"#7a4a2a\"/><rect x=\"42\" y=\"62\" width=\"16\" height=\"24\" fill=\"#b9825a\"/><path d=\"M22 56h14M64 56h14\" fill=\"none\" stroke-width=\"2.5\"/><rect x=\"20\" y=\"56\" width=\"0\" height=\"0\"/>",
+"manju":"<ellipse cx=\"50\" cy=\"80\" rx=\"40\" ry=\"8\" fill=\"#e6dcc4\"/><path d=\"M14 72Q12 36 50 32t36 40q-36 12-72 0z\" fill=\"#d9965b\"/><path d=\"M34 46q10-8 24-4\" fill=\"none\" stroke=\"#f0c388\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"34\" r=\"4\" fill=\"#a85a2a\"/>",
+"cyclebridge":"<circle cx=\"26\" cy=\"68\" r=\"16\" fill=\"none\"/><circle cx=\"74\" cy=\"68\" r=\"16\" fill=\"none\"/><path d=\"M26 68L42 40H62L74 68M42 40L52 68H26M52 68L62 40\" fill=\"none\" stroke=\"#6cc07a\" stroke-width=\"4\"/><path d=\"M36 34h12M60 34l6-8h8\" fill=\"none\" stroke-width=\"5\"/><path d=\"M4 90h92\" fill=\"none\"/>",
+"cheers":"<path d=\"M26 22h48l-6 66H32z\" fill=\"#fff\"/><path d=\"M29 46h42l-3 42H32z\" fill=\"#f4f0e8\"/><path d=\"M30 56q8 6 20 0t20 0\" fill=\"none\" stroke=\"#bfe6f6\" stroke-width=\"3\"/><path d=\"M22 16l10-6M78 16l-10-6M50 10v-6\" fill=\"none\" stroke=\"#ffd35c\" stroke-width=\"3\"/>",
+"gatchaplane":"<path d=\"M8 50Q8 42 18 42H78Q92 44 94 50Q92 56 78 58H18Q8 58 8 50z\" fill=\"#fff\"/><path d=\"M10 44L6 24H20L32 44z\" fill=\"#ef6a5a\"/><path d=\"M50 42L40 26H54L68 42z\" fill=\"#9cc9e8\"/><path d=\"M44 52L28 80H46L68 54z\" fill=\"#6bb4dc\"/><ellipse cx=\"52\" cy=\"64\" rx=\"9\" ry=\"4.5\" fill=\"#aab3c6\"/><path d=\"M82 46q6 0 8 4h-8z\" fill=\"#bfe6f6\" stroke-width=\"2\"/><path d=\"M24 49h2M32 49h2M40 49h2M48 49h2M56 49h2M64 49h2\" fill=\"none\" stroke-width=\"2.5\"/>",
+"fireworks":"<rect x=\"4\" y=\"4\" width=\"92\" height=\"92\" rx=\"16\" fill=\"#26306b\"/><circle cx=\"20\" cy=\"18\" r=\"1.6\" fill=\"#fff\" stroke=\"none\"/><circle cx=\"82\" cy=\"14\" r=\"1.4\" fill=\"#fff\" stroke=\"none\"/><circle cx=\"90\" cy=\"46\" r=\"1.2\" fill=\"#fff\" stroke=\"none\"/><circle cx=\"10\" cy=\"60\" r=\"1.2\" fill=\"#fff\" stroke=\"none\"/><path d=\"M41.0 38.0L60.0 38.0M40.1 41.5L56.5 51.0M37.5 44.1L47.0 60.5M34.0 45.0L34.0 64.0M30.5 44.1L21.0 60.5M27.9 41.5L11.5 51.0M27.0 38.0L8.0 38.0M27.9 34.5L11.5 25.0M30.5 31.9L21.0 15.5M34.0 31.0L34.0 12.0M37.5 31.9L47.0 15.5M40.1 34.5L56.5 25.0\" fill=\"none\" stroke=\"#ff7aa8\" stroke-width=\"3.2\"/><circle cx=\"63.0\" cy=\"38.0\" r=\"2.4\" fill=\"#ffd6e6\" stroke=\"none\"/><circle cx=\"59.1\" cy=\"52.5\" r=\"2.4\" fill=\"#ffd6e6\" stroke=\"none\"/><circle cx=\"48.5\" cy=\"63.1\" r=\"2.4\" fill=\"#ffd6e6\" stroke=\"none\"/><circle cx=\"34.0\" cy=\"67.0\" r=\"2.4\" fill=\"#ffd6e6\" stroke=\"none\"/><circle cx=\"19.5\" cy=\"63.1\" r=\"2.4\" fill=\"#ffd6e6\" stroke=\"none\"/><circle cx=\"8.9\" cy=\"52.5\" r=\"2.4\" fill=\"#ffd6e6\" stroke=\"none\"/><circle cx=\"5.0\" cy=\"38.0\" r=\"2.4\" fill=\"#ffd6e6\" stroke=\"none\"/><circle cx=\"8.9\" cy=\"23.5\" r=\"2.4\" fill=\"#ffd6e6\" stroke=\"none\"/><circle cx=\"19.5\" cy=\"12.9\" r=\"2.4\" fill=\"#ffd6e6\" stroke=\"none\"/><circle cx=\"34.0\" cy=\"9.0\" r=\"2.4\" fill=\"#ffd6e6\" stroke=\"none\"/><circle cx=\"48.5\" cy=\"12.9\" r=\"2.4\" fill=\"#ffd6e6\" stroke=\"none\"/><circle cx=\"59.1\" cy=\"23.5\" r=\"2.4\" fill=\"#ffd6e6\" stroke=\"none\"/><path d=\"M74.9 65.0L87.6 67.6M73.4 67.7L82.2 77.3M70.6 69.0L72.1 81.9M67.5 68.4L61.1 79.7M65.5 66.1L53.6 71.5M65.1 63.0L52.4 60.4M66.6 60.3L57.8 50.7M69.4 59.0L67.9 46.1M72.5 59.6L78.9 48.3M74.5 61.9L86.4 56.5\" fill=\"none\" stroke=\"#8ec9ee\" stroke-width=\"3\"/><circle cx=\"89.6\" cy=\"68.0\" r=\"2.2\" fill=\"#e3f4ff\" stroke=\"none\"/><circle cx=\"83.5\" cy=\"78.7\" r=\"2.2\" fill=\"#e3f4ff\" stroke=\"none\"/><circle cx=\"72.3\" cy=\"83.9\" r=\"2.2\" fill=\"#e3f4ff\" stroke=\"none\"/><circle cx=\"60.2\" cy=\"81.4\" r=\"2.2\" fill=\"#e3f4ff\" stroke=\"none\"/><circle cx=\"51.8\" cy=\"72.3\" r=\"2.2\" fill=\"#e3f4ff\" stroke=\"none\"/><circle cx=\"50.4\" cy=\"60.0\" r=\"2.2\" fill=\"#e3f4ff\" stroke=\"none\"/><circle cx=\"56.5\" cy=\"49.3\" r=\"2.2\" fill=\"#e3f4ff\" stroke=\"none\"/><circle cx=\"67.7\" cy=\"44.1\" r=\"2.2\" fill=\"#e3f4ff\" stroke=\"none\"/><circle cx=\"79.8\" cy=\"46.6\" r=\"2.2\" fill=\"#e3f4ff\" stroke=\"none\"/><circle cx=\"88.2\" cy=\"55.7\" r=\"2.2\" fill=\"#e3f4ff\" stroke=\"none\"/><circle cx=\"34\" cy=\"38\" r=\"4\" fill=\"#fff\" stroke=\"none\"/><circle cx=\"70\" cy=\"64\" r=\"3.4\" fill=\"#fff\" stroke=\"none\"/>"
+});
+const ICONMAP={"小美玉市":"townmap","美野里":"town","玉里":"town","飯前":"pin","江戸":"pin","大笹":"pin","大谷":"pin","小川":"pin","小曽納":"pin","堅倉":"pin","上合":"pin","上玉里":"pin","上馬場":"pin","上吉影":"pin","川戸":"pin","川中子":"pin","倉数":"pin","栗又四ケ":"pin","小岩戸":"pin","小塙":"pin","西郷地":"pin","佐才":"pin","三箇":"pin","柴高":"pin","下玉里":"pin","下馬場":"pin","下吉影":"pin","世楽":"pin","高崎":"pin","高田":"pin","田木谷":"pin","竹原":"pin","竹原下郷":"pin","竹原中郷":"pin","鶴田":"pin","手堤":"pin","寺崎":"pin","外之内":"pin","中台":"pin","中延":"pin","中野谷":"pin","納場":"pin","野田":"pin","羽刈":"pin","橋場美":"pin","幡谷":"pin","羽鳥":"pin","花野井":"pin","張星":"pin","東田中":"pin","百里":"pin","部室":"pin","先後":"pin","宮田":"pin","山野":"pin","与沢":"pin","小川南小学校":"school","竹原小学校":"school","羽鳥小学校":"school","堅倉小学校":"school","納場小学校":"school","小川南中学校":"school","美野里中学校":"school","玉里学園義務教育学校":"school","小川北義務教育学校":"school","元気っ子幼稚園":"kinder","よつば幼稚園":"kinder","四季文化館みの〜れ":"hall","小川文化センターアピオス":"hall","小川図書館":"books","玉里史料館":"museum","希望ヶ丘公園":"cosmos","小川運動公園":"baseball","玉里運動公園":"baseball","やすらぎの里小川":"kominkan","小美玉温泉":"onsen","小美玉市民家園":"farmhouse","ひょうたん美術館":"gourd","タカノフーズ納豆博物館":"natto","池花池":"lake","大井戸湖岸公園":"kasumi","竹原神社":"shrineB","玉井乃跡":"ruins","茨城空港":"terminal","百里基地":"basegate","自衛隊":"jet","航空自衛隊":"jet","防衛省":"ministry","ひゃくりん":"jet","スカイマーク":"airplane","送迎デッキ":"deck","空のえき そ・ら・ら":"marche","ふれあい牧場":"goat","ヨーグルトハウス":"yogurt","ぞうのすべり台":"slide","航空祭":"contrail","ブルーインパルス":"contrail","滑走路":"runway","飛行機":"airplane","ひこうき雲":"contrail","空の日":"sky3","石岡小美玉スマートインターチェンジ":"interchange","茨城空港アクセス道路":"road","常磐自動車道":"highway","国道6号":"kokudo6","国道355号":"road","水戸街道":"road","鹿島鉄道":"oldtrain","常磐線":"train","羽鳥駅":"station","つくば霞ヶ浦りんりんロード":"cyclebridge","茨城県庁":"pref","茨城県":"kenmap","イバライガー":"hero","霞ヶ浦":"kasumi","ダイヤモンド筑波":"diamond","筑波山":"tsukuba","園部川":"river","巴川":"river","白鳥":"swan","スイレン":"suiren","アジサイ":"hydrangea","コスモス":"cosmos","菜の花":"nanohana","舟塚古墳":"kofun","八幡脇貝塚":"kaizuka","稽医館":"jukuschool","酪農":"cow","養豚":"pig","養鶏":"chicken","乳牛":"cow","ミルク缶":"milkcan","ヤギ":"goat","ウサギ":"rabbit","ニワトリ":"chicken","おみたまヨーグルト":"yogurt","おみたまプリン":"pudding","生乳":"milkglass","牛乳":"milkglass","鶏卵":"eggs","たまご":"egg","れんこん":"renkon","にら":"nira","いちご":"strawberry","梨":"pear","富有柿":"persimmon","干しいも":"hoshiimo","ブルーベリー":"blueberry","とうもろこし":"corn","常陸牛":"beef","納豆":"natto","乳製品で乾杯":"milkglass","おみたま花火大会":"hanabi_big","花火":"hanabi_up","打ち上げ花火":"hanabi_up","小川祇園祭":"mikoshi","素鵞神社":"shrineB","羽鳥まつり":"festival","堅倉祭礼":"mikoshi","小美玉さくらフェスティバル":"sakura","ふるさとふれあいまつり":"festival","おみたま大空マルシェ":"marche","おみたま誕生祭":"birthday","スカイスリーフェスタ":"festival","おみたん":"milkcan","ミルク":"milkglass","ヨーグルト":"yogurt","牛":"cow","牧場":"farmhouse","畜産":"cow","アピオス":"hall","生涯学習センターコスモス":"hall","みつお万寿":"manju","スカイライトカフェ":"cafe1","マーコズカフェ":"cafe1","カフェ ルオム":"cafe1","ベルデモンターニャ":"cafe1","木もれ陽":"cafe1","くすの木":"cafe1","フリーウィーリング":"cafe1","はーとふるツリー":"cafe1","コーヒーフレンド":"cafe1","ななかまど":"cafe1","ヨークベニマル":"shop","セイミヤ":"shop","しまむら":"shop","ダイソー":"shop","セリア":"shop","ウェルシア":"shop","TAIRAYA":"shop","ペグぱん":"basket","そば処やまとや":"ramen","四季健康館":"hall","花木センター":"sprout","中央高等学校":"highschool","だっぺ":"hello","コメリ":"shop","小美玉市役所":"townhall","航空券":"airplane","合唱":"gassho","運動会":"undokai","登校":"tokou","下校":"geko","まち探検":"tanken","遠足":"ensoku","水泳":"swim","体育":"taiiku","国語":"kokugo","算数":"sansu","なわとび":"nawatobi","音楽":"ongaku","理科":"rika","社会":"shakai","生活":"seikatsu","ランドセル":"randoseru","宿泊学習":"shukuhaku","修学旅行":"shugaku","夏休み":"natsu","冬休み":"fuyu","春休み":"haru","ゴールデンウィーク":"gw","インフルエンザ":"flu","保健室":"hoken","卒業式":"sotsugyo","入学式":"nyugaku","委員会":"iinkai","クラブ活動":"club","体育館":"taiikukan","プール":"pool","教科書":"kyokasho","連絡帳":"renrakucho","セブンイレブン":"conbini","ローソン":"conbini","ファミリーマート":"conbini","セイコーマート":"conbini","おはようございます":"sunrise","こんにちは":"hello","さようなら":"bye","ごめんね":"sorry","ごめんなさい":"sorry","ありがとう":"thanks","ありがとうございます":"thanks","お願いします":"please","いいよ":"ok","嫌です":"ng","やめて":"stop","また今度ね":"calendar","また明日":"sunrise","一緒にやらない？":"together","私はやらない":"ng","僕はいらない":"ng","私もやりたい":"raise","ブランコ":"swing","すべり台":"slide","うんてい":"monkey","一輪車":"unicycle","給食":"lunch","昼休み":"hirun","プリント":"print","タイピング":"keyboard"};
+const CATICON={machi:'pin',school:'school',place:'hall',shi:'town',sky:'airplane',farm:'cow',nature:'lake',event:'fireworks',eki:'station',life:'school'};
+function iconSVG(w){const k=ICONMAP[w.k]||CATICON[w.cat]; if(!k||!ICONS[k]) return null;
+  return '<svg class="ico" viewBox="0 0 100 100" aria-hidden="true"><g filter="url(#rough)" stroke="#3a2e4f" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" fill="none">'+ICONS[k]+'</g></svg>'}
+function keyIcon(k){return '<svg class="ico" viewBox="0 0 100 100" aria-hidden="true"><g filter="url(#rough)" stroke="#3a2e4f" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" fill="none">'+(ICONS[k]||'')+'</g></svg>'}
+function iconHTML(w){return iconSVG(w)||'<span class="emo">'+w.ic+'</span>'}
+
+
+// ===== ほぞん（この たんまつの なかだけ） =====
+const KEY='omitama_typing_v1';
+let S={best:{1:0,2:0,3:0},coins:0,cards:{},sound:true,name:''};
+try{const s=JSON.parse(localStorage.getItem(KEY)||'null'); if(s) S=Object.assign(S,s)}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+
+// ===== おと（Web Audio で その場で つくる） =====
+let AC=null;
+function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}} if(AC&&AC.state==='suspended')AC.resume(); return AC}
+function tone(f,d,type='square',v=.06,when=0){
+  if(!S.sound) return; const a=ac(); if(!a) return;
+  const t=a.currentTime+when, o=a.createOscillator(), g=a.createGain();
+  o.type=type; o.frequency.setValueAtTime(f,t); g.gain.setValueAtTime(v,t); g.gain.exponentialRampToValueAtTime(.0001,t+d);
+  o.connect(g).connect(a.destination); o.start(t); o.stop(t+d+.02);
+}
+function slide(f1,f2,d,type='square',v=.05,when=0){
+  if(!S.sound) return; const a=ac(); if(!a) return; const t=a.currentTime+when, o=a.createOscillator(), g=a.createGain();
+  o.type=type; o.frequency.setValueAtTime(f1,t); o.frequency.exponentialRampToValueAtTime(f2,t+d); g.gain.setValueAtTime(v,t); g.gain.exponentialRampToValueAtTime(.0001,t+d);
+  o.connect(g).connect(a.destination); o.start(t); o.stop(t+d+.02);
+}
+function noise(d,v=.08,when=0,fc=2500){
+  if(!S.sound) return; const a=ac(); if(!a) return; const n=Math.floor(a.sampleRate*d), b=a.createBuffer(1,n,a.sampleRate), ch=b.getChannelData(0);
+  for(let i=0;i<n;i++) ch[i]=(Math.random()*2-1)*(1-i/n);
+  const s=a.createBufferSource(); s.buffer=b; const f=a.createBiquadFilter(); f.type='lowpass'; f.frequency.value=fc; const g=a.createGain(); g.gain.value=v;
+  s.connect(f).connect(g).connect(a.destination); s.start(a.currentTime+when);
+}
+const SE={
+  ui(){tone(620,.04,'square',.025)},
+  back(){tone(440,.05,'square',.025);tone(330,.07,'square',.025,.05)},
+  select(){[523,784].forEach((f,i)=>tone(f,.1,'triangle',.08,i*.08))},
+  locked(){tone(200,.12,'sawtooth',.05);tone(160,.16,'sawtooth',.05,.12)},
+  tick(hi){tone(hi?1250:900,.05,'square',.04)},
+  timeup(){tone(880,.12,'square',.06);tone(880,.12,'square',.06,.17);slide(880,330,.35,'sawtooth',.05,.34)},
+  combo(){[1047,1319,1568,2093].forEach((f,i)=>tone(f,.07,'triangle',.05,i*.04))},
+  best(){[523,659,784,1047,784,1047,1319].forEach((f,i)=>tone(f,.16,'triangle',.08,i*.09))},
+  unlock(){[392,523,659,784,1047].forEach((f,i)=>tone(f,.14,'square',.05,i*.08))},
+  coin(){tone(1319,.07,'square',.05);tone(1760,.2,'square',.05,.07)},
+  pop(){noise(.12,.12,0,3500);slide(300,900,.12,'triangle',.08)},
+  flip(){tone(740,.06,'triangle',.05)},
+  dup(){tone(660,.08,'triangle',.05);tone(550,.12,'triangle',.05,.08)},
+  page(){noise(.1,.07,0,5000)},
+  cert(){[523,659,784,1047,1319,1568,2093].forEach((f,i)=>tone(f,.2,'triangle',.08,i*.11))},
+  key(c){tone(880+Math.min(c,40)*12,.05,'square',.035)},
+  miss(){tone(140,.15,'sawtooth',.05)},
+  word(){[523,659,784].forEach((f,i)=>tone(f,.12,'square',.05,i*.06))},
+  perfect(){[523,659,784,1047].forEach((f,i)=>tone(f,.14,'triangle',.08,i*.07))},
+  count(){tone(660,.12,'square',.06)},go(){slide(660,1760,.3,'square',.06);tone(1320,.3,'triangle',.06,.1)},
+  end(){[784,659,523,659,784,1047].forEach((f,i)=>tone(f,.16,'triangle',.08,i*.1))},
+  roll(){for(let i=0;i<10;i++)tone(300+i*40,.05,'square',.03,i*.08)},
+  get(r){const s=r===3?[784,988,1175,1568,1976]:r===2?[659,784,988,1319]:[523,659,784];s.forEach((f,i)=>tone(f,.18,'triangle',.09,i*.09))},
+};
+
+// ===== がめん =====
+const $=id=>document.getElementById(id);
+let IS_TOUCH=window.matchMedia&&matchMedia('(pointer:coarse)').matches; // タッチだけの たんまつ（がめんキーボード）だけ
+if(IS_TOUCH) document.documentElement.classList.add('touch');
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));
+  if(id==='title') renderTitle(); if(id==='coursesScr') renderCourses(); if(id==='gacha') renderGacha(); if(id==='zukan') renderZukan(); if(id==='cert') renderCert();
+  window.scrollTo(0,0);
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-go]'); const bt=e.target.closest('button');
+  if(bt&&!bt.closest('.ctile')&&!['spinBtn','spin10Btn','skipRev','chooseBtn','againBtn'].includes(bt.id)&&!bt.dataset.bi&&!bt.dataset.id){ac(); (b&&/^(title|coursesScr)$/.test(b.dataset.go))?SE.back():SE.ui()}
+  if(b){ac();show(b.dataset.go)}});
+
+function unlocked(c){return !c.need||S.best[c.need.lv]>=c.need.score}
+function ownedCount(){return CARDS.filter(w=>S.cards[w.id]).length}
+function machiAll(){return CARDS.filter(w=>w.cat==='machi')}
+function machiDone(){return machiAll().every(w=>S.cards[w.id])}
+function certReady(){return ownedCount()===CARDS.length||machiDone()}
+function renderTitle(){
+  $('coinT').textContent=S.coins; $('zkT').textContent=ownedCount()+'/'+CARDS.length;
+  $('sndBtn').textContent=S.sound?'🔊 おと ON':'🔇 おと OFF';
+  $('certBtn').style.display=certReady()?'':'none';
+}
+function renderCourses(){
+  $('courseList').innerHTML=COURSES.map(c=>{
+    const ok=unlocked(c);
+    const sub=ok?c.desc:'🔒 '+COURSES[c.need.lv-1].name+'で '+c.need.score+'てん とると ひらくよ';
+    return `<button class="ctile c${c.lv} ${ok?'':'locked'}" data-lv="${c.lv}" ${ok?'':'aria-disabled="true"'}>
+      <span class="key">${c.lv}</span><span class="ic">${ok?keyIcon(c.icon):'🔒'}</span><b>${c.name}</b><span class="d">${sub}</span>
+      <span class="hs">ハイスコア<strong>${S.best[c.lv]||0}</strong></span></button>`}).join('');
+}
+$('chooseBtn').onclick=()=>{ac();SE.select();show('coursesScr')};
+$('courseList').addEventListener('click',e=>{const b=e.target.closest('.ctile'); if(!b) return; const c=COURSES[b.dataset.lv-1]; if(!unlocked(c)){SE.locked();return} SE.select(); startGame(c.lv)});
+$('sndBtn').onclick=()=>{S.sound=!S.sound;save();renderTitle();if(S.sound){ac();SE.word()}};
+$('howBtn').onclick=()=>openModal(`<h2>❓ あそびかた</h2><ol class="howto">
+  <li>キーボードは ふだんの <b>ローマ字うち</b>で OK。にほんご にゅうりょくの ままでも あそべるよ。</li>
+  <li>でてきた ことばの <b>ローマ字</b>を うとう。きいろい もじが つぎの キーだよ。</li>
+  <li>「し」は <kbd>shi</kbd> でも <kbd>si</kbd> でも OK。じぶんの うちかたで いいよ。</li>
+  <li>じかんは 60びょう。<b>はやさより せいかく</b>が だいじ！ ミスしないで うつと てんすうが おおきくなるよ。</li>
+  <li>せいかくさが <b>80%・90%・95%</b>を こえると ボーナス。<b>ミス0</b>なら <b>パーフェクト</b>で ボーナスが いちばん おおきいよ！</li>
+  <li>てんすうで <b>しょうごう</b>が もらえる。ミルク缶を ためて <b>ガチャ</b>を まわし、ふるさとカードを ぜんぶ あつめよう！</li>
+  </ol><div class="row" style="justify-content:center"><button class="btn" onclick="closeModal()">わかった！</button></div>`);
+$('certBtn').onclick=()=>show('cert');
+function openModal(h){SE.page();$('modalBody').innerHTML=h;$('modal').classList.add('on')}
+function closeModal(){$('modal').classList.remove('on')}
+$('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
+
+// ===== スマホ では パソコンを すすめる =====
+(function(){
+  const ua=navigator.userAgent||'';
+  const phone=!/CrOS/.test(ua)&&(/iPhone|iPod|Windows Phone/.test(ua)||/Android.*Mobile/.test(ua)||(matchMedia('(pointer:coarse)').matches&&Math.min(screen.width,screen.height)<500));
+  if(!phone) return;
+  $('qrBox').style.display='none';
+  $('modalBody').innerHTML='<div style="text-align:center;line-height:1.9"><div style="font-size:44px">💻</div><h3 style="margin:4px 0 8px">パソコンで ひらいてね</h3><p style="margin:0 0 14px">このゲームは <b>キーボード</b>で ローマ字を うつよ。<br>パソコンや Chromebook で あそんでね。</p><button class="btn sub2" onclick="closeModal()">それでも あそぶ</button></div>';
+  $('modal').classList.add('on');
+})();
+// ===== ゲーム =====
+let G=null, state='idle';
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a}
+const EASY_N=25;
+function easyPool(){return WORDS.filter(w=>w.lv===1||(w.lv===2&&w.r.length<=4))} // かんたん：みじかい ことば
+function buildDeck(lv){return lv===1?shuffle(easyPool()).slice(0,EASY_N):shuffle(WORDS.filter(w=>w.lv===lv))}
+function startGame(lv){
+  ac(); const hid=$('hid'); hid.value=''; if(IS_TOUCH) hid.focus(); else hid.blur();
+  G={lv,score:0,combo:0,maxCombo:0,ok:0,ng:0,words:[],deck:buildDeck(lv),di:0,m:null,w:null,miss:false,t0:0,left:GAME_SEC};
+  show('game'); state='count'; nextWord(); updHud();
+  runCount();
+}
+let cdTimers=[];
+function setNum(t,go){const e=$('cnum');e.textContent=t;e.classList.toggle('go',!!go);e.classList.remove('pop');void e.offsetWidth;e.classList.add('pop')}
+function runCount(){
+  cdTimers.forEach(clearTimeout); cdTimers=[];
+  const el=$('count'); el.classList.add('on');
+  $('cmsg').innerHTML=COURSES[G.lv-1].name+'コース<small>ローマ字で うとう！</small>';
+  setNum(3); SE.count();
+  cdTimers.push(setTimeout(()=>{setNum(2);SE.count()},900));
+  cdTimers.push(setTimeout(()=>{setNum(1);SE.count()},1800));
+  cdTimers.push(setTimeout(()=>{setNum('スタート！',true);SE.go()},2700));
+  cdTimers.push(setTimeout(()=>{el.classList.remove('on'); state='play'; G.t0=performance.now(); requestAnimationFrame(tick)},3300));
+}
+const REPEAT_P={1:0.3,2:0.2,3:0.15}; // むずかしいは すこし ひかえめ
+const LOWER_P=0.1; // うえの コースでも 1わりくらいは したの コースの ことばが でる
+function lowerPool(lv){return lv===2?WORDS.filter(w=>w.lv===1):lv===3?WORDS.filter(w=>w.lv===1||w.lv===2):[]} // ときどき まえに でた ことばが もどってくる
+function nextWord(){
+  const pickFrom=pool=>{const c=pool.filter(w=>w!==G.prev);return c.length?c[Math.random()*c.length|0]:null};
+  let w=null;
+  if(G.words.length>=3&&Math.random()<REPEAT_P[G.lv]) w=pickFrom(G.words.slice(-12)); // まえに でた ことば
+  if(!w&&G.lv>=2&&Math.random()<LOWER_P) w=pickFrom(lowerPool(G.lv)); // したの コースの ことば
+  if(!w){
+    for(let t=0;t<6;t++){
+      if(G.di>=G.deck.length){G.deck=shuffle(G.deck);G.di=0}
+      w=G.deck[G.di++]; if(w!==G.prev) break;
+    }
+  }
+  G.w=w; G.prev=w; G.m=makeMatcher(G.w.r); G.miss=false; renderWord();
+}
+function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+function fmt(t){return esc(t).replace(/\{([^|{}]+)\|([^{}]+)\}/g,'<ruby>$1<rt>$2</rt></ruby>')} // {漢字|よみ} → ふりがな
+function renderWord(){
+  const w=G.w,m=G.m,g=guide(m),dk=kanaDone(m);
+  $('wic').innerHTML=iconHTML(w); $('wkanji').textContent=w.k;
+  const kana=toHira(w.r); $('wkana').innerHTML='<span class="d">'+esc(dk)+'</span>'+esc(kana.slice(dk.length));
+  $('roma').innerHTML='<span class="t">'+esc(g.typed)+'</span>'+(g.rest?'<span class="n">'+esc(g.rest[0])+'</span><span class="r">'+esc(g.rest.slice(1))+'</span>':'');
+  fitWord();
+  $('cap').textContent=g.rest?(g.rest[0]==='-'?'ー':g.rest[0]):'';
+}
+function fitWord(){
+  const k=$('wkanji'),r=$('roma'),vh=window.innerHeight,vw=window.innerWidth;
+  const wide=vw/vh>=1.25&&vw>=760, colW=Math.min(vw,1180)*0.86;
+  const kl=[...G.w.k].length, rl=G.w.r.length*1.5;
+  k.style.fontSize=Math.max(26,Math.min(vh*0.14,colW*0.95/kl,wide?104:64))+'px';
+  r.style.fontSize=Math.max(22,Math.min(vh*0.095,colW*0.95/(rl*0.62),wide?72:40))+'px';
+}
+window.addEventListener('resize',()=>{if(G&&G.w&&$('game').classList.contains('on'))fitWord()});
+function updHud(){
+  $('score').textContent=G.score;
+  $('combo').textContent=G.combo>=5?G.combo+' コンボ！'+(G.combo>=20?' ×'+Math.min(4,1+Math.floor(G.combo/20)):''):'';
+  $('combo').classList.toggle('big',G.combo>=20);
+}
+function flash(t,c){const f=$('flash');f.textContent=t;f.style.color=c||'var(--ok)';f.classList.remove('go');void f.offsetWidth;f.classList.add('go')}
+function handleChar(ch){
+  if(state!=='play') return;
+  ch=ch.replace(/[\uff01-\uff5e]/g,c=>String.fromCharCode(c.charCodeAt(0)-0xfee0)).replace(/ー/,'-');
+  if(!/^[a-zA-Z0-9?\-]$/.test(ch)) return;
+  if(press(G.m,ch)){
+    G.score+=keyPoint(G.combo,G.lv); G.combo++; G.ok++; G.maxCombo=Math.max(G.maxCombo,G.combo); SE.key(G.combo); if([10,25,50,100,150,200].includes(G.combo)) setTimeout(()=>SE.combo(),60);
+    if(isDone(G.m)){
+      const b=wordBonus(G.m,!G.miss,G.lv); G.score+=b; G.words.push(G.w);
+      if(!G.miss){flash('ノーミス！ +'+b,'var(--sun)');SE.perfect()} else {flash('+'+b);SE.word()}
+      nextWord();
+    } else renderWord();
+  }else{
+    G.ng++; G.combo=0; G.miss=true; G.score=Math.max(0,G.score-MISS_PENALTY); SE.miss();
+    const st=$('stage'); st.classList.remove('shake'); void st.offsetWidth; st.classList.add('shake');
+  }
+  updHud();
+}
+function tick(now){
+  if(state!=='play') return;
+  G.left=Math.max(0,GAME_SEC-(now-G.t0)/1000);
+  const sec=Math.ceil(G.left); if(sec!==G.lastSec){G.lastSec=sec; if(sec<=10&&sec>0) SE.tick(sec<=3)}
+  $('tleft').textContent=Math.ceil(G.left); $('tbar').style.width=(G.left/GAME_SEC*100)+'%';
+  if(G.left<=0){endGame(false);return}
+  requestAnimationFrame(tick);
+}
+document.addEventListener('keydown',e=>{
+  if($('modal').classList.contains('on')&&e.key==='Escape'){closeModal();return}
+  if($('coursesScr').classList.contains('on')&&state==='idle'){
+    if(e.key==='Escape'){show('title');return}
+    if(/^[123]$/.test(e.key)){const c=COURSES[e.key-1]; if(unlocked(c)){ac();SE.select();startGame(c.lv)} else SE.locked(); return}
+  }
+  if(state==='count'&&e.key==='Escape'){endGame(true);return}
+  if(state!=='play'){return}
+  if(e.key==='Escape'){endGame(true);return}
+  if(e.ctrlKey||e.metaKey||e.altKey) return;
+  // にほんご入力ON でも OFF でも、おした「キーの いち(code)」で はんていする
+  let ch=null; const c=e.code||'';
+  if(/^Key[A-Z]$/.test(c)) ch=e.shiftKey?c[3]:c[3].toLowerCase(); else if(c==='Minus') ch='-';
+  else if(c==='Slash'&&e.shiftKey) ch='?';
+  else if(/^(Digit|Numpad)[0-9]$/.test(c)&&!e.shiftKey) ch=c[c.length-1];
+  else if(!e.isComposing&&e.key!=='Process'&&e.keyCode!==229&&e.key&&e.key.length===1) ch=e.key;
+  if(ch){if(IS_TOUCH){IS_TOUCH=false;$('hid').blur()} e.preventDefault(); kdAt=performance.now(); handleChar(ch); $('hid').value=''}
+});
+let kdAt=0;
+// スマホなど keydown が とれない きかい用（キーがおされた直後の input は むし）
+$('hid').addEventListener('input',()=>{const h=$('hid'),v=h.value;h.value='';if(performance.now()-kdAt<150)return;{const mm=G&&G.m;for(const c of v){const up=mm&&mm.u[mm.i]&&mm.u[mm.i].up;handleChar(up?c.toUpperCase():c.toLowerCase())}}});
+['compositionstart','compositionupdate','compositionend'].forEach(t=>$('hid').addEventListener(t,()=>{if(state==='play')$('hid').value=''}));
+$('stage').addEventListener('click',()=>{if(IS_TOUCH)$('hid').focus()});
+$('quitBtn').onclick=()=>endGame(true);
+
+function endGame(quit){
+  state='idle'; cdTimers.forEach(clearTimeout); $('hid').blur(); $('count').classList.remove('on');
+  if(quit){show('title');return}
+  SE.timeup(); setTimeout(()=>SE.end(),700);
+  const base=G.score, ab=accBonus(base,G.ok,G.ng); G.score=base+ab.pt;
+  const lv=G.lv, sc=G.score, prev=S.best[lv]||0, before=COURSES.map(unlocked);
+  let coin=coinsOf(sc); const first=!S.played; if(first){coin+=FIRST_BONUS;S.played=true} S.coins+=coin;
+  if(sc>prev) S.best[lv]=sc; save();
+  $('rCourse').textContent=COURSES[lv-1].name+'コース';
+  $('rScore').textContent=sc;
+  $('rBest').textContent=sc>prev&&sc>0?'🎉 ハイスコア こうしん！':'';
+  $('rTitle').textContent=titleOf(sc)[1];
+  const nx=nextTitle(sc); $('rNext').textContent=nx?'あと '+(nx[0]-sc)+'てんで「'+nx[1]+'」':'さいこうの しょうごうだ！';
+  $('rWords').textContent=G.words.length;
+  $('rAcc').textContent=Math.floor(accOf(G.ok,G.ng))+'%';
+  $('rCombo').textContent=G.maxCombo;
+  $('rCoin').textContent='+'+coin; $('rFirst').textContent=first?'（はじめての ボーナス つき！）':'';
+  const opened=COURSES.filter((c,i)=>!before[i]&&unlocked(c));
+  $('rUnlock').innerHTML=opened.map(c=>'<div class="unlock">🔓「'+c.name+'」コースが ひらいた！</div>').join('')+(S.coins>=GACHA_COST?'<div class="unlock" style="background:#fff1dc;color:#9a4a12">🎰 ミルク缶が たまった！ ガチャが まわせるよ</div>':'');
+  $('rBridge').innerHTML=bridgeMsg(G.words);
+  const acc=Math.floor(accOf(G.ok,G.ng)); // 99.6%を「100%」と かんちがい しないよう きりすて
+  $('rAccBox').innerHTML=ab.tier?`<div class="accbox t${ab.tier.lv}"><div class="an">${ab.tier.name}！</div><div class="ap">せいかく ${acc}% ボーナス <b>+${ab.pt}</b></div></div>`:(G.ok<40?'':'<div class="accnote">せいかくさ 80%を こえると ボーナス！</div>');
+  show('result');
+  const newBest=sc>prev&&sc>0, opened2=opened.length>0;
+  if(ab.tier) setTimeout(()=>accFx(ab.tier),1500);
+  if(newBest&&!ab.tier) setTimeout(()=>SE.best(),1500);
+  if(opened2) setTimeout(()=>SE.unlock(),ab.tier?3600:2700);
+}
+function bridgeMsg(words){
+  const pool=words.length?words:WORDS.filter(w=>w.lv===G.lv);
+  const w=pool[Math.random()*pool.length|0], nm=w.k;
+  const m={place:`次は本物の「${nm}」に行ってみよう！`,town:`「${nm}」ってどんな町かな？地図で探して、歩いてみよう！`,food:`今度「${nm}」を味わってみよう！`,
+    say:`本物の友だちやお家の人に「${w.k}」と伝えてみよう！`,creature:`本物の「${nm}」を探してみよう！`,thing:`お家の人に「${nm}」の話をしてみよう！`}[w.go];
+  return '<span class="bi">'+iconHTML(w)+'</span> '+m+'<br><span style="font-weight:400;font-size:14px">ゲームの次は、町で探検だ。</span>';
+}
+$('againBtn').onclick=()=>{SE.select();startGame(G.lv)};
+
+// ===== ガチャ =====
+function rollCard(){
+  const r=Math.random(), rar=r<.08?3:r<.35?2:1;
+  const pool=CARDS.filter(w=>w.rar===rar), fresh=pool.filter(w=>!S.cards[w.id]);
+  const src=fresh.length&&Math.random()<.9?fresh:pool; // まだ もっていない カードが すこし でやすい
+  return src[Math.random()*src.length|0];
+}
+function cardHTML(w,badge){
+  return `<div class="card r${w.rar} reveal">${badge?'<span class="badge">'+badge+'</span>':''}
+    <div class="stars">${'★'.repeat(w.rar)}</div><div class="cic">${iconHTML(w)}</div>
+    <div class="cn">${esc(w.k)}</div><div class="ck">${esc(toHira(w.r))}</div>${w.f?`<div class="cf">${fmt(w.f)}</div>`:''}</div>`;
+}
+function renderGacha(){ $('spinBtn').innerHTML='1かい（'+SJT+GACHA_COST+'）'; $('spin10Btn').innerHTML='10かい まとめて（'+SJT+GACHA_COST*10+'）'; $('gDesc').innerHTML='ミルク缶 <b>'+GACHA_COST+'</b>こで 1かい。おなじ カードが でたら ミルク缶が <b>'+DUP_BACK+'</b>こ もどってくるよ。';$('coinG').textContent=S.coins; $('spinBtn').disabled=S.coins<GACHA_COST; $('spin10Btn').disabled=S.coins<GACHA_COST*10; $('gres').innerHTML=S.coins<GACHA_COST?'<p class="center" style="color:var(--ink2)">ミルク缶が たりないよ。タイピングで ためよう！</p>':''; $('capsule').className='capsule'}
+function pull(){const w=rollCard();const isNew=!S.cards[w.id];S.coins-=GACHA_COST;S.cards[w.id]=(S.cards[w.id]||0)+1;if(!isNew)S.coins+=DUP_BACK;return {w,isNew}}
+function certMsg(){return (ownedCount()===CARDS.length||machiDone())?'<div class="unlock">🎉 '+(ownedCount()===CARDS.length?'ふるさとカードを ぜんぶ あつめた！':'小美玉市の 町域を ぜんぶ あつめた！')+' しょうしょを うけとろう <button class="btn" data-go="cert" style="margin-top:8px">📜 しょうしょ</button></div>':''}
+let gBusy=false, lastBatch=[], skipRev=false;
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+/* ===== 小美玉市版：花火と飛行機の演出（Canvas / CSS / Web Audio・外部ファイルなし）===== */
+const REDUCE=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+// --- 花火・飛行機の おと ---
+function sweep(d,v,f1,f2,q,pan0,pan1,when){
+  if(!S.sound) return; const a=ac(); if(!a) return; const t=a.currentTime+(when||0), n=Math.floor(a.sampleRate*d), b=a.createBuffer(1,n,a.sampleRate), ch=b.getChannelData(0);
+  for(let i=0;i<n;i++) ch[i]=Math.random()*2-1;
+  const s=a.createBufferSource(); s.buffer=b; const f=a.createBiquadFilter(); f.type='bandpass'; f.Q.value=q||1.2;
+  f.frequency.setValueAtTime(f1,t); f.frequency.exponentialRampToValueAtTime(f2,t+d);
+  const g=a.createGain(); g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(v,t+d*.45); g.gain.exponentialRampToValueAtTime(.0001,t+d);
+  let node=s.connect(f).connect(g);
+  if(a.createStereoPanner){const p=a.createStereoPanner(); p.pan.setValueAtTime(pan0||0,t); p.pan.linearRampToValueAtTime(pan1||0,t+d); node=node.connect(p)}
+  node.connect(a.destination); s.start(t); s.stop(t+d+.05);
+}
+SE.fwLaunch=function(w){slide(380,1500,.45,'sine',.03,w||0)};
+SE.fwBoom=function(big,w){w=w||0; noise(big?.7:.45,big?.2:.13,w,big?900:1500); slide(130,42,big?.5:.32,'sine',big?.2:.12,w); for(let i=0;i<(big?6:3);i++) noise(.05,.045,w+.2+i*.07,6500)};
+SE.jet=function(w){sweep(2.2,.07,320,1500,1.4,-.9,.9,w||0); sweep(2.2,.04,160,700,2,-.9,.9,w||0)};
+
+// --- 花火（Canvas）---
+const FW_PAL=[['#ffd35c','#ff9a3d'],['#ff7aa8','#ffc2d8'],['#8ec9ee','#ffffff'],['#9cf06a','#ffe86a'],['#ff6a5a','#ffd35c'],['#c79bff','#8ec9ee']];
+function launchFireworks(host,o){
+  o=o||{}; const total=o.shells||1, gap=o.gap||420, big=!!o.big, quiet=!!o.quiet;
+  const cv=document.createElement('canvas'); cv.className='fwcv'; host.insertBefore(cv,host.firstChild);
+  const dpr=Math.min(2,window.devicePixelRatio||1);
+  let W=0,H=0; const fit=()=>{W=host.clientWidth||innerWidth;H=host.clientHeight||innerHeight;cv.width=W*dpr;cv.height=H*dpr};
+  fit(); const cx=cv.getContext('2d'); cx.scale(1,1);
+  const rockets=[], parts=[], glows=[]; let launched=0, alive=true, last=performance.now(), timers=[];
+  const sc=Math.min(W,H)/700+.45; // がめんの おおきさで ひろがりを かえる
+  function launch(){
+    const xr=o.xr||[.16,.84], x=W*(xr[0]+Math.random()*(xr[1]-xr[0])), yr=o.yr||[.14,.44], ty=H*(yr[0]+Math.random()*(yr[1]-yr[0])), pal=FW_PAL[(Math.random()*FW_PAL.length)|0];
+    rockets.push({x,y:H+10,tx:x+(Math.random()-.5)*60,ty,t:0,dur:.75+Math.random()*.25,pal,kind:o.kinds?o.kinds[launched%o.kinds.length]:['kiku','botan','shidare'][(Math.random()*3)|0]});
+    if(!quiet) SE.fwLaunch(); launched++;
+  }
+  function burstAt(r){
+    const n=(r.kind==='shidare'?110:r.kind==='botan'?80:96)*(big?1.25:1), sp=(big?330:250)*sc;
+    glows.push({x:r.x,y:r.y,t:0,col:r.pal[0]});
+    if(!quiet) SE.fwBoom(big);
+    for(let i=0;i<n;i++){
+      const a=Math.PI*2*i/n+Math.random()*.1, v=(r.kind==='botan'?sp:sp*(.35+Math.random()*.75))*(r.kind==='shidare'?.7:1);
+      parts.push({x:r.x,y:r.y,px:r.x,py:r.y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,age:0,life:(r.kind==='shidare'?2.4:1.5)+Math.random()*.5,col:r.pal[i%2],
+        g:(r.kind==='shidare'?150:110)*sc,drag:r.kind==='shidare'?1.4:1.9,w:(big?2.6:2)+Math.random()*1.2});
+    }
+  }
+  function frame(now){
+    if(!alive) return; const dt=Math.min(.05,(now-last)/1000); last=now;
+    cx.setTransform(dpr,0,0,dpr,0,0); cx.clearRect(0,0,W,H); cx.globalCompositeOperation='lighter'; cx.lineCap='round';
+    for(let i=rockets.length-1;i>=0;i--){const r=rockets[i]; r.t+=dt/r.dur; const e=1-Math.pow(1-Math.min(1,r.t),2), nx=r.x+(r.tx-r.x)*Math.min(1,r.t)*.0, y=H+10+(r.ty-H-10)*e;
+      cx.strokeStyle='rgba(255,240,200,.9)'; cx.lineWidth=2.4; cx.beginPath(); cx.moveTo(r.x,y); cx.lineTo(r.x,y+16+10*(1-e)); cx.stroke();
+      if(r.t>=1){r.y=r.ty; burstAt(r); rockets.splice(i,1)}}
+    for(let i=glows.length-1;i>=0;i--){const g=glows[i]; g.t+=dt; const k=g.t/.35; if(k>=1){glows.splice(i,1);continue}
+      const rg=cx.createRadialGradient(g.x,g.y,0,g.x,g.y,90*sc*(.5+k)); rg.addColorStop(0,g.col+'66'); rg.addColorStop(1,g.col+'00'); cx.fillStyle=rg; cx.globalAlpha=1-k; cx.fillRect(g.x-140*sc,g.y-140*sc,280*sc,280*sc); cx.globalAlpha=1}
+    for(let i=parts.length-1;i>=0;i--){const p=parts[i]; p.age+=dt; if(p.age>=p.life){parts.splice(i,1);continue}
+      p.px=p.x; p.py=p.y; const dr=Math.exp(-p.drag*dt); p.vx*=dr; p.vy=p.vy*dr+p.g*dt; p.x+=p.vx*dt; p.y+=p.vy*dt;
+      const k=1-p.age/p.life; cx.globalAlpha=Math.max(0,k*k); cx.strokeStyle=p.col; cx.lineWidth=p.w*(.4+k*.6); cx.beginPath(); cx.moveTo(p.px,p.py); cx.lineTo(p.x,p.y); cx.stroke();}
+    cx.globalAlpha=1;
+    if(launched>=total&&!rockets.length&&!parts.length&&!glows.length){stop(true);return}
+    requestAnimationFrame(frame);
+  }
+  function stop(done){alive=false; timers.forEach(clearTimeout); cv.remove(); if(done&&o.onEnd)o.onEnd()}
+  for(let i=0;i<total;i++) timers.push(setTimeout(()=>{if(alive)launch()},(o.delay||0)+i*gap+Math.random()*80));
+  last=performance.now(); requestAnimationFrame(frame);
+  return {stop:()=>stop(false)};
+}
+// --- 飛行機（ひこうき雲つき）---
+function flyover(host,o){
+  o=o||{}; const n=o.count||1, dur=o.dur||5, quiet=!!o.quiet;
+  for(let i=0;i<n;i++){
+    const w=document.createElement('div'); w.className='plane'+(o.formation?' fm':'');
+    const y=(o.y!=null?o.y:14)+ (o.formation?(i===0?0:(i===1?-5:5)):i*4), dl=(o.delay||0)+(o.formation?(i===0?0:.18):i*.5);
+    w.style.top=y+'vh'; w.style.animationDuration=dur+'s'; w.style.animationDelay=dl+'s';
+    if(o.formation&&i>0) w.style.marginLeft=(-6*i)+'vw';
+    w.innerHTML='<span class="trail"></span>'+keyIcon('airplane'); host.appendChild(w);
+    setTimeout(()=>w.remove(),(dl+dur)*1000+300);
+  }
+  if(!quiet) SE.jet(o.delay||0);
+}
+// --- タイトル画面の かざり（ときどき ひこうき・はなび）---
+let ambTimer=null;
+function startAmbient(){
+  if(REDUCE||ambTimer) return;
+  const host=document.getElementById('sky'); if(!host) return;
+  const run=()=>{
+    const on=document.getElementById('title').classList.contains('on')&&document.visibilityState==='visible';
+    if(on&&!host.dataset.busy){
+      if(Math.random()<.35) flyover(host,{count:1,dur:11,y:8+Math.random()*12,quiet:true});
+      else{host.dataset.busy='1'; launchFireworks(host,{shells:2+((Math.random()*3)|0),gap:700,quiet:true,xr:[.58,.98],yr:[.06,.24],big:Math.random()<.4,onEnd:()=>{delete host.dataset.busy}})}
+    }
+    ambTimer=setTimeout(run,5000+Math.random()*5000);
+  };
+  ambTimer=setTimeout(run,1200);
+}
+// --- ★3 の おおあたり ---
+function burst(w,isNew){
+  return new Promise(res=>{
+    const o=document.createElement('div'); o.className='burst';
+    o.innerHTML='<div class="fxhost"></div><div class="bt">🎆 おおあたり！ 🎆</div><div class="bc">'+cardHTML(w,isNew?'NEW!':'')+'</div><div class="bh">タップで つづける</div>';
+    document.body.appendChild(o); const host=o.querySelector('.fxhost');
+    SE.get(3); setTimeout(()=>SE.get(3),500);
+    let fw=null; if(!REDUCE){fw=launchFireworks(host,{shells:5,gap:520,big:true,delay:200}); flyover(host,{count:1,dur:3.6,y:10,delay:.4})}
+    let done=false; const fin=()=>{if(done)return;done=true;if(fw)fw.stop();o.remove();res()};
+    o.addEventListener('click',fin); setTimeout(fin,4200);
+  });
+}
+// --- せいかくさ ボーナス（80 / 90 / 95 / パーフェクト）---
+function accFx(t){
+  const o=document.createElement('div'); o.className='accfx l'+t.lv;
+  o.innerHTML='<div class="fxhost"></div><div class="abanner">'+(t.lv===3?'🎆 ':'')+t.name+'！'+(t.lv===3?' 🎆':'')+'</div>';
+  document.body.appendChild(o); const host=o.querySelector('.fxhost'); let fw=null;
+  if(t.lv>=3){SE.get(3);setTimeout(()=>SE.get(3),450)}else SE.get(t.lv===2?2:1);
+  if(!REDUCE){
+    if(t.lv===1) fw=launchFireworks(host,{shells:1});
+    else if(t.lv===2) fw=launchFireworks(host,{shells:2,gap:500});
+    else if(t.lv===3) fw=launchFireworks(host,{shells:4,gap:480,big:true});
+    else{ fw=launchFireworks(host,{shells:9,gap:430,big:true,delay:900}); flyover(host,{count:3,formation:true,dur:4.2,y:12}); setTimeout(()=>SE.get(3),900) }
+  }
+  const fin=()=>{if(fw)fw.stop();o.remove()}; o.addEventListener('click',fin); setTimeout(fin,[2400,3200,4000,6200][t.lv-1]);
+}
+function tileHTML(r,i,face){
+  return face?`<button class="mini r${r.w.rar} flip ${r.isNew?'isnew':''}" data-bi="${i}"><div class="mi">${iconHTML(r.w)}</div><div class="mn">${esc(r.w.k)}</div><div class="nw">${r.isNew?'NEW!':'&nbsp;'}</div></button>`
+    :`<div class="mini back" data-i="${i}"><div class="mi">❓</div><div class="mn">&nbsp;</div><div class="nw">&nbsp;</div></div>`;
+}
+async function reveal10(res,cm){
+  skipRev=false; lastBatch=res;
+  $('gres').innerHTML='<p class="center" id="revMsg" style="font-weight:700;margin-bottom:8px">ひらくよ…</p><div class="grid" id="revGrid">'+res.map((r,i)=>tileHTML(r,i,false)).join('')+'</div><div class="center" style="margin-top:8px"><button class="btn sub2 small" id="skipRev">ぜんぶ ひらく</button></div>';
+  $('skipRev').onclick=()=>{skipRev=true};
+  const grid=$('revGrid'); let nn=0;
+  for(let i=0;i<res.length;i++){
+    const r=res[i]; grid.children[i].outerHTML=tileHTML(r,i,true); if(r.isNew)nn++;
+    const t=grid.children[i];
+    if(r.w.rar===3&&r.isNew&&!skipRev){SE.get(3);await burst(r.w,true)}
+    else{ if(r.isNew)SE.get(r.w.rar); else if(!skipRev)SE.flip(); if(r.isNew&&r.w.rar>=2)t.classList.add('shine') }
+    $('revMsg').innerHTML='NEW <span style="color:var(--ng)">'+nn+'</span>まい！';
+    if(!skipRev)await sleep(r.isNew?380:200);
+  }
+  const dup=res.length-nn;
+  const rare=res.filter(r=>r.isNew&&r.w.rar===3).length;
+  const bn=nn>=8?'🎊 すごい！ NEW '+nn+'まい！！ 🎊':nn>=5?'🎉 NEW '+nn+'まい！ やったね！':'';
+  $('gres').insertAdjacentHTML('afterbegin',bn?'<div class="bigbanner">'+bn+'</div>':'');
+  $('revMsg').innerHTML=res.length+'かい まわした！ <span style="color:var(--ng)">NEW '+nn+'まい</span>'+(dup?' ／ ダブり '+dup+'まい（<svg class="sj"><use href="#sjm"/></svg>+'+dup*DUP_BACK+'）':'')+(rare?' ／ ★3 '+rare+'まい！':'');
+  if(nn>=5)SE.get(3);
+  $('skipRev').parentNode.outerHTML='<p class="center" style="font-size:13px;color:var(--ink2);margin-top:6px">カードを タップすると おおきく みられるよ</p>'+cm;
+}
+async function doGacha(n){
+  if(gBusy||S.coins<GACHA_COST*n) return; ac(); gBusy=true;
+  const hadCert=certReady(); const res=[]; for(let i=0;i<n;i++)res.push(pull()); save();
+  const best=res.reduce((a,r)=>r.w.rar>a.w.rar||(r.w.rar===a.w.rar&&r.isNew&&!a.isNew)?r:a,res[0]);
+  $('coinG').textContent=S.coins; $('spinBtn').disabled=true; $('spin10Btn').disabled=true; $('gres').innerHTML='';
+  const cap=$('capsule'); cap.style.background=['','var(--r1)','var(--r2)','var(--r3)'][best.w.rar]; cap.className='capsule spin'; SE.coin(); setTimeout(()=>SE.roll(),180);
+  await sleep(900); cap.className='capsule open'; SE.pop();
+  const cm=(!hadCert&&certReady())?certMsg():'';
+  if(n===1){const {w,isNew}=res[0]; setTimeout(()=>SE.get(w.rar),150); if(!isNew)setTimeout(()=>SE.dup(),700);
+    $('gres').innerHTML=cardHTML(w,isNew?'NEW!':'')+(isNew?'':'<p class="center" style="margin-top:8px">もっている カード！ ミルク缶が '+DUP_BACK+'こ もどってきたよ</p>')+cm;
+  }else await reveal10(res,cm);
+  gBusy=false; $('spinBtn').disabled=S.coins<GACHA_COST; $('spin10Btn').disabled=S.coins<GACHA_COST*10;
+  setTimeout(()=>{cap.className='capsule';cap.style.background='var(--sun)'},500);
+}
+$('spinBtn').onclick=()=>doGacha(1);
+$('spin10Btn').onclick=()=>doGacha(10);
+$('gres').addEventListener('click',e=>{const b=e.target.closest('[data-bi]');if(!b)return;const r=lastBatch[b.dataset.bi];openModal(cardHTML(r.w,r.isNew?'NEW!':'')+'<div class="row" style="justify-content:center;margin-top:12px"><button class="btn" onclick="closeModal()">とじる</button></div>')});
+
+// ===== ずかん =====
+function renderZukan(){
+  const n=ownedCount(); $('zkCount').textContent=n+' / '+CARDS.length; $('zkBar').style.width=(n/CARDS.length*100)+'%';
+  $('zkGrid').innerHTML=CATS.map(([c,label])=>{
+    const L=CARDS.filter(w=>w.cat===c), got=L.filter(w=>S.cards[w.id]).length;
+    if(!L.length) return '';
+    return `<h3 class="zkh">${label}<span>${got} / ${L.length}${got===L.length?' ✅':''}</span></h3><div class="grid">`+
+      L.map(w=>S.cards[w.id]
+        ?`<button class="mini r${w.rar}" data-id="${w.id}"><div class="mi">${iconHTML(w)}</div><div class="mn">${esc(w.k)}</div></button>`
+        :`<div class="mini no"><div class="mi">？</div><div class="mn">${'★'.repeat(w.rar)}</div></div>`).join('')+'</div>';
+  }).join('');
+}
+$('zkReset').onclick=()=>{ac();SE.ui();openModal('<h3 style="margin:0 0 8px">ずかんを リセットする？</h3><p style="line-height:1.9;margin:0 0 12px">あつめた カードが <b>ぜんぶ きえて</b>、さいしょから あつめなおしに なるよ。<br>ミルク缶と ハイスコアは そのまま のこるよ。<br><b>もとには もどせないよ。</b></p><div class="row" style="justify-content:center;gap:12px"><button class="btn sub2" onclick="closeModal()">やめる</button><button class="btn danger" id="zkResetOk">リセットする</button></div>');
+  $('zkResetOk').onclick=()=>{S.cards={};save();closeModal();renderZukan();renderTitle();SE.back()}};
+$('zkGrid').addEventListener('click',e=>{const b=e.target.closest('[data-id]'); if(!b)return; const w=WORDS[b.dataset.id];
+  openModal(cardHTML(w,'')+'<div class="row" style="justify-content:center;margin-top:12px"><button class="btn" onclick="closeModal()">とじる</button></div>')});
+
+// ===== しょうしょ =====
+function renderCert(){ if(certReady()) setTimeout(()=>SE.cert(),250);
+  const all=ownedCount()===CARDS.length, done=certReady(); $('nameIn').value=S.name||'';
+  const d=new Date(), ds=d.getFullYear()+'ねん '+(d.getMonth()+1)+'がつ '+d.getDate()+'にち';
+  const best=Math.max(S.best[1]||0,S.best[2]||0,S.best[3]||0);
+  const body=all?`あなたは ふるさとカード ${CARDS.length}まいを<br>すべて あつめました。<br>牧場も、空港も、花火の夜空も、<br>あなたの ことばの なかに あります。<br>よって「<b>小美玉市 ふるさとマスター</b>」<br>であることを ここに しょうめいします。`
+    :`あなたは 小美玉市の 町域 ${machiAll().length}こを<br>すべて あつめました。<br>牧場も、空港も、花火の夜空も、<br>あなたの ことばの なかに あります。<br>よって「<b>小美玉市マスター</b>」<br>であることを ここに しょうめいします。`;
+  $('certBody').innerHTML=done?`<h3>しょうしょ</h3><div class="nm">${esc(S.name||'')}&nbsp;</div>
+    <p>${body}</p>
+    <p style="margin-top:10px">さいこう スコア ${best}てん ／ しょうごう「${titleOf(best)[1]}」</p>
+    <p style="margin-top:12px;font-weight:700">つぎは、ほんものの 町へ でかけよう！</p>
+    <div class="dt">${ds}　小美玉市 タイピング探検</div>`
+    :`<h3 style="letter-spacing:.1em">まだだよ</h3><p>「町域」の カードを ぜんぶ あつめるか、<br>ふるさとカードを ぜんぶ あつめると<br>しょうしょが もらえるよ。（いま ${ownedCount()} / ${CARDS.length}）</p>`;
+  $('printBtn').style.display=done?'':'none'; $('nameIn').style.display=done?'':'none';
+}
+$('nameIn').addEventListener('input',e=>{S.name=e.target.value;save();const nm=document.querySelector('.cert .nm');if(nm)nm.innerHTML=esc(S.name)+'&nbsp;'});
+$('printBtn').onclick=()=>window.print();
+
+renderTitle();
+startAmbient();
+</script>
+</body>
+</html>
