@@ -379,6 +379,7 @@ body{background:linear-gradient(180deg,#5fb3ea 0%,#9fd6f4 40%,#e4f5ff 62%,#a8d67
         <button class="btn blue" data-go="zukan">📖 ずかん <span id="zkT"></span></button>
         <button class="btn sub2" id="howBtn">❓ あそびかた</button>
         <button class="btn sub2" id="certBtn">📜 しょうしょ</button>
+        <a class="btn sub2" href="https://heino-naka.github.io/ibaraki-typing-map/" style="grid-column:1/-1;text-decoration:none">🗺️ いばらきタイピング探検MAP</a>
       </div>
     </div>
   </div>
@@ -447,7 +448,7 @@ body{background:linear-gradient(180deg,#5fb3ea 0%,#9fd6f4 40%,#e4f5ff 62%,#a8d67
         <button class="btn" id="againBtn">🔁 もういちど</button>
         <button class="btn blue" data-go="gacha">🎰 ガチャへ</button>
       </div>
-      <div class="row" style="justify-content:center;margin-top:10px"><button class="btn sub2" data-go="coursesScr">📋 コースを えらぶ</button></div>
+      <div class="row" style="justify-content:center;margin-top:10px"><button class="btn sub2" data-go="coursesScr">📋 コースを えらぶ</button> <a class="btn sub2" href="https://heino-naka.github.io/ibaraki-typing-map/" style="text-decoration:none">🗺️ MAPへ</a></div>
     </div>
   </div>
 </section>
@@ -1309,7 +1310,7 @@ function endGame(quit){
   const base=G.score, ab=accBonus(base,G.ok,G.ng); G.score=base+ab.pt;
   const lv=G.lv, sc=G.score, prev=S.best[lv]||0, before=COURSES.map(unlocked);
   let coin=coinsOf(sc); const first=!S.played; if(first){coin+=FIRST_BONUS;S.played=true} S.coins+=coin;
-  if(sc>prev) S.best[lv]=sc; save();
+  if(sc>prev) S.best[lv]=sc; save(); reportToMap();
   $('rCourse').textContent=COURSES[lv-1].name+'コース';
   $('rScore').textContent=sc;
   $('rBest').textContent=sc>prev&&sc>0?'🎉 ハイスコア こうしん！':'';
@@ -1499,7 +1500,7 @@ async function reveal10(res,cm){
 }
 async function doGacha(n){
   if(gBusy||S.coins<GACHA_COST*n) return; ac(); gBusy=true;
-  const hadCert=certReady(); const res=[]; for(let i=0;i<n;i++)res.push(pull()); save();
+  const hadCert=certReady(); const res=[]; for(let i=0;i<n;i++)res.push(pull()); save(); reportToMap();
   const best=res.reduce((a,r)=>r.w.rar>a.w.rar||(r.w.rar===a.w.rar&&r.isNew&&!a.isNew)?r:a,res[0]);
   $('coinG').textContent=S.coins; $('spinBtn').disabled=true; $('spin10Btn').disabled=true; $('gres').innerHTML='';
   const cap=$('capsule'); cap.style.background=['','var(--r1)','var(--r2)','var(--r3)'][best.w.rar]; cap.className='capsule spin'; SE.coin(); setTimeout(()=>SE.roll(),180);
@@ -1552,6 +1553,28 @@ $('printBtn').onclick=()=>window.print();
 
 renderTitle();
 startAmbient();
+// ===== いばらきタイピング探検MAP との れんけい =====
+const MAP_URL='https://heino-naka.github.io/ibaraki-typing-map/';
+const MAP_CODE='08236'; // この町の 市町村コード
+function reportToMap(){
+  try{
+    const K='ibaraki_typing_map_v1';
+    const M=JSON.parse(localStorage.getItem(K)||'null')||{v:1,towns:{}};
+    if(!M.towns) M.towns={};
+    const best=Math.max(S.best[1]||0,S.best[2]||0,S.best[3]||0), prev=M.towns[MAP_CODE]||{};
+    if(!S.played&&best===0&&ownedCount()===0) return; // まだ あそんでいない
+    M.towns[MAP_CODE]={
+      best:Math.max(best,prev.best||0),
+      title:titleOf(best)[1],
+      cards:ownedCount(), cardsTotal:CARDS.length,
+      cert:certReady()||!!prev.cert,
+      t:prev.t||Date.now(),
+      u:Date.now()
+    };
+    localStorage.setItem(K,JSON.stringify(M));
+  }catch(e){}
+}
+reportToMap();
 </script>
 </body>
 </html>
